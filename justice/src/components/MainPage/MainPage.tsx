@@ -3,11 +3,11 @@ import Header from './Header/Header'
 
 import classes from './MainPage.module.scss'
 
-import background from '../assets/image/background.png'
-import starOne from '../assets/image/StarOne.svg'
-import interfaceFinance from '../assets/image/interface.png'
-import starTwo from '../assets/image/StarTwo.svg'
-import positive from '../assets/image/Positive.png'
+import background from '../../assets/image/background.png'
+import starOne from '../../assets/image/StarOne.svg'
+import interfaceFinance from '../../assets/image/interface.png'
+import starTwo from '../../assets/image/StarTwo.svg'
+import positive from '../../assets/image/Positive.png'
 
 const MainPage = () => {
     return (

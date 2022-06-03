@@ -17,10 +17,7 @@
   text-align: center;
   width: 41.25rem;
   color: #363636;
-  @media (max-width: 1000px) {
-    width: 20.25rem;
-    font-size: 2rem;
-  }
+
 
 }
 
@@ -29,6 +26,11 @@
   display: flex;
   justify-content: center;
   flex: 1 0 auto;
+  @media (max-width: 450px) {
+    margin-top: 50%
+
+  }
+
 
 
   &__section {
@@ -59,6 +61,9 @@
 .image {
   @media (max-width: 1000px) {
     width: 100%;
+  }
+  @media (max-width: 450px) {
+    display: none;
   }
 }
 
@@ -130,5 +135,12 @@
   text-align: center;
   width: 41.25rem;
   color: #363636;
+  @media (max-width: 700px) {
+    width: 26.25rem;
+  }
+  @media (max-width: 450px) {
+    display: flex;
+    justify-content: center;
+  }
 
 }
