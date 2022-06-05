@@ -1,7 +1,6 @@
 
-// @ts-ignore
-import React, {Route, Routes, Navigate} from 'react';
-
+import React from 'react';
+import {Route, Routes, Navigate} from 'react-router-dom'
 import {privateRoutes, publicRoutes} from "../router";
 
 const AppRouter = () => {
@@ -16,7 +15,6 @@ const AppRouter = () => {
                 key={route.path}
                  element={route.element}
                  path={route.path}
-                 exact={route.exact}
                />
              )}
            </>
@@ -28,7 +26,6 @@ const AppRouter = () => {
                  key={route.path}
                  element={route.element}
                  path={route.path}
-                 exact={route.exact}
                />
              )}
            </>
