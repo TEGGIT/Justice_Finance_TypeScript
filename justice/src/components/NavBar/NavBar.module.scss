@@ -1,0 +1,50 @@
+.header__bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid #F3F3F3;
+  height: 100%;
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: row;
+
+  }
+
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 32px;
+
+    &__title {
+      align-items: center;
+      @media (max-width: 735px) {
+        display: none;
+      }
+    }
+  }
+}
+
+
+.text_bold {
+  font-family: 'TT Firs Neue', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.375rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #363636;
+}
+
+
+.text_regular {
+  font-family: 'TT Firs Neue', sans-serif;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1.375rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #363636;
+}
+

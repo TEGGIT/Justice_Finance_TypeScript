@@ -1,0 +1,224 @@
+.wrapper {
+  display: flex;
+  @media (max-width: 735px) {
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #F3F3F3;
+  width: 100%;
+  height: 100vh;
+  padding: 48px;
+
+  &_wrapper__chart {
+    display: flex;
+    flex-direction: column;
+    padding-top: 16px;
+    padding-bottom: 58px;
+
+    &_price {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+
+      &_plus {
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #84A500;
+        @media (max-width: 735px) {
+        }
+      }
+
+      &_percent {
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 16px;
+        color: #84A500;
+        background: rgba(132, 165, 0, 0.1);
+        border-radius: 3px;
+        padding: 8px 12px 8px 12px;
+        display: flex;
+        align-items: center;
+
+      }
+
+      &_currency {
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 48px;
+        color: #363636;
+
+      }
+    }
+  }
+
+  &_wrapper__chart__title {
+    padding-top: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #F3F3F3;
+    @media (max-width: 735px) {
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+
+    &_text {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      &_top {
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 16px;
+        color: #363636;
+
+      }
+
+      &_bottom {
+
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        color: #363636;
+      }
+    }
+  }
+
+  &_wrapper__slider {
+    display: flex;
+    padding-top: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    &__rate {
+      padding: 16px;
+      display: flex;
+      border: 1px solid #F3F3F3;
+      gap: 8px;
+
+
+      &__positive {
+        display: flex;
+        align-items: center;
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        color: #363636;
+
+
+        &_plus {
+          font-family: 'Inter', sans-serif;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          color: #84A500;
+
+
+        }
+      }
+
+
+      &_wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+
+      &__country {
+        display: flex;
+        align-items: center;
+        gap: 49px;
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        color: #363636;
+
+        &_percent {
+          font-family: 'Inter', sans-serif;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          color: #84A500;
+
+        }
+      }
+
+      &_img {
+        padding: 8px;
+        background: #84A5001A;
+      }
+    }
+  }
+
+  &_title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    @media (max-width: 735px) {
+      gap: 30px;
+    }
+
+
+    &_text {
+      font-family: 'TT Firs Neue', sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 32px;
+      line-height: 48px;
+    }
+
+    &_input {
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      color: #363636;
+      line-height: 24px;
+      border: 1px solid #ECECEC;
+      padding: 16px 169px 16px 20px;
+      @media (max-width: 735px) {
+        padding: 16px 16px 16px 20px;
+      }
+    }
+
+    &_input::placeholder {
+      background-image: url("../../assets/image/Lupa.svg");
+      background-repeat: no-repeat;
+      padding-left: 30px;
+      background-position: 4px;
+
+    }
+  }
+}
+
+
+
