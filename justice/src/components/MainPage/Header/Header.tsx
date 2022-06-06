@@ -16,7 +16,15 @@ const Header = () => {
                     </div>
                     <div className={styles.header__nav__button}>
                         <NavLink to="/login-page">
-                            <ButtonMui>Войти</ButtonMui>
+                          <ButtonMui text='Войти'
+                                     padding='12px 24px'
+                                     background='#363636'
+                                     color='#FFFFFF'
+                                     fontSize="12px"
+                                     hoverBackground='#363636'
+                                     borderRadius="none"
+                                     fontWeight='600'
+                          />
                         </NavLink>
 
                     </div>

@@ -14,7 +14,7 @@ import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
 
 const RegisterPage = () => {
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState<boolean>(false);
   const [disabledBtn, setDisabledBtn] = useState(true)
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState(false)
@@ -26,10 +26,6 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate();
-
-  const handleChange = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
-    setChecked(event.target.checked);
-  };
 
   const nameErrorChecker = () => {
     const nameChecker = new RegExp(`^(?=.*[а-я])(?=.*[А-Я])(?=.{${2},})`)
@@ -97,9 +93,27 @@ const RegisterPage = () => {
           <form className={classes.main__register_wrapper__form}>
             <p className={classes.main__register_wrapper__form_text}>Регистрация</p>
             <div className={classes.main__register_wrapper__form__buttons}>
-              <ButtonMui/>
+              <ButtonMui
+                fontSize='12px'
+                img={google}
+                text='Sing up with Google'
+                gap="13px"
+                color='#363636'
+                border='1px solid #ECECEC'
+                padding="16px 25px 16px 30px"
+                fontWeight='500'
+              />
 
-              <ButtonMui/>
+              <ButtonMui
+                fontSize='12px'
+                img={github}
+                text='Sing up with Google'
+                gap="13px"
+                color='#363636'
+                border='1px solid #ECECEC'
+                padding="16px 25px 16px 30px"
+                fontWeight='500'
+              />
             </div>
             <div>
             </div>
@@ -180,13 +194,28 @@ const RegisterPage = () => {
                 )}
               </div>
               <div className={classes.checkbox}>
-                <CheckBox onChange={handleChange} checked={checked}/><p>i accept the Terms of Service and have read
-                Privacy Policy</p>
+                <CheckBox onChange={(e) => setChecked(e.target.checked)} checked={checked}/>
+
+                <p>
+                  i accept the Terms of Service and have read
+                  Privacy Policy
+                </p>
+
               </div>
             </div>
 
-              <ButtonMui>зарегистрироваться</ButtonMui>
+            <ButtonMui
 
+              text='Зарегистрироваться'
+              padding="12px 180px"
+              background='#363636'
+              color='#FFFFFF'
+              onClick={() => registration()}
+              disabled={disabledBtn}
+              fontWeight='600'
+              hoverBackground='#363636'
+
+                         fontSize="16px"/>
 
             <div className={classes.newperson}>
               <p> У вас уже есть учетная запись? <NavLink to='/login-page' className={classes.signup}>Авторизоваться

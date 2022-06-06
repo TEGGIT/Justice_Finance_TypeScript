@@ -76,8 +76,29 @@ const LoginPage = () => {
                     <form className={classes.main__login_wrapper__form}>
                         <p className={classes.main__login_wrapper__form_text}>Вход</p>
                         <div className={classes.main__login_wrapper__form__buttons}>
-                            <ButtonMui/>
-                            <ButtonMui/>
+                            <ButtonMui fontSize='12px'
+                                       img={google}
+                                       text='Sing up with Google'
+                                       gap="8px"
+                                       color='#363636'
+                                       border='1px solid #ECECEC'
+                                       padding="16px 25px 16px 30px"
+                                       fontWeight='500'
+
+
+                            />
+
+                            <ButtonMui fontSize='12px'
+                                       img={github}
+                                       text='Sing up with GitHub'
+                                       gap="8px"
+                                       color='#363636'
+                                       border='1px solid #ECECEC'
+                                       padding="16px 25px 16px 30px"
+                                       fontWeight='500'
+
+
+                            />
                         </div>
                         <div>
 
@@ -123,7 +144,16 @@ const LoginPage = () => {
                             </div>
                         </div>
 
-                        <ButtonMui>Войти</ButtonMui>
+                        <ButtonMui text='Войти'
+                                   fontSize="1rem"
+                                   padding="12px 190px"
+                                   background='#363636'
+                                   color='#FFFFFF'
+                                   hoverBackground="#363636"
+                                   fontWeight='600'
+                                   onClick={checkUser}
+                                   disabled={isDisabledBtn}
+                        />
                         <div className={classes.newperson}>
                             <p>Нет аккаунта? <NavLink to='/register-page' className={classes.signup}>Создать
                                 аккаунт</NavLink></p>
