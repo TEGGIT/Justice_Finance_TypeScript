@@ -91,29 +91,34 @@ const LoginPage = () => {
                             {isEmailError ? (
 
                                 <Input placeholder='E-mail' value={email}
-                                       onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setEmail(e.target.value)}
-                                       styles={classes.input_error} type="email" onBlur={checkEmail}/>
+                                       onChange={(e) => setEmail(e.target.value)}
+                                       className={classes.input_error}
+                                       type="email"
+                                       onBlur={checkEmail}/>
                             ) : (
                                 <Input placeholder='E-mail' value={email}
-                                       onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setEmail(e.target.value)}
-                                       styles={classes.input} type="email" onBlur={checkEmail}/>
+                                       onChange={(e) => setEmail(e.target.value)}
+                                       className={classes.input}
+                                       type="email"
+                                       onBlur={checkEmail}/>
                             )}
                             {isPasswordError ? (
-                                <Input placeholder='Пароль' value={password}
-                                       onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setPassword(e.target.value)}
-                                       styles={classes.input_error}
+                                <Input placeholder='Пароль'
+                                       value={password}
+                                       onChange={(e) => setPassword(e.target.value)}
+                                       className={classes.input_error}
                                        type="password"
                                        onBlur={checkPassword}/>
                             ) : (
                                 <Input placeholder='Пароль' value={password}
-                                       onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setPassword(e.target.value)}
-                                       styles={classes.input}
+                                       onChange={(e) => setPassword(e.target.value)}
+                                       className={classes.input}
                                        type="password"
                                        onBlur={checkPassword}/>
                             )}
 
                             <div className={classes.checkbox}>
-                                <CheckBox onChange={handleChange} checkedMui={checked}/>
+                                <CheckBox onChange={handleChange} checked={checked}/>
                                 <p>Запомнить меня</p>
                             </div>
                         </div>

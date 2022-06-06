@@ -1,11 +1,12 @@
 import MainPage from '../components/MainPage/MainPage'
 import LoginPage from "../components/LoginPage/LoginPage";
+import RegisterPage from "../components/RegisterPage/RegisterPage";
 
 
 export const privateRoutes = [
     {path: '/', element: <MainPage/>},
     {path: '/login-page', element: <LoginPage/>},
-    // {path: '/register-page', element: <RegisterPage/>, exact: true},
+    {path: '/register-page', element: <RegisterPage/>},
     // {path: '/exchange-rates-page', element: <ExchangeRatesPage/>, exact: true},
     // {path: '/profile-page', element: <Profile/>, exact: true},
     // {path: '/currency-exchange', element: <CurrencyExchange/>, exact: true},
@@ -17,5 +18,5 @@ export const privateRoutes = [
 export const publicRoutes = [
     {path: '/', element: <MainPage/>},
     {path: '/login-page', element: <LoginPage/>},
-    // {path: '/register-page', element: <RegisterPage/>, exact: true},
+    {path: '/register-page', element: <RegisterPage/>},
 ]
