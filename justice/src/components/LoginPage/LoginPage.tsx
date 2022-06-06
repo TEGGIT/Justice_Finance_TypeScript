@@ -122,7 +122,6 @@ const LoginPage = () => {
                                            padding="12px 12px 12px 12px"
                                            fontWeight='500'
 
-
                                 />
                             </div>
                         </div>
