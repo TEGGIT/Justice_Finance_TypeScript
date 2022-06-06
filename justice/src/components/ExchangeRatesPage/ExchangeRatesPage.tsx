@@ -1,21 +1,21 @@
 import React, {useState, useEffect } from 'react';
 import {NavLink} from "react-router-dom";
-// import Charts from "./Chart/Chart";
-// import SliderRate from "./SliderRate/SliderRate";
+import Charts from "./Chart/Chart";
+import SliderRate from "./SliderRate/SliderRate";
 import ButtonMui from "../MUI/Button/ButtonMui";
 import NavBar from '../NavBar/NavBar'
 import Input from "../UI/Input/Input";
-// import ProfileBar from "../ProfileBar/ProfileBar";
+import ProfileBar from '../ProfileBar/ProfileBar';
 // import SlideButton from "../UI/SlideButton/SlideButton";
 import classes from './ExchangeRatesPage.module.scss'
 import arrowButtonLeft from '../../assets/image/ArrowButtonLeft.svg'
 import arrowButtonRight from '../../assets/image/arrowButtonRight.svg'
 import arrowUpMin from '../../assets/image/ArrowUpMin.svg'
-// import axios from "axios";
+import axios from "axios";
 
 const ExchangeRatesPage = () => {
   const [x, setX] = useState(0)
-  const [exchangeRates , setExchangeRates] = useState('')
+  const [exchangeRates , setExchangeRates] = useState<any>([])
   const moveBlockLeft = () => {
     // setX(x + 10)
     // if (x === 0) setX(-30)
@@ -25,12 +25,12 @@ const ExchangeRatesPage = () => {
     // setX(x - 10)
     // if (x === 10) setX(0)
   }
-  // useEffect(() => {
-  //   axios.get('http://localhost:5000/api/exchangeRates'
-  //   ).then((responce) => {
-  //     setExchangeRates(responce.data[0].exchangeRates)
-  //   })
-  // }, [])
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/exchangeRates'
+    ).then((responce) => {
+      setExchangeRates(responce.data[0].exchangeRates)
+    })
+  }, [])
 
   return (
     <>
@@ -47,10 +47,10 @@ const ExchangeRatesPage = () => {
           <div className={classes.main_wrapper__slider}>
             {/*<SlideButton img={arrowButtonLeft} onClick={moveBlockLeft}/>*/}
 
-            {/*/!*{exchangeRates?.map((slide) => (*!/*/}
-            {/*/!*  <SliderRate currency={slide.currencyName}*!/*/}
-            {/*/!*              rates={slide.rubleRatio}/>*!/*/}
-            {/*/!*)).splice(1, 4)}*!/*/}
+            {exchangeRates?.map((slide:any) => (
+              <SliderRate currency={slide.currencyName}
+                          rates={slide.rubleRatio}/>
+            )).splice(1, 4)}
 
             {/*<SlideButton img={arrowButtonRight} onClick={moveBlockRight}/>*/}
           </div>
@@ -85,9 +85,9 @@ const ExchangeRatesPage = () => {
               <p className={classes.main_wrapper__chart_price_plus}>+0,3750 Today</p>
             </div>
           </div>
-          {/*<Charts/>*/}
+          <Charts/>
         </main>
-        {/*<ProfileBar/>*/}
+        <ProfileBar/>
       </div>
     </>
   );

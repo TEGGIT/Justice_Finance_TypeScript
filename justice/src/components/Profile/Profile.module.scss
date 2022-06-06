@@ -1,0 +1,104 @@
+.main {
+  display: flex;
+  @media (max-width: 735px) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_wrapper {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #F3F3F3;
+    width: 100%;
+    height: 100vh;
+    padding: 48px;
+
+
+    &__title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 430px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #F3F3F3;
+
+      &_button {
+        display: flex;
+        @media (max-width: 735px) {
+          display: none;
+
+        }
+
+        &_bottom {
+          display: none;
+          @media (max-width: 735px) {
+            display: flex;
+          }
+        }
+      }
+
+      &_text {
+        font-family: 'TT Firs Neue', sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 48px;
+      }
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+
+      &__title__info {
+        padding-top: 48px;
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: #848484;
+
+      }
+
+      &__title__password {
+        padding-top: 56px;
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: #848484;
+      }
+
+      &__input {
+        padding-top: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        padding-bottom: 56px;
+        border-bottom: 1px solid #F3F3F3;;
+        width: 100%;
+
+        &_input {
+          display: flex;
+          width: 29.50rem;
+          font-family: 'Inter', sans-serif;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+          border: 1px solid #ECECEC;
+          padding: 18px 230px 18px 16px;
+          color: #363636;
+
+          @media (max-width: 735px) {
+            padding: 18px 18px 18px 16px;
+
+          }
+        }
+      }
+    }
+  }
+}
+
