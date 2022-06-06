@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
@@ -8,24 +8,22 @@ import Input from "../UI/Input/Input";
 import Select from "../MUI/Select/Select";
 import ButtonMui from "../MUI/Button/ButtonMui";
 
-import classes from './СurrencyExchange.module.scss'
+import classes from "./СurrencyExchange.module.scss";
 
-import exchange from '../../assets/image/exchange.svg'
-
+import exchange from "../../assets/image/exchange.svg";
 
 const CurrencyExchange = () => {
-  const [give, setGive] = React.useState('');
-  const [get, setGet] = React.useState('');
-  const [giveValue, setGiveValue] = useState('')
-  const [getValue, setGetValue] = useState('')
-  const [isDisabled, setIsDisabled] = useState(true)
-  const [exchangeRates, setExchangeRates] = useState('')
+  const [give, setGive] = React.useState("");
+  const [get, setGet] = React.useState("");
+  const [giveValue, setGiveValue] = useState("");
+  const [getValue, setGetValue] = useState("");
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [exchangeRates, setExchangeRates] = useState("");
 
   const Data = new Date();
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
   const addTransaction = () => {
-
     // const refreshWalletSum = walletsUser.map(item => {
     //   if (item.currency === give) {
     //     return {
@@ -41,7 +39,6 @@ const CurrencyExchange = () => {
     //   }
     //   return item
     // })
-
     // setIsDisabled(true)
     //
     // axios.patch('http://localhost:5000/api/wallets/update', {
@@ -69,9 +66,7 @@ const CurrencyExchange = () => {
     //   setTransactionUser(res.data.transaction)
     // })
     // setGiveValue('')
-  }
-
-
+  };
 
   // useEffect(() => {
   //   axios.get('http://localhost:5000/api/exchangeRates').then((responce) => {
@@ -106,71 +101,77 @@ const CurrencyExchange = () => {
   //
   // }, [giveValue, getValue, get, give, isDisabled])
 
-
   return (
     <main className={classes.main}>
-      <NavBar/>
+      <NavBar />
       <section className={classes.main__wrapper}>
         <div className={classes.main__wrapper__title}>
-          <h1 className={classes.main__wrapper__title_text}>
-            Обмен валют
-          </h1>
+          <h1 className={classes.main__wrapper__title_text}>Обмен валют</h1>
         </div>
         <div className={classes.main__wrapper__content}>
           <div className={classes.main__wrapper__content__title__info}>
             <p>Укажите кошелек, сумму и валюту для обмена</p>
           </div>
           <div className={classes.main__wrapper__content__exchange}>
-            <Input placeholder='Отдаю' type='number' className={classes.main__wrapper__content__exchange__input}
-                   onChange={(e) => setGiveValue(e.target.value)}
-                   value={giveValue}
-
+            <Input
+              placeholder="Отдаю"
+              type="number"
+              className={classes.main__wrapper__content__exchange__input}
+              onChange={(e) => setGiveValue(e.target.value)}
+              value={giveValue}
             />
             {/*{walletsUser ? (*/}
-              <Select handleChangeSelect={(e:any) => setGive(e.target.value)} selectValue={give} minWidth='21rem'
-                      name='Выберите кошелек'
-                      array=""
-              />
+            <Select
+              handleChangeSelect={(e: any) => setGive(e.target.value)}
+              selectValue={give}
+              minWidth="21rem"
+              name="Выберите кошелек"
+              array=""
+            />
             {/*) : (*/}
             {/*  <h1>LoAdInG...</h1>*/}
             {/*)}*/}
           </div>
           <div className={classes.main__wrapper__content__exchange}>
-            <Input placeholder='Получаю' type='number' className={classes.main__wrapper__content__exchange__input}
-                   onChange={(e) => setGetValue(e.target.value)}
-                   value={getValue}
-                   readOnly={true}
+            <Input
+              placeholder="Получаю"
+              type="number"
+              className={classes.main__wrapper__content__exchange__input}
+              onChange={(e) => setGetValue(e.target.value)}
+              value={getValue}
+              readOnly={true}
             />
             {/*{walletsUser ? (*/}
-              <Select handleChangeSelect={(e:any) => setGet(e.target.value)} selectValue={get} minWidth='21rem'
-                      name='Выберите кошелек'
-                      array=""
-              />
+            <Select
+              handleChangeSelect={(e: any) => setGet(e.target.value)}
+              selectValue={get}
+              minWidth="21rem"
+              name="Выберите кошелек"
+              array=""
+            />
             {/*) : (*/}
             {/*  <h1>LoAdInG...</h1>*/}
             {/*)}*/}
-
           </div>
           <div className={classes.main__wrapper__content__exchange}>
-            <ButtonMui text="Обменять"
-                       img={exchange}
-                       background='#363636'
-                       padding='16px'
-                       gap='8px'
-                       color='#FFFFFF'
-                       fontWeight='600'
-                       fontSize='16px'
-                       hoverBackground='#363636'
-                       disabled={isDisabled}
-                       flexDirection='row-reverse'
-                       onClick={addTransaction}
+            <ButtonMui
+              text="Обменять"
+              img={exchange}
+              backgroundColor="#363636"
+              padding="16px"
+              gap="8px"
+              fontColor="#FFFFFF"
+              fontWeight="600"
+              fontSize="16px"
+              hoverBackground="#363636"
+              disabled={isDisabled}
+              flexDirection="row-reverse"
+              onClick={addTransaction}
             />
-
           </div>
-
         </div>
       </section>
-      <ProfileBar/>
+      <ProfileBar />
     </main>
   );
 };
