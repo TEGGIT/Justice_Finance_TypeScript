@@ -6,6 +6,7 @@ import Profile from "../components/Profile/Profile";
 import CurrencyExchange from "../components/СurrencyExchange/СurrencyExchange";
 import PursePage from "../components/PursePage/PursePage";
 import PurseInfo from "../components/PursePage/PurseInfo/PurseInfo";
+import TransactionsPage from "../components/TransactionsPage/TransactionsPage";
 
 
 export const privateRoutes = [
@@ -16,7 +17,7 @@ export const privateRoutes = [
     {path: '/profile-page', element: <Profile/>},
     {path: '/currency-exchange', element: <CurrencyExchange/>},
     {path: '/purse-page', element: <PursePage/>},
-    // {path: '/transactions-page', element: <TransactionsPage/>, exact: true},
+    {path: '/transactions-page', element: <TransactionsPage/>},
     {path: '/purse-info-page', element: <PurseInfo/>}
 ]
 
@@ -28,7 +29,9 @@ export const publicRoutes = [
     {path: '/profile-page', element: <Profile/>},
     {path: '/currency-exchange', element: <CurrencyExchange/>},
     {path: '/purse-page', element: <PursePage/>},
-    {path: '/purse-info-page', element: <PurseInfo/>}
+    {path: '/purse-info-page', element: <PurseInfo/>},
+    {path: '/transactions-page', element: <TransactionsPage/>}
+
 
 
 
