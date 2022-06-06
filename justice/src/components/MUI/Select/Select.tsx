@@ -35,12 +35,12 @@ const SelectMui:React.FC<TypeSelectMui> = (props) => {
           label="age"
           onChange={handleChangeSelect}
         >
-          {array && array.map((country: any) =>
+          {array && array.map((country:any) =>
              <MenuItem
               key={country.currency}
               value={country.currency}>
               <img
-                src={`./${country.currency}.svg`}
+                src={`${country.icon}`}
                 alt='Иконка'/>
               {country.currency}
             </MenuItem>

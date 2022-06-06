@@ -113,7 +113,9 @@ const PursePage = () => {
   //   navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   // }
 
+  console.log(countryIcon)
   return (
+
     <main className={classes.main}>
       <NavBar/>
       <section className={classes.main__wrapper}>
