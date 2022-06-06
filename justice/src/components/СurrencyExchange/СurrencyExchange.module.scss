@@ -1,0 +1,70 @@
+.main {
+  display: flex;
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #F3F3F3;
+    width: 100%;
+    height: 100vh;
+    padding: 48px;
+
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+
+
+      &__title__info {
+        padding-top: 48px;
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: #848484;
+      }
+
+      &__exchange {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        padding-top: 40px;
+
+
+        &__input {
+          font-family: 'Inter', sans-serif;
+          font-style: normal;
+          width: 164px;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+          border: 1px solid #ECECEC;
+          padding: 16px;
+          color: #363636;
+        }
+      }
+    }
+
+    &__title {
+      display: flex;
+      align-items: center;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #F3F3F3;
+
+
+      &_text {
+        font-family: 'TT Firs Neue', sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 48px;
+      }
+    }
+
+  }
+}
