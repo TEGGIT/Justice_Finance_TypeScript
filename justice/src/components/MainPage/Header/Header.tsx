@@ -2,6 +2,7 @@ import React from 'react';
 
 import ButtonMui from "../../MUI/Button/ButtonMui";
 import styles from "./Header.module.scss";
+import {NavLink} from "react-router-dom";
 
 const Header = () => {
 
@@ -14,7 +15,9 @@ const Header = () => {
                         <p className={styles.text_regular}>Finance</p>
                     </div>
                     <div className={styles.header__nav__button}>
-                        <ButtonMui style={{padding: 0}}>Войти</ButtonMui>
+                        <NavLink to="/login-page">
+                            <ButtonMui>Войти</ButtonMui>
+                        </NavLink>
 
                     </div>
                 </nav>
