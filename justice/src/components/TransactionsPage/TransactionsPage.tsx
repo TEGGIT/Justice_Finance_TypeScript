@@ -1,43 +1,30 @@
-import React, {useState, useEffect} from 'react'
-
-
+import React, { useState, useEffect } from "react";
 
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
 import TransactionStatus from "./TransactionStatus/TransactionStatus";
 
-import classes from './TransactionsPage.module.scss'
-
+import classes from "./TransactionsPage.module.scss";
 
 const TransactionsPage = () => {
   const Data = new Date();
-  const data = Data.getDate()
-
-
+  const data = Data.getDate();
 
   return (
     <main className={classes.main}>
-      <NavBar/>
+      <NavBar />
       <section className={classes.main__wrapper}>
         <div className={classes.main__wrapper__title}>
-          <h1 className={classes.main__wrapper__title_text}>
-            Транзакции
-          </h1>
+          <h1 className={classes.main__wrapper__title_text}>Транзакции</h1>
         </div>
         <div className={classes.main__wrapper__columns}>
           <p className={classes.main__wrapper__columns_title_data}>
             {data}.мая
           </p>
 
-          <p className={classes.main__wrapper__columns_title_give}>
-            Обменяно
-          </p>
-          <p className={classes.main__wrapper__columns_title_get}>
-            Полученно
-          </p>
-          <p className={classes.main__wrapper__columns_title_status}>
-            Статус
-          </p>
+          <p className={classes.main__wrapper__columns_title_give}>Обменяно</p>
+          <p className={classes.main__wrapper__columns_title_get}>Полученно</p>
+          <p className={classes.main__wrapper__columns_title_status}>Статус</p>
         </div>
         {/*{transactionUser ? (*/}
         {/*  <>*/}
@@ -57,15 +44,14 @@ const TransactionsPage = () => {
         {/*    )).reverse()}*/}
         {/*  </>*/}
         {/*) : (*/}
-          <>
-            <h1>LoAdInG</h1>
-          </>
+        <>
+          <h1>LoAdInG</h1>
+        </>
         {/*)}*/}
-
-
       </section>
-      <ProfileBar/>
-    </main>);
+      <ProfileBar />
+    </main>
+  );
 };
 
 export default TransactionsPage;

@@ -48,6 +48,14 @@ const BootstrapButton = styled(Button)<ButtonMuiStyleProps>`
   font-weight: ${({ fontWeight }) => fontWeight};
   background-color: ${({ backgroundColor }) => backgroundColor};
   font-family: "Inter", sans-serif;
+  :disabled {
+    background: #ededed;
+    color: #8c8c8c;
+  }
+  :hover {
+    box-shadow: none;
+    background-color: ${({ backgroundColor }) => backgroundColor};
+  }
 `;
 
 // ({
