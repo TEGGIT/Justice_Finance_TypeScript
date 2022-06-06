@@ -24,6 +24,7 @@ interface TypeStyleButton {
     disabled?: boolean
     flexDirection?: String
     type?: any,
+
 }
 
 const ButtonMui:React.FC<TypeStyleButton>= (props) => {
@@ -46,12 +47,13 @@ const ButtonMui:React.FC<TypeStyleButton>= (props) => {
         disabled,
         flexDirection,
         type,
+
     } = props
 
     const [hover, setHover] = useState(false)
 
     const BootstrapButton = styled(Button)({
-        boxShadow: 'none',
+        boxShadow: "none",
         display: 'flex',
         flexDirection: `${flexDirection}`,
         border: `${border}`,

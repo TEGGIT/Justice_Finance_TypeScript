@@ -93,27 +93,55 @@ const RegisterPage = () => {
           <form className={classes.main__register_wrapper__form}>
             <p className={classes.main__register_wrapper__form_text}>Регистрация</p>
             <div className={classes.main__register_wrapper__form__buttons}>
-              <ButtonMui
-                fontSize='12px'
-                img={google}
-                text='Sing up with Google'
-                gap="13px"
-                color='#363636'
-                border='1px solid #ECECEC'
-                padding="16px 25px 16px 30px"
-                fontWeight='500'
-              />
+              <div className={classes.desktopTop_button}>
+                <ButtonMui fontSize='12px'
+                           img={google}
+                           text='Sing up with Google'
+                           gap="8px"
+                           color='#363636'
+                           border='1px solid #ECECEC'
+                           padding="16px 25px 16px 30px"
+                           fontWeight='500'
 
-              <ButtonMui
-                fontSize='12px'
-                img={github}
-                text='Sing up with Google'
-                gap="13px"
-                color='#363636'
-                border='1px solid #ECECEC'
-                padding="16px 25px 16px 30px"
-                fontWeight='500'
-              />
+
+                />
+
+                <ButtonMui fontSize='12px'
+                           img={github}
+                           text='Sing up with GitHub'
+                           gap="8px"
+                           color='#363636'
+                           border='1px solid #ECECEC'
+                           padding="16px 25px 16px 30px"
+                           fontWeight='500'
+
+
+                />
+              </div>
+              <div className={classes.mobileTop_button}>
+                <ButtonMui fontSize='9px'
+                           img={google}
+                           text='Sing up with Google'
+                           gap="4px"
+                           color='#363636'
+                           border='1px solid #ECECEC'
+                           padding="12px 12px 12px 12px"
+                           fontWeight='500'
+
+
+                />
+
+                <ButtonMui fontSize='9px'
+                           img={github}
+                           text='Sing up with GitHub'
+                           gap="4px"
+                           color='#363636'
+                           border='1px solid #ECECEC'
+                           padding="12px 12px 12px 12px"
+                           fontWeight='500'
+
+                />
+              </div>
             </div>
             <div>
             </div>
@@ -203,19 +231,33 @@ const RegisterPage = () => {
 
               </div>
             </div>
+           <div className={classes.desktop_button}>
+             <ButtonMui
+               text='Зарегистрироваться'
+               padding="12px 180px"
+               background='#363636'
+               color='#FFFFFF'
+               onClick={() => registration()}
+               disabled={disabledBtn}
+               fontWeight='600'
+               hoverBackground='#363636'
+               fontSize="16px"
+             />
+           </div>
+            <div className={classes.mobile_button}>
+              <ButtonMui
+                text='Зарегистрироваться'
+                padding="12px 80px"
+                background='#363636'
+                color='#FFFFFF'
+                onClick={() => registration()}
+                disabled={disabledBtn}
+                fontWeight='600'
+                hoverBackground='#363636'
+                fontSize="16px"
+              />
+            </div>
 
-            <ButtonMui
-
-              text='Зарегистрироваться'
-              padding="12px 180px"
-              background='#363636'
-              color='#FFFFFF'
-              onClick={() => registration()}
-              disabled={disabledBtn}
-              fontWeight='600'
-              hoverBackground='#363636'
-
-                         fontSize="16px"/>
 
             <div className={classes.newperson}>
               <p> У вас уже есть учетная запись? <NavLink to='/login-page' className={classes.signup}>Авторизоваться

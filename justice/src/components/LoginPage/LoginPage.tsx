@@ -70,12 +70,12 @@ const LoginPage = () => {
 
     return (
         <main className={classes.main}>
-            {/*//todo:допилить мобильную адаптацию*/}
             <div className={classes.main__login}>
                 <div className={classes.main__login_wrapper}>
                     <form className={classes.main__login_wrapper__form}>
                         <p className={classes.main__login_wrapper__form_text}>Вход</p>
                         <div className={classes.main__login_wrapper__form__buttons}>
+                            <div className={classes.desktop_button}>
                             <ButtonMui fontSize='12px'
                                        img={google}
                                        text='Sing up with Google'
@@ -99,9 +99,31 @@ const LoginPage = () => {
 
 
                             />
-                        </div>
-                        <div>
+                            </div>
+                            <div className={classes.mobile_button}>
+                                <ButtonMui fontSize='10px'
+                                           img={google}
+                                           text='Sing up with Google'
+                                           gap="6px"
+                                           color='#363636'
+                                           border='1px solid #ECECEC'
+                                           padding="12px 12px 12px 12px"
+                                           fontWeight='500'
 
+
+                                />
+
+                                <ButtonMui fontSize='10px'
+                                           img={github}
+                                           text='Sing up with GitHub'
+                                           gap="6px"
+                                           color='#363636'
+                                           border='1px solid #ECECEC'
+                                           padding="12px 12px 12px 12px"
+                                           fontWeight='500'
+
+                                />
+                            </div>
                         </div>
                         <div className={classes.line_wrapper}>
                             <div className={classes.line}/>
@@ -143,10 +165,10 @@ const LoginPage = () => {
                                 <p>Запомнить меня</p>
                             </div>
                         </div>
-
+                        <div className={classes.desktop_button}>
                         <ButtonMui text='Войти'
                                    fontSize="1rem"
-                                   padding="12px 190px"
+                                   padding="12px 195px"
                                    background='#363636'
                                    color='#FFFFFF'
                                    hoverBackground="#363636"
@@ -154,6 +176,19 @@ const LoginPage = () => {
                                    onClick={checkUser}
                                    disabled={isDisabledBtn}
                         />
+                        </div>
+                        <div className={classes.mobile_button}>
+                            <ButtonMui text='Войти'
+                                       fontSize="1rem"
+                                       padding="12px 100px"
+                                       background='#363636'
+                                       color='#FFFFFF'
+                                       hoverBackground="#363636"
+                                       fontWeight='600'
+                                       onClick={checkUser}
+                                       disabled={isDisabledBtn}
+                            />
+                        </div>
                         <div className={classes.newperson}>
                             <p>Нет аккаунта? <NavLink to='/register-page' className={classes.signup}>Создать
                                 аккаунт</NavLink></p>
