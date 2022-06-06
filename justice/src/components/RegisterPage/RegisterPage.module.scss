@@ -19,6 +19,10 @@
         display: flex;
         flex-direction: column;
         width: 85%;
+        @media (max-width: 530px) {
+        align-items: center;
+        }
+
 
 
         &_text {
@@ -35,6 +39,10 @@
           display: flex;
           align-items: center;
           gap: 36px;
+          @media (max-width: 530px) {
+            gap: 20px;
+
+          }
 
           &_sign {
             align-items: center;
@@ -65,12 +73,16 @@
     flex-direction: column;
     background: #272727;
     width: 100vw;
+    @media (max-width: 1036px) {
+      display: none;
+    }
 
     &_wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+
 
     }
 
@@ -84,7 +96,10 @@
 
 
 .line {
+  @media (max-width: 530px) {
+    width: 150px;
 
+  }
   width: 194px;
   height: 0;
   border: 1px solid #F3F3F3;
@@ -106,6 +121,11 @@
   margin-top: 48px;
   gap: 0.563rem;
   margin-bottom: 48px;
+  @media (max-width: 530px) {
+    margin-bottom: 30px;
+    margin-top: 20px;
+
+  }
 }
 
 .text_bold {
@@ -191,11 +211,19 @@
   flex-direction: column;
   gap: 40px;
   margin-bottom: 48px;
+  @media (max-width: 530px) {
+    align-items: center;
+  }
 
   &_password {
     display: flex;
     align-items: center;
     gap: 36px;
+    @media (max-width: 530px) {
+      flex-direction: column;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
 
   }
 }
@@ -230,5 +258,41 @@
   font-size: 14px;
   line-height: 24px;
   text-decoration: none;
+  @media (max-width: 530px ){
+    display: flex;
+    justify-content: center;
+
+  }
+}
+
+.desktop_button{
+  display: inline-block;
+  @media (max-width: 530px ){
+    display: none;
+
+  }
+}
+
+.mobile_button{
+  display: none;
+  @media (max-width: 530px ){
+    display: flex;
+  }
+}
+.mobileTop_button{
+  display: none;
+@media (max-width: 530px) {
+  display: flex;
+  gap: 20px;
+}
+}
+
+.desktopTop_button{
+  display: flex;
+  gap: 45px;
+  @media (max-width: 530px ){
+    display: none;
+
+  }
 }
 

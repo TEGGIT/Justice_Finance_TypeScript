@@ -3,6 +3,10 @@ import LoginPage from "../components/LoginPage/LoginPage";
 import RegisterPage from "../components/RegisterPage/RegisterPage";
 import ExchangeRatesPage from "../components/ExchangeRatesPage/ExchangeRatesPage";
 import Profile from "../components/Profile/Profile";
+import CurrencyExchange from "../components/СurrencyExchange/СurrencyExchange";
+import PursePage from "../components/PursePage/PursePage";
+import PurseInfo from "../components/PursePage/PurseInfo/PurseInfo";
+import TransactionsPage from "../components/TransactionsPage/TransactionsPage";
 
 
 export const privateRoutes = [
@@ -11,10 +15,10 @@ export const privateRoutes = [
     {path: '/register-page', element: <RegisterPage/>},
     {path: '/exchange-rates-page', element: <ExchangeRatesPage/>},
     {path: '/profile-page', element: <Profile/>},
-    // {path: '/currency-exchange', element: <CurrencyExchange/>, exact: true},
-    // {path: '/purse-page', element: <PursePage/>, exact: true},
-    // {path: '/transactions-page', element: <TransactionsPage/>, exact: true},
-    // {path: '/purse-info-page', element: <PurseInfo/>, exact: true}
+    {path: '/currency-exchange', element: <CurrencyExchange/>},
+    {path: '/purse-page', element: <PursePage/>},
+    {path: '/transactions-page', element: <TransactionsPage/>},
+    {path: '/purse-info-page', element: <PurseInfo/>}
 ]
 
 export const publicRoutes = [
@@ -23,4 +27,12 @@ export const publicRoutes = [
     {path: '/register-page', element: <RegisterPage/>},
     {path: '/exchange-rates-page', element: <ExchangeRatesPage/>},
     {path: '/profile-page', element: <Profile/>},
+    {path: '/currency-exchange', element: <CurrencyExchange/>},
+    {path: '/purse-page', element: <PursePage/>},
+    {path: '/purse-info-page', element: <PurseInfo/>},
+    {path: '/transactions-page', element: <TransactionsPage/>}
+
+
+
+
 ]

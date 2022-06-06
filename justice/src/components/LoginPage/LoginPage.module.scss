@@ -18,6 +18,9 @@
       &__form {
         display: flex;
         flex-direction: column;
+        @media (max-width: 440px) {
+          align-items: center;
+        }
 
 
         &_text {
@@ -64,6 +67,9 @@
     flex-direction: column;
     background: #272727;
     width: 100vw;
+    @media(max-width: 940px){
+      display: none;
+    }
 
     &_wrapper {
       display: flex;
@@ -83,7 +89,9 @@
 
 
 .line {
-
+  @media(max-width: 440px){
+    width: 130px;
+  }
   width: 194px;
   height: 0;
   border: 1px solid #F3F3F3;
@@ -188,4 +196,22 @@
   line-height: 24px;
   text-decoration: none;
 
+}
+
+.desktop_button{
+  display: flex;
+  gap: 36px;
+
+  @media(max-width: 440px){
+    display: none;
+
+  }
+}
+
+.mobile_button{
+  display: none;
+  @media(max-width: 440px){
+    display: flex;
+    gap: 20px;
+  }
 }
