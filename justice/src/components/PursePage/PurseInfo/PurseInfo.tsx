@@ -23,7 +23,7 @@ import {useTypedSelector} from "../../../hooks/useTypesSelector";
 const PurseInfo = () => {
   const customStyles = {
     overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.8)",
+      backgroundcolor: "rgba(0, 0, 0, 0.8)",
       zIndex: "3",
     },
     content: {
@@ -34,7 +34,7 @@ const PurseInfo = () => {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       display: "flex",
-      flexDirection: "column",
+      flexdirection: "column",
       alignItems: "flex-end",
     },
   };
@@ -128,9 +128,9 @@ const PurseInfo = () => {
             text="Удалить кошелёк"
             padding="12px"
             border="1px solid #363636"
-            backgroundColor="#FFFFFF"
-            hoverBackground="#FFFFFF"
-            fontColor="#363636"
+            backgroundcolor="#FFFFFF"
+            hoverbackground="#FFFFFF"
+            fontcolor="#363636"
             fontSize="12px"
             fontWeight="600"
             onClick={deleteWallet}
@@ -184,10 +184,10 @@ const PurseInfo = () => {
             <ButtonMui
               text="Пополнить кошелек"
               padding="15px 24px"
-              backgroundColor="#363636"
+              backgroundcolor="#363636"
               disabled={isDisabled}
-              hoverBackground="#363636"
-              fontColor="#FFFFFF"
+              hoverbackground="#363636"
+              fontcolor="#FFFFFF"
               fontSize="16px"
               fontWeight="600"
               onClick={addSumWallet}

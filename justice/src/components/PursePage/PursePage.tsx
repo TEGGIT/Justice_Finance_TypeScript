@@ -26,7 +26,7 @@ import Cookies from "js-cookie";
 
 const customStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    backgroundcolor: "rgba(0, 0, 0, 0.8)",
     zIndex: "3",
   },
   content: {
@@ -37,7 +37,7 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     display: "flex",
-    flexDirection: "column",
+    flexdirection: "column",
     alignItems: "flex-end",
   },
 };
@@ -180,13 +180,13 @@ const PursePage = () => {
             />
             <ButtonMui
               text="Добавить кошелек"
-              backgroundColor="#363636"
+              backgroundcolor="#363636"
               padding="15px 24px"
               disabled={isDisabledBtn}
-              fontColor="#EEEEEE"
+              fontcolor="#EEEEEE"
               fontSize="16px"
               fontWeight="600"
-              hoverBackground="#363636"
+              hoverbackground="#363636"
               onClick={addPurse}
             />
           </div>

@@ -18,11 +18,11 @@ const Header = () => {
             <ButtonMui
               text="Войти"
               padding="12px 24px"
-              backgroundColor="#363636"
-              fontColor="#FFFFFF"
+              backgroundcolor="#363636"
+              fontcolor="#FFFFFF"
               fontSize="12px"
-              hoverBackground="#363636"
-              borderRadius="none"
+              hoverbackground="#363636"
+              borderradius="none"
               fontWeight="600"
             />
           </NavLink>

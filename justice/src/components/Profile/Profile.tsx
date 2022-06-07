@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useMemo} from "react";
 
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
@@ -24,7 +24,7 @@ const Profile = () => {
   const [city, setCity] = useState("");
   const [birthday, setBirthday] = useState("");
   const [number, setNumber] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword]: any = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isDisabledPassword, setIsDisabledPassword] = useState(false);
@@ -32,18 +32,13 @@ const Profile = () => {
   const [isOldPassword, setIsOldPassword] = useState(true);
   const [isSnackBar, setIsSnackBar] = useState(false);
 
-
   const passwordChecker = () => {
-    // if (password.password === oldPassword) {
-    //   setIsOldPassword(false)
-    // } else {
-    //   setIsOldPassword(true)
-    // }
+    if (password.password === oldPassword) {
+      setIsOldPassword(false)
+    } else {
+      setIsOldPassword(true)
+    }
   };
-  useEffect(() => {
-    FetchUser()
-
-  }, [])
   const repeatsPassword = () => {
     if (password === repeatPassword) {
       setIsOldPassword(false);
@@ -63,22 +58,22 @@ const Profile = () => {
   };
 
   useEffect(() => {
+
     setEmail(users[0]?.email)
     setName(users[0]?.name)
     setCity(users[0]?.city)
     setBirthday(users[0]?.birthday)
     setNumber(users[0]?.phoneNumber)
 
+  }, [users[0]?.name])
 
-  }, [])
+  useEffect(() => {
+    if (!isOldPassword && repeatPassword && password) {
+      setIsDisabledPassword(false)
+    } else
+      setIsDisabledPassword(true)
 
-  // useEffect(() => {
-  //   if (!isOldPassword && repeatPassword && password) {
-  //     setIsDisabledPassword(false)
-  //   } else
-  //     setIsDisabledPassword(true)
-  //
-  // }, [isOldPassword, repeatPassword, password])
+  }, [isOldPassword, repeatPassword, password])
 
   useEffect(() => {
     if (!name || !email) {
@@ -100,20 +95,22 @@ const Profile = () => {
       headers:
         {Authorization: `${Cookies.get("TOKEN")}`}
     },).then(() => {
+      FetchUser()
+
     })
     setIsSnackBar(true)
 
   };
   const changePassword = () => {
-    // axios.patch('http://localhost:5000/api/profile/changePassword', {
-    // password: oldPassword,
-    //   newPassword: password
-    // },{headers:{Authorization: Cookies.get("TOKEN")}},).then((responce) => {
-    //   console.log(responce.data)
-    // })
-    // setPassword('')
-    // setOldPassword('')
-    // setRepeatPassword('')
+    axios.patch('http://localhost:5000/api/profile/changePassword', {
+      password: oldPassword,
+      newPassword: password
+    }, {headers: {Authorization: `${Cookies.get("TOKEN")}`}},).then(() => {
+      FetchUser()
+    })
+    setPassword('')
+    setOldPassword('')
+    setRepeatPassword('')
   };
 
   return (
@@ -124,8 +121,8 @@ const Profile = () => {
           <h1 className={classes.main_wrapper__title_text}>Мой профиль</h1>
           <div className={classes.main_wrapper__title_button}>
             <ButtonMui
-              backgroundColor="#363636"
-              fontColor="#FFFFFF"
+              backgroundcolor="#363636"
+              fontcolor="#FFFFFF"
               text="Сохранить изменения"
               padding="12px 24px"
               fontWeight="600"
@@ -182,11 +179,11 @@ const Profile = () => {
           </div>
           <div className={classes.main_wrapper__title_button_bottom}>
             <ButtonMui
-              backgroundColor="#363636"
-              fontColor="#FFFFFF"
+              backgroundcolor="#363636"
+              fontcolor="#FFFFFF"
               text="Сохранить изменения"
               padding="12px 24px"
-              hoverBackground="#363636"
+              hoverbackground="#363636"
               fontWeight="600"
               disabled={isDisabled}
               onClick={changeProfile}
@@ -225,11 +222,11 @@ const Profile = () => {
             />
 
             <ButtonMui
-              backgroundColor="#363636"
+              backgroundcolor="#363636"
               text="Изменить пароль"
-              fontColor="white"
+              fontcolor="white"
               padding="15px 24px"
-              hoverBackground="#363636"
+              hoverbackground="#363636"
               fontSize="16px"
               disabled={isDisabledPassword}
               fontWeight="600"

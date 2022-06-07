@@ -101,7 +101,7 @@ const RegisterPage = () => {
                   img={google}
                   text="Sing up with Google"
                   gap="8px"
-                  fontColor="#363636"
+                  fontcolor="#363636"
                   border="1px solid #ECECEC"
                   padding="16px 25px 16px 30px"
                   fontWeight="500"
@@ -112,7 +112,7 @@ const RegisterPage = () => {
                   img={github}
                   text="Sing up with GitHub"
                   gap="8px"
-                  fontColor="#363636"
+                  fontcolor="#363636"
                   border="1px solid #ECECEC"
                   padding="16px 25px 16px 30px"
                   fontWeight="500"
@@ -124,7 +124,7 @@ const RegisterPage = () => {
                   img={google}
                   text="Sing up with Google"
                   gap="4px"
-                  fontColor="#363636"
+                  fontcolor="#363636"
                   border="1px solid #ECECEC"
                   padding="12px 12px 12px 12px"
                   fontWeight="500"
@@ -135,7 +135,7 @@ const RegisterPage = () => {
                   img={github}
                   text="Sing up with GitHub"
                   gap="4px"
-                  fontColor="#363636"
+                  fontcolor="#363636"
                   border="1px solid #ECECEC"
                   padding="12px 12px 12px 12px"
                   fontWeight="500"
@@ -248,12 +248,12 @@ const RegisterPage = () => {
               <ButtonMui
                 text="Зарегистрироваться"
                 padding="12px 180px"
-                backgroundColor="#363636"
-                fontColor="#FFFFFF"
+                backgroundcolor="#363636"
+                fontcolor="#FFFFFF"
                 onClick={() => registration()}
                 disabled={disabledBtn}
                 fontWeight="600"
-                hoverBackground="#363636"
+                hoverbackground="#363636"
                 fontSize="16px"
               />
             </div>
@@ -261,12 +261,12 @@ const RegisterPage = () => {
               <ButtonMui
                 text="Зарегистрироваться"
                 padding="12px 80px"
-                backgroundColor="#363636"
-                fontColor="#FFFFFF"
+                backgroundcolor="#363636"
+                fontcolor="#FFFFFF"
                 onClick={() => registration()}
                 disabled={disabledBtn}
                 fontWeight="600"
-                hoverBackground="#363636"
+                hoverbackground="#363636"
                 fontSize="16px"
               />
             </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 import ButtonMui from "../../MUI/Button/ButtonMui";
 
@@ -12,9 +12,12 @@ import arrow from "../../../assets/image/Arrow.svg";
 import suitcase from "../../../assets/image/Suitcase.svg";
 import checklist from "../../../assets/image/Checklist.svg";
 import logOut from "../../../assets/image/LogOut.svg";
+import Cookies from "js-cookie";
 
 const NavBarLinks = () => {
-  const clear = () => {};
+  const clear = () => {
+    Cookies.remove("TOKEN")
+  };
   const item = [
     {
       img: exchangeRates,
@@ -54,17 +57,17 @@ const NavBarLinks = () => {
                 img={items.img}
                 padding="12px 0 12px 8px"
                 gap="8px"
-                backgroundColor="#FFFFFF"
-                fontColor="#363636"
+                backgroundcolor="#FFFFFF"
+                fontcolor="#363636"
                 fontSize="0.875rem"
                 border="none"
-                hoverBackground="transparent"
-                borderRadius="0"
+                hoverbackground="transparent"
+                borderradius="0"
                 disabled={false}
-                flexDirection="row"
+                flexdirection="row"
                 fontWeight="500"
                 height="auto"
-                marginTop="0"
+                margintop="0"
                 onClick={() => ({})}
                 type="button"
               />
@@ -79,15 +82,15 @@ const NavBarLinks = () => {
               img={logOut}
               padding="12px 61px 12px 8px"
               gap="8px"
-              backgroundColor="#FFFFFF"
-              fontColor="#363636"
+              backgroundcolor="#FFFFFF"
+              fontcolor="#363636"
               fontSize="0.875rem"
-              hoverBackground="transparent"
-              marginTop="200px"
+              hoverbackground="transparent"
+              margintop="200px"
               border="0"
-              borderRadius="0"
+              borderradius="0"
               disabled={false}
-              flexDirection="0"
+              flexdirection="0"
               fontWeight="500"
               height="auto"
               type="button"
@@ -102,15 +105,15 @@ const NavBarLinks = () => {
               img={logOut}
               padding="12px 61px 12px 8px"
               gap="8px"
-              backgroundColor="#FFFFFF"
-              fontColor="#363636"
+              backgroundcolor="#FFFFFF"
+              fontcolor="#363636"
               fontSize="0.875rem"
-              hoverBackground="transparent"
-              marginTop="0"
+              hoverbackground="transparent"
+              margintop="0"
               border="0"
-              borderRadius="0"
+              borderradius="0"
               disabled={false}
-              flexDirection="0"
+              flexdirection="0"
               fontWeight="500"
               height="auto"
               type="button"

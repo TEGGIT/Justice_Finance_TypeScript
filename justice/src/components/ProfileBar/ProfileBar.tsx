@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useMemo} from "react";
 
 import {NavLink, useNavigate} from "react-router-dom";
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Wallet from "./WalletBar/Wallet";
-// import axios from "axios";
-// import Cookies from "js-cookie";
 
 import classes from "./ProfileBar.module.scss";
 import avatar from "../../assets/image/Avatar.svg";
@@ -13,7 +11,6 @@ import transactions from "../../assets/image/transaction.svg";
 import greenEllipse from "../../assets/image/GreenElipse.svg";
 import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
-import axios from "axios";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {useActions} from "../../hooks/useAction";
 
@@ -40,7 +37,7 @@ const ProfileBar = () => {
     FetchWallets()
   }, [])
 
-
+  const transaction = users[0]?.transaction
   return (
     <div className={classes.profile}>
       <div className={classes.profile_wrapper}>
@@ -85,12 +82,12 @@ const ProfileBar = () => {
               <NavLink to="/purse-page">
                 <ButtonMui
                   img={plus}
-                  backgroundColor="#363636"
-                  hoverBackground="#363636"
-                  borderRadius="30px "
+                  backgroundcolor="#363636"
+                  hoverbackground="#363636"
+                  borderradius="30px "
                   padding="12px"
                   height="60px"
-                  fontColor=""
+                  fontcolor=""
                   fontSize=""
                   fontWeight=""
                   text=""
@@ -102,24 +99,26 @@ const ProfileBar = () => {
         </div>
         <div className={classes.profile_wrapper__transactions}>
           <p>Последние транзацкции </p>
-          {/*{!transactionUser ? (*/}
+          {transaction?.length < 1 ? (
 
-          <div className={classes.profile_wrapper__transactions__history}>
-            <img src={transactions} alt="Транзакции"/>
-            <p>Вы не совершили не одной транзакции</p>
-          </div>
+            <div className={classes.profile_wrapper__transactions__history}>
+              <img src={transactions} alt="Транзакции"/>
+              <p>Вы не совершили не одной транзакции</p>
+            </div>
 
-          {/*// ) : (*/}
-          {/*//   <div className={classes.profile_wrapper__transactions__history_actual}>*/}
-          {/*//     {transactionUser.map((item) => (*/}
-          {/*//       <div className={classes.profile_wrapper__transactions__history_actual_content}>*/}
-          {/*//         <p>{`-${item.giveValue}${item.give} / +${item.getValue} ${item.get}`}</p>*/}
-          {/*//         <img src={greenEllipse} alt='Успешно'/>*/}
-          {/*//       </div>*/}
-          {/*//     )).reverse()}*/}
-          {/*//   </div>*/}
-          {/*//*/}
-          {/*// )}*/}
+          ) : (
+            <div className={classes.profile_wrapper__transactions__history_actual}>
+              {transaction?.map((item: any, index: any) => (
+
+                <div key={index} className={classes.profile_wrapper__transactions__history_actual_content}>
+                  <p>{`-${item.giveValue}${item.give} / +${item.getValue} ${item.get}`}</p>
+
+                  <img src={greenEllipse} alt='Успешно'/>
+                </div>
+              )).reverse()}
+            </div>
+
+          )}
         </div>
       </div>
     </div>
