@@ -1,112 +1,148 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import {useState} from "react";
+import * as React from "react";
+import {memo, useState} from "react";
+import {styled} from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 import classes from "./ButtonMui.module.scss";
 
-interface TypeStyleButton {
-    text: String
-    padding: String
-    background?: String
-    img?: any
-    gap?: String
-    color: String
-    fontSize: String
-    hoverBackground?: String
-    marginTop?: String
-    borderRadius?: String
-    height?: String
-    onClick?: () => void
-    border?: String
-    fontWeight: String
-    disabled?: boolean
-    flexDirection?: String
-    type?: any,
-
+interface ButtonMuiStyleProps {
+  flexdirection?: string;
+  border?: string;
+  fontcolor?: string;
+  borderradius?: string;
+  textTransform?: string;
+  margintop?: string;
+  fontSize?: string;
+  gap?: string;
+  height?: string;
+  padding?: string;
+  fontWeight?: string;
+  backgroundcolor?: string;
+  hoverbackground?: string;
 }
 
-const ButtonMui:React.FC<TypeStyleButton>= (props) => {
+interface ButtonMuiProps extends ButtonMuiStyleProps {
+  text: string;
+  img?: any;
+  onClick?: () => void;
+  disabled?: boolean;
+  type?: any;
+}
 
-    const {
-        text,
-        padding,
-        background,
-        img,
-        gap,
-        color,
-        fontSize,
-        hoverBackground,
-        marginTop,
-        borderRadius,
-        height,
-        onClick,
-        border,
-        fontWeight,
-        disabled,
-        flexDirection,
-        type,
+const BootstrapButton = styled(Button)<ButtonMuiStyleProps>`
+  box-shadow: none;
+  flex-direction: ${({flexdirection}) => flexdirection};
+  border: ${({border}) => border};
+  color: ${({fontcolor}) => fontcolor};
+  border-radius: ${({borderradius}) => borderradius};
+  text-transform: none;
+  overflow: hidden;
+  margin-top: ${({margintop}) => margintop};
+  font-size: ${({fontSize}) => fontSize};
+  z-index: 2;
+  gap: ${({gap}) => gap};
+  height: ${({height}) => height};
+  padding: ${({padding}) => padding};
+  font-style: normal;
+  font-weight: ${({fontWeight}) => fontWeight};
+  background-color: ${({backgroundcolor}) => backgroundcolor};
+  font-family: "Inter", sans-serif;
 
-    } = props
+  :disabled {
+    background: #ededed;
+    color: #8c8c8c;
+  }
 
-    const [hover, setHover] = useState(false)
+  :hover {
+    box-shadow: none;
+    background-color: ${({backgroundcolor}) => backgroundcolor};
+  }
+`;
 
-    const BootstrapButton = styled(Button)({
-        boxShadow: "none",
-        display: 'flex',
-        flexDirection: `${flexDirection}`,
-        border: `${border}`,
-        color: `${color}`,
-        borderRadius: `${borderRadius}`,
-        textTransform: 'none',
-        overflow: 'hidden',
-        marginTop: `${marginTop}`,
-        fontSize: `${fontSize}`,
-        zIndex: '2',
-        gap: `${gap}`,
-        height: `${height}`,
-        padding: `${padding}`,
-        fontStyle: 'normal',
-        fontWeight: `${fontWeight}`,
-        backgroundColor: `${background}`,
-        fontFamily: [
-            'Inter, sans-serif',
-        ].join(','),
-        '&:hover': {
-            boxShadow: 'none',
-            backgroundColor: `${hoverBackground}`,
-        },
-        '&:active': {
-            boxShadow: 'none',
-        },
-        '&:disabled': {
-            background: '#EDEDED',
-            color: '#8C8C8C',
-        },
-    });
+// ({
+//     boxShadow: "none",
+//     display: 'flex',
+//     flexdirection: `${flexdirection}`,
+//     border: `${border}`,
+//     color: `${color}`,
+//     borderradius: `${borderradius}`,
+//     textTransform: 'none',
+//     overflow: 'hidden',
+//     margintop: `${margintop}`,
+//     fontSize: `${fontSize}`,
+//     zIndex: '2',
+//     gap: `${gap}`,
+//     height: `${height}`,
+//     padding: `${padding}`,
+//     fontStyle: 'normal',
+//     fontWeight: `${fontWeight}`,
+//     backgroundcolor: `${background}`,
+//     fontFamily: [
+//         'Inter, sans-serif',
+//     ].join(','),
+//     '&:hover': {
+//         boxShadow: 'none',
+//         backgroundcolor: `${hoverbackground}`,
+//     },
+//     '&:active': {
+//         boxShadow: 'none',
+//     },
+//     '&:disabled': {
+//         background: '#EDEDED',
+//         color: '#8C8C8C',
+//     },
+// });
 
-    return (
-      <>
-          <Stack spacing={0} direction="row">
-              <BootstrapButton
-                type={type}
-                onClick={onClick}
-                disabled={disabled}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-                disableRipple>
-                  <img src={img}/>
-                  <p>{text}</p>
-                  {hover && (
-                    <div className={classes.buttonBackground}/>
-                  )}
-              </BootstrapButton>
-          </Stack>
-      </>
-    );
+const ButtonMui = ({
+                     text,
+                     padding,
+                     img,
+                     fontcolor,
+                     gap,
+                     fontSize,
+                     hoverbackground,
+                     margintop,
+                     borderradius,
+                     backgroundcolor,
+                     height,
+                     onClick,
+                     border,
+                     fontWeight,
+                     disabled,
+                     flexdirection,
+                     type,
+                   }: ButtonMuiProps) => {
+  const [hover, setHover] = useState(false);
+
+  return (
+    <Stack spacing={0} direction="row">
+      <BootstrapButton
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        disableRipple
+        flexdirection={flexdirection}
+        fontWeight={fontWeight}
+        border={border}
+        height={height}
+        borderradius={borderradius}
+        margintop={margintop}
+        hoverbackground={hoverbackground}
+        fontSize={fontSize}
+        fontcolor={fontcolor}
+        backgroundcolor={backgroundcolor}
+        gap={gap}
+        padding={padding}
+      >
+        <img src={img}/>
+        <p>{text}</p>
+        {hover && <div className={classes.buttonBackground}/>}
+      </BootstrapButton>
+    </Stack>
+  );
 };
 
-export default ButtonMui;
-
-
+export default memo(ButtonMui);

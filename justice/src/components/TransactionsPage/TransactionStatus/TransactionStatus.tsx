@@ -3,18 +3,18 @@ import classes from "../TransactionsPage.module.scss";
 import exchange from "../../../assets/image/ExchangeIcon.svg";
 
 
-interface transaction{
+interface transaction {
   exchangeValue: string,
-  time: number,
+  time: any,
   changeValue: string,
   currency: string,
-  plus: number,
-  currencyPlus: number,
+  plus: any,
+  currencyPlus: any,
   status: string,
   styles: any
 }
 
-const TransactionStatus:React.FC<transaction> = (props) => {
+const TransactionStatus: React.FC<transaction> = (props) => {
 
   const {
     exchangeValue,

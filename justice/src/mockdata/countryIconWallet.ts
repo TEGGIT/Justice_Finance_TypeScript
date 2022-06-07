@@ -5,7 +5,7 @@ import EUR from '../../src/assets/image/EUR.svg'
 import TRY from '../../src/assets/image/TRY.svg'
 
 
-export const countryIconWallet = {
+export const countryIconWallet: any = {
   RUB: RUB,
   USD: USD,
   CNY: CHY,

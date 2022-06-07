@@ -6,16 +6,16 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
-interface TypeSelectMui{
+interface TypeSelectMui {
   selectValue: any,
   handleChangeSelect: any,
   minWidth: string,
   name: string,
-  array: any
+  array: any[]
 }
 
 
-const SelectMui:React.FC<TypeSelectMui> = (props) => {
+const SelectMui: React.FC<TypeSelectMui> = (props) => {
   const {
     selectValue,
     handleChangeSelect,
@@ -35,8 +35,8 @@ const SelectMui:React.FC<TypeSelectMui> = (props) => {
           label="age"
           onChange={handleChangeSelect}
         >
-          {array && array.map((country:any) =>
-             <MenuItem
+          {array && array.map((country) =>
+            <MenuItem
               key={country.currency}
               value={country.currency}>
               <img
@@ -44,7 +44,6 @@ const SelectMui:React.FC<TypeSelectMui> = (props) => {
                 alt='Иконка'/>
               {country.currency}
             </MenuItem>
-
           )}
         </Select>
       </FormControl>

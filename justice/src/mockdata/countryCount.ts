@@ -1,4 +1,4 @@
-export const countryCount = {
+export const countryCount: any = {
   RUB: '₽',
   USD: '$',
   CNY: '¥',
