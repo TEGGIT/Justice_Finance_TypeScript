@@ -1,33 +1,23 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import {countryIcon} from "../../../mockdata/countryIcon";
-import {countryIconWallet} from "../../../mockdata/countryIconWallet";
-
+import React from "react";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 interface TypeSelectMui {
-  selectValue: any,
-  handleChangeSelect: any,
-  minWidth: string,
-  name: string,
-  array: any[]
+  selectValue: any;
+  handleChangeSelect: any;
+  minWidth: string;
+  name: string;
+  array: any[];
 }
 
-
 const SelectMui: React.FC<TypeSelectMui> = (props) => {
-  const {
-    selectValue,
-    handleChangeSelect,
-    minWidth,
-    name,
-    array
-  } = props
-  console.log('array', array)
+  const { selectValue, handleChangeSelect, minWidth, name, array } = props;
+  console.log("array", array);
   return (
-    <Box sx={{minWidth}}>
+    <Box sx={{ minWidth }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{name}</InputLabel>
         <Select
@@ -37,21 +27,17 @@ const SelectMui: React.FC<TypeSelectMui> = (props) => {
           label="age"
           onChange={handleChangeSelect}
         >
-          {array && array.map((country) =>
-            <MenuItem
-              key={country.currency}
-              value={country.currency}>
-              <img
-                src={country.icon}
-                alt='Иконка'/>
-              {country.currency}
-            </MenuItem>
-          )}
+          {array &&
+            array.map((country) => (
+              <MenuItem key={country.currency} value={country.currency}>
+                <img src={`./${country.currency}.svg`} alt="Иконка" />
+                {country.currency}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
     </Box>
   );
-
 };
 
 export default SelectMui;

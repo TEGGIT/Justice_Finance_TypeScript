@@ -1,6 +1,6 @@
 import React from "react";
 
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import ButtonMui from "../../MUI/Button/ButtonMui";
 
@@ -16,7 +16,7 @@ import Cookies from "js-cookie";
 
 const NavBarLinks = () => {
   const clear = () => {
-    Cookies.remove("TOKEN")
+    Cookies.remove("TOKEN");
   };
   const item = [
     {
@@ -54,7 +54,7 @@ const NavBarLinks = () => {
             <NavLink key={items.pass} to={`${items.pass}`}>
               <ButtonMui
                 text={items.text}
-                icon={items.icon}
+                icon={items.img}
                 padding="12px 0 12px 8px"
                 gap="8px"
                 backgroundcolor="#FFFFFF"
