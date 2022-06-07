@@ -5,8 +5,8 @@ import {countryIconWallet} from '../../../mockdata/countryIconWallet'
 
 
 interface WalletType {
-  onClick: () => void,
-  pointer: any,
+  onClick?: () => void,
+  pointer?: any,
   countryName: String,
   country: any,
   countryCounter: any,

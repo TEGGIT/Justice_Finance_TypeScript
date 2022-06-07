@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
@@ -8,11 +8,18 @@ import Input from "../UI/Input/Input";
 import classes from "./Profile.module.scss";
 
 import axios from "axios";
-// import Cookies from "js-cookie";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+import Cookies from "js-cookie";
+import {useActions} from "../../hooks/useAction";
 // import CustomizedSnackbars from "../MUI/Snackbar/Snackbar";
 
 const Profile = () => {
-  const [name, setName] = useState("");
+
+  const {users} = useTypedSelector(state => state.user)
+  const {FetchUser} = useActions()
+
+
+  const [name, setName] = useState(users[0]?.name);
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -25,6 +32,7 @@ const Profile = () => {
   const [isOldPassword, setIsOldPassword] = useState(true);
   const [isSnackBar, setIsSnackBar] = useState(false);
 
+
   const passwordChecker = () => {
     // if (password.password === oldPassword) {
     //   setIsOldPassword(false)
@@ -32,7 +40,10 @@ const Profile = () => {
     //   setIsOldPassword(true)
     // }
   };
+  useEffect(() => {
+    FetchUser()
 
+  }, [])
   const repeatsPassword = () => {
     if (password === repeatPassword) {
       setIsOldPassword(false);
@@ -51,19 +62,15 @@ const Profile = () => {
     }
   };
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:5000/api/wallets', {headers:{
-  //       Authorization: Cookies.get("TOKEN")
-  //     }
-  //   }).then((responce) => {
-  //     setEmail(responce.data[0].email)
-  //     setName(responce.data[0].name)
-  //     setCity(responce.data[0].city)
-  //     setBirthday(responce.data[0].birthday)
-  //     setNumber(responce.data[0].phoneNumber)
-  //   })
-  //
-  // },[])
+  useEffect(() => {
+    setEmail(users[0]?.email)
+    setName(users[0]?.name)
+    setCity(users[0]?.city)
+    setBirthday(users[0]?.birthday)
+    setNumber(users[0]?.phoneNumber)
+
+
+  }, [])
 
   // useEffect(() => {
   //   if (!isOldPassword && repeatPassword && password) {
@@ -82,17 +89,20 @@ const Profile = () => {
   }, [name, email]);
 
   const changeProfile = () => {
-    // axios.patch('http://localhost:5000/api/profile', {
-    //   name,
-    //   email,
-    //   city,
-    //   birthday,
-    //   phoneNumber: number,
-    // },{headers:{Authorization: Cookies.get("TOKEN")}},).then(() => {
-    // })
-    // setIsSnackBar(true)
-    //
-    // setUserName(name)
+
+    axios.patch('http://localhost:5000/api/profile', {
+      name,
+      email,
+      city,
+      birthday,
+      phoneNumber: number,
+    }, {
+      headers:
+        {Authorization: `${Cookies.get("TOKEN")}`}
+    },).then(() => {
+    })
+    setIsSnackBar(true)
+
   };
   const changePassword = () => {
     // axios.patch('http://localhost:5000/api/profile/changePassword', {
@@ -108,7 +118,7 @@ const Profile = () => {
 
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main_wrapper}>
         <div className={classes.main_wrapper__title}>
           <h1 className={classes.main_wrapper__title_text}>Мой профиль</h1>
@@ -228,7 +238,7 @@ const Profile = () => {
           </div>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
     </main>
   );
 };

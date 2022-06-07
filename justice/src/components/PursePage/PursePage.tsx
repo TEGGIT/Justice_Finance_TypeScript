@@ -22,6 +22,7 @@ import close from "../../assets/image/Close.svg";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {FetchWallets} from "../../store/action-creators/wallets";
 import {useActions} from "../../hooks/useAction";
+import Cookies from "js-cookie";
 
 const customStyles = {
   overlay: {
@@ -61,12 +62,9 @@ const PursePage = () => {
   }, [numberPurse, currency]);
 
 
-  useEffect(() => {
-    FetchWallets()
-  }, [])
-  console.log(wallets)
   const addPurse = () => {
-    const isFindWallet = wallets.find(wallet => wallet.currency === currency)
+
+    const isFindWallet = wallets?.find(wallet => wallet.currency === currency)
     if (isFindWallet) {
       setModalErrorIsOpen(true)
     } else {
@@ -82,9 +80,11 @@ const PursePage = () => {
           }]
       }, {
         headers: {
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRvbG1hY2hldi56aGVueWEwQGdtYWlsLmNvbSIsInVzZXJJZCI6IjYyOTg5Njk0OWVjZTFmNWMzYjkyNDkyNyIsImlhdCI6MTY1NDU5ODc1NywiZXhwIjoxNjU0NjAyMzU3fQ.8Trcmk63PnFzLNVuk1_ipfgy6VfCp-hlejytSeafnZw"
+          Authorization: `${Cookies.get("TOKEN")}`
         }
       },).then((responce) => {
+        FetchWallets()
+
       })
     }
   };

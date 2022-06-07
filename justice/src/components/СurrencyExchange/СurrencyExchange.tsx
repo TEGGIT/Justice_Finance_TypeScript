@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
 import axios from "axios";
 
@@ -68,13 +68,13 @@ const CurrencyExchange = () => {
     // setGiveValue('')
   };
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:5000/api/exchangeRates').then((responce) => {
-  //
-  //     setExchangeRates(responce.data[0].exchangeRates)
-  //
-  //   })
-  // }, [])
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/exchangeRates').then((responce) => {
+
+      setExchangeRates(responce.data[0].exchangeRates)
+
+    })
+  }, [])
 
   // useEffect(() => {
   //   const walletGive = walletsUser && walletsUser.filter(wallet => wallet.currency === give && wallet)
@@ -103,7 +103,7 @@ const CurrencyExchange = () => {
 
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main__wrapper}>
         <div className={classes.main__wrapper__title}>
           <h1 className={classes.main__wrapper__title_text}>Обмен валют</h1>
@@ -171,7 +171,7 @@ const CurrencyExchange = () => {
           </div>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
     </main>
   );
 };

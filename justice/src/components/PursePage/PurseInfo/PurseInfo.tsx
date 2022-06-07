@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 
 import NavBar from "../../NavBar/NavBar";
 import ProfileBar from "../../ProfileBar/ProfileBar";
@@ -10,7 +10,7 @@ import Input from "../../UI/Input/Input";
 
 // import Modal from 'react-modal';
 import axios from "axios";
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 import classes from "./PurseInfo.module.scss";
 
@@ -18,6 +18,7 @@ import arrowBack from "../../../assets/image/Back.svg";
 import banner from "../../../assets/image/Banner.png";
 import close from "../../../assets/image/Close.svg";
 import walletIcon from "../../../assets/image/WalletIcon.svg";
+import {useTypedSelector} from "../../../hooks/useTypesSelector";
 
 const PurseInfo = () => {
   const customStyles = {
@@ -49,42 +50,40 @@ const PurseInfo = () => {
   const [cvc, setCvc] = useState("");
   const [ownerCard, setOwnerCard] = useState("");
 
-  // const currentWallet =  walletsUser.find((wallet) => `#${wallet.currency}` === location.hash)
+
+  const {wallets} = useTypedSelector(state => state.wallets)
+
+  const currentWallet = wallets?.find((wallet) => `#${wallet.currency}` === location.hash)
 
   const deleteWallet = () => {
-    // const newWallets = walletsUser && walletsUser.filter(wallet => wallet.currency !== currentWallet.currency)
-    // axios.patch('http://localhost:5000/api/wallets/remove', {
-    //   wallets: newWallets,
-    //   id
-    // }, {
-    //   headers: {Authorization: Cookies.get("TOKEN")}
-    // },).then((res) => {
-    //   console.log('responce', res)
-    // })
-    // console.log('currentWallet', currentWallet)
-    // console.log('walletsUser', walletsUser)
-    // console.log('newWallets', newWallets)
-    //
-    // navigate("/purse-page", {replace: true});
+    const newWallets = wallets?.filter(wallet => wallet.currency !== currentWallet.currency)
+    axios.patch('http://localhost:5000/api/wallets/remove', {
+      wallets: newWallets,
+      id
+    }, {
+      headers: {Authorization: `${Cookies.get("TOKEN")}`}
+    },).then((res) => {
+    })
+    navigate("/purse-page", {replace: true});
   };
 
   const addSumWallet = () => {
-    // const newWalletStorage = walletsUser.map((wallet) => {
-    //   if (wallet.currency === currentWallet.currency)
-    //     wallet.sum = +currentWallet.sum + +sum
-    //   return wallet
-    // })
-    //
-    // axios.patch('http://localhost:5000/api/wallets/update', {
-    //   wallets: [
-    //     ...newWalletStorage
-    //   ]
-    // }, {
-    //   headers: {Authorization: Cookies.get("TOKEN")}},).then((res) => {
-    //   setWalletsUser(res.data.wallets)
-    //
-    // })
-    // setIsOpen(true)
+    const newWalletStorage = wallets?.map((wallet) => {
+      if (wallet.currency === currentWallet.currency)
+        wallet.sum = +currentWallet.sum + +sum
+      return wallet
+    })
+
+    axios.patch('http://localhost:5000/api/wallets/update', {
+      wallets: [
+        ...newWalletStorage
+      ]
+    }, {
+      headers: {Authorization: `${Cookies.get("TOKEN")}`}
+    },).then((res) => {
+
+    })
+    setIsOpen(true)
   };
 
   useEffect(() => {
@@ -96,18 +95,18 @@ const PurseInfo = () => {
   }, [sum, isDisabled, numberCard, date, cvc, ownerCard]);
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main_wrapper}>
         <div className={classes.main_wrapper__title}>
           <div className={classes.main_wrapper__title_purse_id}>
             <NavLink to="/purse-page">
-              <img src={arrowBack} alt="Назад" />
+              <img src={arrowBack} alt="Назад"/>
             </NavLink>
             <h1 className={classes.main_wrapper__title_text}>
-              {/*{currentWallet && currentWallet.currency}*/}
+              {currentWallet?.currency}
 
               <span className={classes.main_wrapper__title_text_number}>
-                {/*{`#${currentWallet && currentWallet.purseNumber}`}*/}
+                {`#${currentWallet?.purseNumber}`}
               </span>
             </h1>
           </div>
@@ -138,9 +137,11 @@ const PurseInfo = () => {
           />
         </div>
         <div className={classes.main_wrapper__purse}>
-          {/*<Wallet countryName={currentWallet && currentWallet.currency} country={currentWallet && currentWallet.currency}*/}
-          {/*        count={currentWallet && currentWallet.sum.toFixed(2)} countryCounter={currentWallet && currentWallet.currency}/>*/}
-          <img src={banner} alt="баннер" />
+          <Wallet countryName={currentWallet && currentWallet.currency}
+                  country={currentWallet && currentWallet.currency}
+                  count={currentWallet && currentWallet.sum.toFixed(2)}
+                  countryCounter={currentWallet && currentWallet.currency}/>
+          <img src={banner} alt="баннер"/>
         </div>
         <div className={classes.main_wrapper__replenishment}>
           <p className={classes.main_wrapper__replenishment_text}>Пополнение</p>
@@ -194,7 +195,7 @@ const PurseInfo = () => {
           </div>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
     </main>
   );
 };
