@@ -23,7 +23,7 @@ const TransactionsPage = () => {
         </div>
         <div className={classes.main__wrapper__columns}>
           <p className={classes.main__wrapper__columns_title_data}>
-            {data}.мая
+            {data}.июня
           </p>
 
           <p className={classes.main__wrapper__columns_title_give}>Обменяно</p>
