@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { NavLink, useNavigate } from "react-router-dom";
 
+import Cookies from "js-cookie";
+import axios from "axios";
+
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
@@ -11,8 +14,6 @@ import classes from "./LoginPage.module.scss";
 import image from "../../assets/image/IllustrationOne.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import Cookies from "js-cookie";
-import axios from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");

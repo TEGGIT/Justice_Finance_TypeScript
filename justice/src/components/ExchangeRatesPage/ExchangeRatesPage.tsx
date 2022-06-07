@@ -1,32 +1,37 @@
 import React, { useState, useEffect } from "react";
+
 import { NavLink } from "react-router-dom";
+
+import axios from "axios";
+
 import Charts from "./Chart/Chart";
 import SliderRate from "./SliderRate/SliderRate";
 import ButtonMui from "../MUI/Button/ButtonMui";
 import NavBar from "../NavBar/NavBar";
 import Input from "../UI/Input/Input";
 import ProfileBar from "../ProfileBar/ProfileBar";
+
+import { exchangeRates } from "../../types/exchangeRates";
 // import SlideButton from "../UI/SlideButton/SlideButton";
 import classes from "./ExchangeRatesPage.module.scss";
-import arrowButtonLeft from "../../assets/image/ArrowButtonLeft.svg";
-import arrowButtonRight from "../../assets/image/arrowButtonRight.svg";
+// import arrowButtonLeft from "../../assets/image/ArrowButtonLeft.svg";
+// import arrowButtonRight from "../../assets/image/arrowButtonRight.svg";
 import arrowUpMin from "../../assets/image/ArrowUpMin.svg";
-import axios from "axios";
 
 const ExchangeRatesPage = () => {
-  const [x, setX] = useState(0);
-  const [exchangeRates, setExchangeRates] = useState<any>([]);
-  const moveBlockLeft = () => {
-    // setX(x + 10)
-    // if (x === 0) setX(-30)
-  };
-  const moveBlockRight = () => {
-    // setX(x - 10)
-    // if (x === 10) setX(0)
-  };
+  // const [x, setX] = useState(0);
+  const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
+  // const moveBlockLeft = () => {
+  //   // setX(x + 10)
+  //   // if (x === 0) setX(-30)
+  // };
+  // const moveBlockRight = () => {
+  //   // setX(x - 10)
+  //   // if (x === 10) setX(0)
+  // };
   useEffect(() => {
-    axios.get("http://localhost:5000/api/exchangeRates").then((responce) => {
-      setExchangeRates(responce.data[0].exchangeRates);
+    axios.get("http://localhost:5000/api/exchangeRates").then((res) => {
+      setExchangeRates(res.data[0].exchangeRates);
     });
   }, []);
 
@@ -47,7 +52,7 @@ const ExchangeRatesPage = () => {
             {/*<SlideButton img={arrowButtonLeft} onClick={moveBlockLeft}/>*/}
 
             {exchangeRates
-              ?.map((slide: any) => (
+              ?.map((slide) => (
                 <SliderRate
                   key={slide.currencyName}
                   currency={slide.currencyName}
