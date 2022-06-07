@@ -71,6 +71,11 @@ const PurseInfo = () => {
     const newWalletStorage = wallets?.map((wallet) => {
       if (wallet.currency === currentWallet.currency)
         wallet.sum = +currentWallet.sum + +sum
+      setSum('')
+      setNumberCard('')
+      setDate('')
+      setCvc('')
+      setOwnerCard('')
       return wallet
     })
 
@@ -176,7 +181,7 @@ const PurseInfo = () => {
             />
             <Input
               placeholder="Владелец карты"
-              type="number"
+              type="text"
               className={classes.main_wrapper__replenishment_wrapper_input}
               value={ownerCard}
               onChange={(e) => setOwnerCard(e.target.value)}

@@ -14,9 +14,7 @@ export const FetchUser = () => {
           Authorization: `${Cookies.get("TOKEN")}`
         }
       })
-      setTimeout(() => {
-        dispatch({type: UsersActionTypes.FETCH_USERS_SUCCESS, payload: response.data})
-      }, 500)
+      dispatch({type: UsersActionTypes.FETCH_USERS_SUCCESS, payload: response.data})
     } catch (e) {
       dispatch({
         type: UsersActionTypes.FETCH_USERS_ERROR,

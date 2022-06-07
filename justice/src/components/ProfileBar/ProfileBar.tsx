@@ -13,11 +13,12 @@ import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {useActions} from "../../hooks/useAction";
+import Cookies from "js-cookie";
 
 const ProfileBar = () => {
   const navigate = useNavigate();
   const {FetchUser, FetchWallets} = useActions()
-  const {users} = useTypedSelector(state => state.user)
+  const {users, loading} = useTypedSelector(state => state.user)
   const {wallets} = useTypedSelector(state => state.wallets)
 
   const [x, setX] = useState(0);
@@ -37,14 +38,24 @@ const ProfileBar = () => {
     FetchWallets()
   }, [])
 
+
   const transaction = users[0]?.transaction
+
   return (
     <div className={classes.profile}>
       <div className={classes.profile_wrapper}>
         <div className={classes.profile_wrapper__avatar}>
           <img src={avatar} alt="аватар"/>
           <p className={classes.profile_wrapper__avatar_name}>
-            {users[0]?.name}
+            {loading ? (
+              <>
+                <p style={{fontWeight: '600'}}>Загрузка...</p>
+              </>
+            ) : (
+              <>
+                {users[0]?.name}
+              </>
+            )}
           </p>
         </div>
         <div className={classes.profile_wrapper__balance}>

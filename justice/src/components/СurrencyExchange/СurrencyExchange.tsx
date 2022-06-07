@@ -21,6 +21,7 @@ const CurrencyExchange = () => {
   const [giveValue, setGiveValue]: any = useState("");
   const [getValue, setGetValue] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabledError, setIsDisabledError] = useState(false)
   const [exchangeRates, setExchangeRates]: any[] = useState([]);
 
   const {users} = useTypedSelector(state => state.user)
@@ -30,8 +31,17 @@ const CurrencyExchange = () => {
   const Data = new Date();
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
-  const addTransaction = () => {
 
+
+  useEffect(() => {
+    if (get === give && get.length && give.length) {
+      setIsDisabledError(true)
+    } else {
+      setIsDisabledError(false)
+    }
+  }, [get, give, isDisabledError])
+
+  const addTransaction = () => {
     const refreshWalletSum = wallets?.map(item => {
       if (item.currency === give) {
         return {
@@ -47,6 +57,7 @@ const CurrencyExchange = () => {
       }
       return item
     })
+
     setIsDisabled(true)
 
     axios.patch('http://localhost:5000/api/wallets/update', {
@@ -55,7 +66,7 @@ const CurrencyExchange = () => {
       ]
     }, {
       headers: {Authorization: `${Cookies.get("TOKEN")}`}
-    },).then((res) => {
+    },).then(() => {
       FetchWallets()
     })
 
@@ -76,6 +87,7 @@ const CurrencyExchange = () => {
     })
     setGiveValue('')
   };
+
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/exchangeRates').then((responce) => {
@@ -163,20 +175,46 @@ const CurrencyExchange = () => {
             )}
           </div>
           <div className={classes.main__wrapper__content__exchange}>
-            <ButtonMui
-              text="Обменять"
-              img={exchange}
-              backgroundcolor="#363636"
-              padding="16px"
-              gap="8px"
-              fontcolor="#FFFFFF"
-              fontWeight="600"
-              fontSize="16px"
-              hoverbackground="#363636"
-              disabled={isDisabled}
-              flexdirection="row-reverse"
-              onClick={addTransaction}
-            />
+            {!isDisabledError ? (
+              <>
+                <ButtonMui
+                  text="Обменять"
+                  img={exchange}
+                  backgroundcolor="#363636"
+                  padding="16px"
+                  gap="8px"
+                  fontcolor="#FFFFFF"
+                  fontWeight="600"
+                  fontSize="16px"
+                  hoverbackground="#363636"
+                  disabled={isDisabled}
+                  flexdirection="row-reverse"
+                  onClick={addTransaction}
+                />
+              </>
+            ) : (
+              <>
+                <div className={classes.button_error}>
+                  <ButtonMui
+                    text="Обменять"
+                    img={exchange}
+                    backgroundcolor="#A52800"
+                    padding="16px"
+                    gap="8px"
+                    fontcolor="#FFFFFF"
+                    fontWeight="600"
+                    fontSize="16px"
+                    hoverbackground="#A52800"
+                    flexdirection="row-reverse"
+                    onClick={() => {
+                    }}
+                  />
+                  <p style={{color: 'red'}}>Вы не можете обменять одинаковую валюту</p>
+                </div>
+              </>
+            )}
+
+
           </div>
         </div>
       </section>
