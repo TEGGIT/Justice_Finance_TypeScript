@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Input from "../UI/Input/Input";
@@ -11,6 +11,8 @@ import classes from "./LoginPage.module.scss";
 import image from "../../assets/image/IllustrationOne.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -23,16 +25,14 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const checkUser = () => {
-    // axios.post('http://localhost:5000/api/auth/login-page', {
-    //     email,
-    //     password,
-    // }).then((responce) => {
-    //     setIsAuth(responce.data)
-    //     Cookies.set("TOKEN", responce.data.token)
-    //     navigate("/exchange-rates-page", {replace: true});
-    //     onLogin()
-    //
-    // })
+    axios.post('http://localhost:5000/api/auth/login-page', {
+      email,
+      password,
+    }).then((responce) => {
+      Cookies.set("TOKEN", responce.data.token)
+      navigate("/exchange-rates-page", {replace: true});
+
+    })
   };
   const checkEmail = () => {
     const emailChecker = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
@@ -123,9 +123,9 @@ const LoginPage = () => {
               </div>
             </div>
             <div className={classes.line_wrapper}>
-              <div className={classes.line} />
+              <div className={classes.line}/>
               <p className={classes.line__text}>Or</p>
-              <div className={classes.line} />
+              <div className={classes.line}/>
             </div>
             <div className={classes.input_wrapper}>
               {isEmailError ? (
@@ -168,7 +168,7 @@ const LoginPage = () => {
               )}
 
               <div className={classes.checkbox}>
-                <CheckBox onChange={handleChange} checked={checked} />
+                <CheckBox onChange={handleChange} checked={checked}/>
                 <p>Запомнить меня</p>
               </div>
             </div>
@@ -215,7 +215,7 @@ const LoginPage = () => {
           <p className={classes.text_regular}>Finance</p>
         </NavLink>
         <div className={classes.main__image_wrapper}>
-          <img src={image} alt="SignUp" />
+          <img src={image} alt="SignUp"/>
         </div>
       </div>
     </main>

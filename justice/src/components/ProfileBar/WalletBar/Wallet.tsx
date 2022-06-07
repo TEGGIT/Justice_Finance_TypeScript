@@ -1,21 +1,19 @@
 import React from 'react';
 import classes from './Wallet.module.scss'
 import {countryCount} from '../../../mockdata/countryCount'
-import {countryIcon} from '../../../mockdata/countryIcon'
+import {countryIconWallet} from '../../../mockdata/countryIconWallet'
 
 
-interface WalletType{
+interface WalletType {
   onClick: () => void,
   pointer: any,
   countryName: String,
   country: any,
   countryCounter: any,
-  count: any
-
-
+  count: any,
 }
 
-const Wallet:React.FC<WalletType> = (props) => {
+const Wallet: React.FC<WalletType> = (props) => {
   const {
     onClick,
     pointer,
@@ -26,19 +24,16 @@ const Wallet:React.FC<WalletType> = (props) => {
 
   } = props
 
-  // @ts-ignore
   return (
-    <>
-    </>
-    // <div className={classes.wallet} onClick={onClick} style={pointer}>
-    //   <div className={classes.wallet_top}>
-    //     <p>{countryName}</p>
-    //     <img src={countryIcon[`${country}`]} alt="Иконка страны"/>
-    //   </div>
-    //   <div className={classes.wallet_bottom}>
-    //     <p>{count} {countryCount[`${countryCounter}`]}</p>
-    //   </div>
-    // </div>
+    <div className={classes.wallet} onClick={onClick} style={pointer}>
+      <div className={classes.wallet_top}>
+        <p>{countryName}</p>
+        <img src={countryIconWallet[`${country}`]} alt="Иконка страны"/>
+      </div>
+      <div className={classes.wallet_bottom}>
+        <p>{count} {countryCount[`${countryCounter}`]}</p>
+      </div>
+    </div>
   );
 };
 

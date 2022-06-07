@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 // import Modal from 'react-modal';
 import axios from "axios";
@@ -14,11 +14,14 @@ import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
 
 import classes from "./PursePage.module.scss";
-import { countryIcon } from "../../mockdata/countryIcon";
+import {countryIcon} from "../../mockdata/countryIcon";
 
 import wallet from "../../assets/image/wallet.svg";
 import walletIcon from "../../assets/image/WalletIcon.svg";
 import close from "../../assets/image/Close.svg";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+import {FetchWallets} from "../../store/action-creators/wallets";
+import {useActions} from "../../hooks/useAction";
 
 const customStyles = {
   overlay: {
@@ -46,6 +49,9 @@ const PursePage = () => {
   const [isDisabledBtn, setIsDisabledBtn] = useState(true);
   const navigate = useNavigate();
 
+  const {wallets} = useTypedSelector(state => state.wallets)
+  const {FetchWallets} = useActions()
+
   useEffect(() => {
     if (!numberPurse || !currency) {
       setIsDisabledBtn(true);
@@ -54,28 +60,33 @@ const PursePage = () => {
     }
   }, [numberPurse, currency]);
 
+
+  useEffect(() => {
+    FetchWallets()
+  }, [])
+  console.log(wallets)
   const addPurse = () => {
-    // const isFindWallet = walletsUser.find(wallet => wallet.currency === currency)
-    // if (isFindWallet) {
-    //   setModalErrorIsOpen(true)
-    // } else {
-    //   setIsOpen(true)
-    //
-    //   axios.patch('http://localhost:5000/api/wallets/create', {
-    //     wallets:[
-    //         ...walletsUser,
-    //       {
-    //       currency,
-    //       purseNumber:numberPurse,
-    //       sum: 0
-    //     }]
-    //   },{headers:{
-    //       Authorization: Cookies.get("TOKEN")
-    //     }
-    //   },).then((responce) => {
-    //     setWalletsUser(responce.data.wallets)
-    //   })
-    // }
+    const isFindWallet = wallets.find(wallet => wallet.currency === currency)
+    if (isFindWallet) {
+      setModalErrorIsOpen(true)
+    } else {
+      setIsOpen(true)
+
+      axios.patch('http://localhost:5000/api/wallets/create', {
+        wallets: [
+          ...wallets,
+          {
+            currency,
+            purseNumber: numberPurse,
+            sum: 0
+          }]
+      }, {
+        headers: {
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRvbG1hY2hldi56aGVueWEwQGdtYWlsLmNvbSIsInVzZXJJZCI6IjYyOTg5Njk0OWVjZTFmNWMzYjkyNDkyNyIsImlhdCI6MTY1NDU5ODc1NywiZXhwIjoxNjU0NjAyMzU3fQ.8Trcmk63PnFzLNVuk1_ipfgy6VfCp-hlejytSeafnZw"
+        }
+      },).then((responce) => {
+      })
+    }
   };
   useEffect(() => {
     if (modalIsOpen) {
@@ -83,6 +94,7 @@ const PursePage = () => {
         setIsOpen(false);
       }, 3000);
     }
+
   }, [modalIsOpen]);
 
   useEffect(() => {
@@ -93,55 +105,44 @@ const PursePage = () => {
     }
   });
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:5000/api/wallets', {headers:{
-  //       Authorization: Cookies.get("TOKEN")
-  //     }
-  //   }).then((responce) => {
-  //     setWalletsUser(responce.data[0].wallets)
-  //   })
-  //
-  // }, [])
   const handleChange = (event: any) => {
     setСurrency(event.target.value);
   };
 
-  // const walletLink = (wallet) => {
-  //   navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
-  // }
+  const walletLink = (wallet: { currency: any; }) => {
+    navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
+  }
 
-  console.log(countryIcon);
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main__wrapper}>
         <div className={classes.main__wrapper__title}>
           <h1 className={classes.main__wrapper__title_text}>Кошельки</h1>
         </div>
 
-        {/*{walletsUser.length > 0 ? (*/}
-        {/*  <div className={classes.main__wrapper__wallet_container__wallets}>*/}
-        {/*    {walletsUser.map((wallet) => (*/}
-        {/*      <Wallet*/}
-        {/*        pointer={{cursor: 'pointer'}}*/}
-        {/*        key={wallet.currency}*/}
-        {/*        countryName={wallet.currency}*/}
-        {/*        country={wallet.currency}*/}
-        {/*        count={wallet.sum.toFixed(2)}*/}
-        {/*        countryCount={wallet.currency}*/}
-        {/*        countryCounter={wallet.currency}*/}
-        {/*        onClick={() => walletLink(wallet)}*/}
-        {/*      />*/}
-        {/*    ))}*/}
-        {/*  </div>*/}
-        {/*) : (*/}
-        <div className={classes.main__wrapper__wallet_container}>
-          <img src={wallet} alt="Кошелек" />
-          <p className={classes.main__wrapper__title_wallet}>
-            На данный момент у вас не созданно ни одного кошелька
-          </p>
-        </div>
-        {/*)}*/}
+        {wallets.length > 0 ? (
+          <div className={classes.main__wrapper__wallet_container__wallets}>
+            {wallets.map((wallet) => (
+              <Wallet
+                pointer={{cursor: 'pointer'}}
+                key={wallet.currency}
+                countryName={wallet.currency}
+                country={wallet.currency}
+                count={wallet.sum.toFixed(2)}
+                countryCounter={wallet.currency}
+                onClick={() => walletLink(wallet)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className={classes.main__wrapper__wallet_container}>
+            <img src={wallet} alt="Кошелек"/>
+            <p className={classes.main__wrapper__title_wallet}>
+              На данный момент у вас не созданно ни одного кошелька
+            </p>
+          </div>
+        )}
 
         <div className={classes.main__wrapper__wallet_container__add}>
           <div className={classes.main__wrapper__wallet_container__add_title}>
@@ -192,7 +193,7 @@ const PursePage = () => {
           </div>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
     </main>
   );
 };

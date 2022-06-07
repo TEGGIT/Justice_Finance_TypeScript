@@ -13,21 +13,21 @@ import {FetchUser} from "../../store/action-creators/user";
 import {useActions} from "../../hooks/useAction";
 
 const MainPage = () => {
-  const {users, error, loading} = useTypedSelector(state => state.user)
-  const {wallets} = useTypedSelector(state => state.wallets)
-  const {FetchUser} = useActions()
-
-  useEffect(() => {
-    // @ts-ignore
-    FetchUser()
-  }, [])
-  if (loading) {
-    return <h1>Идет загрузка...</h1>
-
-  }
-  if (error) {
-    return <h1>{error}</h1>
-  }
+  // const {users, error, loading} = useTypedSelector(state => state.user)
+  // const {wallets} = useTypedSelector(state => state.wallets)
+  // const {FetchUser, FetchWallets} = useActions()
+  //
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   FetchWallets()
+  // }, [])
+  // if (loading) {
+  //   return <h1>Идет загрузка...</h1>
+  // }
+  // // console.log(wallets)
+  // if (error) {
+  //   return <h1>{error}</h1>
+  // }
   return (
     <div className={classes.background} style={{backgroundImage: `url(${background})`}}>
       <Header/>

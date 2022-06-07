@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import {NavLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
@@ -11,6 +11,7 @@ import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
+import axios from "axios";
 
 const RegisterPage = () => {
   const [checked, setChecked] = React.useState<boolean>(false);
@@ -62,14 +63,12 @@ const RegisterPage = () => {
   };
 
   const registration = () => {
-    // axios.post('http://localhost:5000/api/auth/register-page', {
-    //   "name": name,
-    //   "email": email,
-    //   "password": password
-    // }).then((responce) => {
-    //   console.log(responce.data)
-    // })
-    // navigate("/login-page", {replace: true});
+    axios.post('http://localhost:5000/api/auth/register-page', {
+      "name": name,
+      "email": email,
+      "password": password
+    })
+    navigate("/login-page", {replace: true});
   };
 
   useEffect(() => {
@@ -145,9 +144,9 @@ const RegisterPage = () => {
             </div>
             <div></div>
             <div className={classes.line_wrapper}>
-              <div className={classes.line} />
+              <div className={classes.line}/>
               <p className={classes.line__text}>Or</p>
-              <div className={classes.line} />
+              <div className={classes.line}/>
             </div>
             <div className={classes.input_wrapper}>
               {nameError ? (
@@ -290,7 +289,7 @@ const RegisterPage = () => {
           <p className={classes.text_regular}>Finance</p>
         </NavLink>
         <div className={classes.main__image_wrapper}>
-          <img src={image} alt="Register" />
+          <img src={image} alt="Register"/>
         </div>
       </div>
     </main>
