@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // import Modal from 'react-modal';
 import axios from "axios";
-// import Cookies from "js-cookie";
 
 import Input from "../UI/Input/Input";
 import Select from "../MUI/Select/Select";
@@ -14,17 +13,15 @@ import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
 
 import classes from "./PursePage.module.scss";
-import {countryIcon} from "../../mockdata/countryIcon";
+import { countryIcon } from "../../mockdata/countryIcon";
 
 import wallet from "../../assets/image/wallet.svg";
-import walletIcon from "../../assets/image/WalletIcon.svg";
 import close from "../../assets/image/Close.svg";
-import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {FetchWallets} from "../../store/action-creators/wallets";
-import {useActions} from "../../hooks/useAction";
+import { useTypedSelector } from "../../hooks/useTypesSelector";
+import { FetchWallets } from "../../store/action-creators/wallets";
+import { useActions } from "../../hooks/useAction";
 import Cookies from "js-cookie";
-import {countryIconWallet} from "../../mockdata/countryIconWallet";
-import RUB from "../../assets/icon/RUB.svg";
+import { SelectChangeEvent } from "@mui/material";
 
 const customStyles = {
   overlay: {
@@ -44,18 +41,18 @@ const customStyles = {
   },
 };
 
-export type CurrencyType = 'USD' | 'TRY' | 'EUR' | 'CNY' | 'RUB';
+export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB" | "";
 
 const PursePage = () => {
   const [modalIsOpen, setIsOpen] = React.useState<boolean>(false);
   const [modalErrorIsOpen, setModalErrorIsOpen] = React.useState(false);
-  const [currency, setCurrency] = React.useState<CurrencyType>();
-  const [numberPurse, setNumberPurse] = useState("");
-  const [isDisabledBtn, setIsDisabledBtn] = useState(true);
+  const [currency, setCurrency] = useState<CurrencyType>();
+  const [numberPurse, setNumberPurse] = useState<number>();
+  const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  const {wallets} = useTypedSelector(state => state.wallets)
-  const {FetchWallets} = useActions()
+  const { wallets } = useTypedSelector((state) => state.wallets) ?? {};
+  const { FetchWallets } = useActions();
 
   useEffect(() => {
     if (!numberPurse || !currency) {
@@ -64,40 +61,47 @@ const PursePage = () => {
       setIsDisabledBtn(false);
     }
   }, [numberPurse, currency]);
+  console.log(currency);
 
   const addPurse = () => {
-
-    const isFindWallet = wallets?.find(wallet => wallet.currency === currency)
+    const isFindWallet = wallets?.find(
+      (wallet) => wallet.currency === currency
+    );
     if (isFindWallet) {
-      setModalErrorIsOpen(true)
+      setModalErrorIsOpen(true);
     } else {
-      setIsOpen(true)
+      setIsOpen(true);
 
-      axios.patch('http://localhost:5000/api/wallets/create', {
-        wallets: [
-          ...wallets,
+      axios
+        .patch(
+          "http://localhost:5000/api/wallets/create",
           {
-            currency,
-            purseNumber: numberPurse,
-            sum: 0
-          }]
-      }, {
-        headers: {
-          Authorization: `${Cookies.get("TOKEN")}`
-        }
-      },).then(() => {
-        FetchWallets()
-      })
+            wallets: [
+              ...wallets,
+              {
+                currency,
+                purseNumber: numberPurse,
+                sum: 0,
+              },
+            ],
+          },
+          {
+            headers: {
+              Authorization: `${Cookies.get("TOKEN")}`,
+            },
+          }
+        )
+        .then(() => {
+          FetchWallets();
+        });
     }
   };
-  console.log(wallets)
   useEffect(() => {
     if (modalIsOpen) {
       setTimeout(() => {
         setIsOpen(false);
       }, 3000);
     }
-
   }, [modalIsOpen]);
 
   useEffect(() => {
@@ -108,17 +112,17 @@ const PursePage = () => {
     }
   });
 
-  const handleChange = (event: CurrencyType) => {
-    setCurrency(event);
+  const handleChange = (event: SelectChangeEvent<CurrencyType>) => {
+    setCurrency(event.target.value as CurrencyType);
   };
 
-  const walletLink = (wallet: { currency: any; }) => {
-    navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
-  }
+  const walletLink = (wallet: { currency: any }) => {
+    navigate(`/purse-info-page/#${wallet.currency}`, { replace: true });
+  };
 
   return (
     <main className={classes.main}>
-      <NavBar/>
+      <NavBar />
       <section className={classes.main__wrapper}>
         <div className={classes.main__wrapper__title}>
           <h1 className={classes.main__wrapper__title_text}>Кошельки</h1>
@@ -126,10 +130,10 @@ const PursePage = () => {
 
         {wallets.length > 0 ? (
           <div className={classes.main__wrapper__wallet_container__wallets}>
-            {wallets.map((wallet) => (
+            {wallets.map((wallet, index) => (
               <Wallet
-                pointer={{cursor: 'pointer'}}
-                key={wallet.currency}
+                pointer={{ cursor: "pointer" }}
+                key={index}
                 countryName={wallet.currency}
                 country={wallet.currency}
                 count={wallet.sum.toFixed(2)}
@@ -140,7 +144,7 @@ const PursePage = () => {
           </div>
         ) : (
           <div className={classes.main__wrapper__wallet_container}>
-            <img src={wallet} alt="Кошелек"/>
+            <img src={wallet} alt="Кошелек" />
             <p className={classes.main__wrapper__title_wallet}>
               На данный момент у вас не созданно ни одного кошелька
             </p>
@@ -179,7 +183,7 @@ const PursePage = () => {
               }
               value={numberPurse}
               onChange={(e) => {
-                setNumberPurse(e.target.value);
+                setNumberPurse(e.target.valueAsNumber);
               }}
             />
             <ButtonMui
@@ -196,7 +200,7 @@ const PursePage = () => {
           </div>
         </div>
       </section>
-      <ProfileBar/>
+      <ProfileBar />
     </main>
   );
 };

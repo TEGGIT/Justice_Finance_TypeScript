@@ -27,7 +27,7 @@ interface ButtonMuiProps extends ButtonMuiStyleProps {
   icon?: string;
   onClick?: () => void;
   disabled?: boolean;
-  type?: any;
+  type?: string;
 }
 
 const BootstrapButton = styled(Button)<ButtonMuiStyleProps>`

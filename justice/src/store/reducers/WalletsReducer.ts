@@ -1,13 +1,13 @@
-import {WalletsAction, WalletsActionTypes} from "../../types/wallets";
-import {CurrencyType} from "../../components/PursePage/PursePage";
+import { WalletsAction, WalletsActionTypes } from "../../types/wallets";
+import { CurrencyType } from "../../components/PursePage/PursePage";
 
-type WalletsType = {
-  currency: CurrencyType
-  purseNumber: number
-  sum: number
-}
+export type WalletsType = {
+  currency: CurrencyType;
+  purseNumber: number;
+  sum: number;
+};
 
-interface WalletsState {
+export interface WalletsState {
   wallets: WalletsType[];
   loading: boolean;
   error: null | string;
@@ -16,19 +16,21 @@ interface WalletsState {
 const initialState: WalletsState = {
   wallets: [],
   error: null,
-  loading: false
-}
+  loading: false,
+};
 
-export const walletsReducer = (state = initialState, action: WalletsAction): WalletsState => {
+export const walletsReducer = (
+  state = initialState,
+  action: WalletsAction
+): WalletsState => {
   switch (action.type) {
     case WalletsActionTypes.FETCH_WALLETS:
-      return {...state, loading: true}
+      return { ...state, loading: true };
     case WalletsActionTypes.FETCH_WALLETS_SUCCESS:
-      return {...state, loading: false, wallets: action.payload}
+      return { ...state, loading: false, wallets: action.payload };
     case WalletsActionTypes.FETCH_WALLETS_ERROR:
-      return {...state, loading: false, error: action.payload}
+      return { ...state, loading: false, error: action.payload };
     default:
-      return state
-
+      return state;
   }
-}
+};

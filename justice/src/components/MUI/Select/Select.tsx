@@ -4,18 +4,23 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { CurrencyType } from "../../PursePage/PursePage";
+import { SelectChangeEvent } from "@mui/material";
+
+type ArrayType = {
+  currency: CurrencyType;
+};
 
 interface TypeSelectMui {
   selectValue: any;
-  handleChangeSelect: any;
+  handleChangeSelect: (event: SelectChangeEvent<CurrencyType>) => void;
   minWidth: string;
   name: string;
-  array: any[];
+  array: ArrayType[];
 }
 
 const SelectMui: React.FC<TypeSelectMui> = (props) => {
   const { selectValue, handleChangeSelect, minWidth, name, array } = props;
-  console.log("array", array);
   return (
     <Box sx={{ minWidth }}>
       <FormControl fullWidth>

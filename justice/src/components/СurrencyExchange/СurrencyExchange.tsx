@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
@@ -11,9 +11,10 @@ import ButtonMui from "../MUI/Button/ButtonMui";
 import classes from "./СurrencyExchange.module.scss";
 
 import exchange from "../../assets/image/exchange.svg";
-import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {useActions} from "../../hooks/useAction";
+import { useTypedSelector } from "../../hooks/useTypesSelector";
+import { useActions } from "../../hooks/useAction";
 import Cookies from "js-cookie";
+import { CurrencyType } from "../PursePage/PursePage";
 
 const CurrencyExchange = () => {
   const [give, setGive] = React.useState("");
@@ -21,109 +22,113 @@ const CurrencyExchange = () => {
   const [giveValue, setGiveValue]: any = useState("");
   const [getValue, setGetValue] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isDisabledError, setIsDisabledError] = useState(false)
+  const [isDisabledError, setIsDisabledError] = useState(false);
   const [exchangeRates, setExchangeRates]: any[] = useState([]);
 
-  const {users} = useTypedSelector(state => state.user)
-  const {wallets} = useTypedSelector(state => state.wallets)
-  const {FetchWallets, FetchUser} = useActions()
+  const { users } = useTypedSelector((state) => state.user);
+  const { wallets } = useTypedSelector((state) => state.wallets);
+  const { FetchWallets, FetchUser } = useActions();
   const Data = new Date();
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
 
-
   useEffect(() => {
     if (get === give && get.length && give.length) {
-      setIsDisabledError(true)
+      setIsDisabledError(true);
     } else {
-      setIsDisabledError(false)
+      setIsDisabledError(false);
     }
-  }, [get, give, isDisabledError])
+  }, [get, give, isDisabledError]);
 
   const addTransaction = () => {
-    const refreshWalletSum = wallets?.map(item => {
+    const refreshWalletSum = wallets.map((item) => {
       if (item.currency === give) {
         return {
           ...item,
-          sum: item.sum - giveValue
-        }
+          sum: item.sum - giveValue,
+        };
       }
       if (item.currency === get) {
         return {
           ...item,
-          sum: item.sum + +getValue
-        }
+          sum: item.sum + +getValue,
+        };
       }
-      return item
-    })
+      return item;
+    });
 
-    setIsDisabled(true)
+    setIsDisabled(true);
 
-    axios.patch('http://localhost:5000/api/wallets/update', {
-      wallets: [
-        ...refreshWalletSum
-      ]
-    }, {
-      headers: {Authorization: `${Cookies.get("TOKEN")}`}
-    },).then(() => {
-      FetchWallets()
-    })
-
-    axios.patch('http://localhost:5000/api/transaction', {
-      transaction: [
-        ...users[0].transaction,
+    axios
+      .patch(
+        "http://localhost:5000/api/wallets/update",
         {
-          get,
-          Hour,
-          Minutes,
-          give,
-          giveValue,
-          getValue
+          wallets: [...refreshWalletSum],
+        },
+        {
+          headers: { Authorization: `${Cookies.get("TOKEN")}` },
         }
-      ]
-    }, {headers: {Authorization: `${Cookies.get("TOKEN")}`}},).then((res) => {
-      FetchUser()
-    })
-    setGiveValue('')
+      )
+      .then(() => {
+        FetchWallets();
+      });
+
+    axios
+      .patch(
+        "http://localhost:5000/api/transaction",
+        {
+          transaction: [
+            ...users[0].transaction,
+            {
+              get,
+              Hour,
+              Minutes,
+              give,
+              giveValue,
+              getValue,
+            },
+          ],
+        },
+        { headers: { Authorization: `${Cookies.get("TOKEN")}` } }
+      )
+      .then((res) => {
+        FetchUser();
+      });
+    setGiveValue("");
   };
 
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/exchangeRates").then((responce) => {
+      setExchangeRates(responce.data[0].exchangeRates);
+    });
+  }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/exchangeRates').then((responce) => {
-
-      setExchangeRates(responce.data[0].exchangeRates)
-
-    })
-  }, [])
-
-  useEffect(() => {
-    const walletGive = wallets?.filter(wallet => wallet.currency === give && wallet)
-    walletGive.length && (giveValue > walletGive[0].sum
-    ||
-    Boolean(!get)
-    ||
-    Boolean(!give)
-    ||
-    Boolean(!giveValue)
-      ?
-      setIsDisabled(true) : setIsDisabled(false))
+    const walletGive = wallets?.filter(
+      (wallet) => wallet.currency === give && wallet
+    );
+    walletGive.length &&
+      (giveValue > walletGive[0].sum ||
+      Boolean(!get) ||
+      Boolean(!give) ||
+      Boolean(!giveValue)
+        ? setIsDisabled(true)
+        : setIsDisabled(false));
     exchangeRates?.map((input: any) => {
-      walletGive.length
-      &&
-      walletGive[0].currency === input.currencyName
-      &&
-      exchangeRates?.map((output: any) => {
-        get === output.currencyName
-        &&
-        setGetValue(((input.rubleRatio * giveValue) / output.rubleRatio).toFixed(2))
-      })
-    })
-
-  }, [giveValue, getValue, get, give, isDisabled])
+      walletGive.length &&
+        walletGive[0].currency === input.currencyName &&
+        exchangeRates?.map((output: any) => {
+          get === output.currencyName &&
+            setGetValue(
+              ((input.rubleRatio * giveValue) / output.rubleRatio).toFixed(2)
+            );
+        });
+    });
+  }, [giveValue, getValue, get, give, isDisabled]);
 
   return (
     <main className={classes.main}>
-      <NavBar/>
+      <NavBar />
       <section className={classes.main__wrapper}>
         <div className={classes.main__wrapper__title}>
           <h1 className={classes.main__wrapper__title_text}>Обмен валют</h1>
@@ -205,19 +210,18 @@ const CurrencyExchange = () => {
                     fontSize="16px"
                     hoverbackground="#A52800"
                     direction="row-reverse"
-                    onClick={() => {
-                    }}
+                    onClick={() => {}}
                   />
-                  <p style={{color: 'red'}}>Вы не можете обменять одинаковую валюту</p>
+                  <p style={{ color: "red" }}>
+                    Вы не можете обменять одинаковую валюту
+                  </p>
                 </div>
               </>
             )}
-
-
           </div>
         </div>
       </section>
-      <ProfileBar/>
+      <ProfileBar />
     </main>
   );
 };
