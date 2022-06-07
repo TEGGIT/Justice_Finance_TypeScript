@@ -9,7 +9,7 @@ const Chart = () => {
     data: [82, 83, 82.75, 83.50, 82.70, 84, 82.95, 83.50]
   }]
 
-  const options:any = {
+  const options: any = {
 
     chart: {
       height: 350,
@@ -43,11 +43,11 @@ const Chart = () => {
     }
   }
   return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="area"
-        height={350}/>
+    <ReactApexChart
+      options={options}
+      series={series}
+      type="area"
+      height={350}/>
   );
 };
 

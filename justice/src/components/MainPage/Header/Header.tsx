@@ -2,7 +2,7 @@ import React from "react";
 
 import ButtonMui from "../../MUI/Button/ButtonMui";
 import styles from "./Header.module.scss";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 const Header = () => {
   return (
@@ -19,7 +19,7 @@ const Header = () => {
               text="Войти"
               padding="12px 24px"
               backgroundColor="#363636"
-              color="#FFFFFF"
+              fontColor="#FFFFFF"
               fontSize="12px"
               hoverBackground="#363636"
               borderRadius="none"
