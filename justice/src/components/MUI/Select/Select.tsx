@@ -14,6 +14,9 @@ type ArrayType = {
 };
 
 interface TypeSelectMui {
+  /*
+  // TODO Добавить тип//
+*/
   selectValue: any;
   handleChangeSelect: (event: SelectChangeEvent<CurrencyType>) => void;
   minWidth: string;

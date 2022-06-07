@@ -1,7 +1,8 @@
-import React from 'react';
-import classes from './NavBar.module.scss'
+import React from "react";
 
-import NavBarLinks from './NavBarLinks/NavBarLinks';
+import NavBarLinks from "./NavBarLinks/NavBarLinks";
+
+import classes from "./NavBar.module.scss";
 
 const NavBar = () => {
   return (
@@ -11,7 +12,7 @@ const NavBar = () => {
           <p className={classes.text_bold}>Justice</p>
           <p className={classes.text_regular}>Finance</p>
         </div>
-        <NavBarLinks/>
+        <NavBarLinks />
       </nav>
     </header>
   );

@@ -16,12 +16,12 @@ import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isEmailError, setIsEmailError] = useState(false);
-  const [isPasswordError, setIsPasswordError] = useState(false);
-  const [isDisabledBtn, setIsDisabledBtn] = useState(true);
-  const [checked, setChecked] = React.useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isEmailError, setIsEmailError] = useState<boolean>(false);
+  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+  const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
+  const [checked, setChecked] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -31,8 +31,8 @@ const LoginPage = () => {
         email,
         password,
       })
-      .then((responce) => {
-        Cookies.set("TOKEN", responce.data.token);
+      .then((res) => {
+        Cookies.set("TOKEN", res.data.token);
         navigate("/exchange-rates-page", { replace: true });
       });
   };
@@ -200,7 +200,7 @@ const LoginPage = () => {
                 disabled={isDisabledBtn}
               />
             </div>
-            <div className={classes.newperson}>
+            <div className={classes.newPerson}>
               <p>
                 Нет аккаунта?{" "}
                 <NavLink to="/register-page" className={classes.signup}>

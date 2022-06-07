@@ -30,7 +30,7 @@ const ProfileBar = () => {
     setX(x - 20);
     if (x === -80) setX(0);
   };
-  const walletLink = (wallet: { currency: any }) => {
+  const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, { replace: true });
   };
   useEffect(() => {

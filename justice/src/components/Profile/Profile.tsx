@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
+
+import { useActions } from "../../hooks/useAction";
+import { useTypedSelector } from "../../hooks/useTypesSelector";
+
+import axios from "axios";
+import Cookies from "js-cookie";
 
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
@@ -7,31 +13,24 @@ import Input from "../UI/Input/Input";
 
 import classes from "./Profile.module.scss";
 
-import axios from "axios";
-import { useTypedSelector } from "../../hooks/useTypesSelector";
-import Cookies from "js-cookie";
-import { useActions } from "../../hooks/useAction";
-// import CustomizedSnackbars from "../MUI/Snackbar/Snackbar";
-
 const Profile = () => {
   const { users } = useTypedSelector((state) => state.user);
   const { FetchUser } = useActions();
 
-  const [name, setName] = useState(users[0]?.name);
-  const [email, setEmail] = useState("");
-  const [city, setCity] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [number, setNumber] = useState("");
-  const [password, setPassword]: any = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [isDisabledPassword, setIsDisabledPassword] = useState(false);
-  const [oldPassword, setOldPassword] = useState("");
-  const [isOldPassword, setIsOldPassword] = useState(true);
-  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [city, setCity] = useState<string>("");
+  const [birthday, setBirthday] = useState<string>("");
+  const [number, setNumber] = useState<number>();
+  const [password, setPassword] = useState<string>("");
+  const [repeatPassword, setRepeatPassword] = useState<string>("");
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const [isDisabledPassword, setIsDisabledPassword] = useState<boolean>(false);
+  const [oldPassword, setOldPassword] = useState<string>("");
+  const [isOldPassword, setIsOldPassword] = useState<boolean>(true);
 
   const passwordChecker = () => {
-    if (password.password === oldPassword) {
+    if (password === oldPassword) {
       setIsOldPassword(false);
     } else {
       setIsOldPassword(true);
@@ -97,7 +96,6 @@ const Profile = () => {
       .then(() => {
         FetchUser();
       });
-    setIsSnackBar(true);
   };
   const changePassword = () => {
     axios
@@ -178,7 +176,8 @@ const Profile = () => {
               placeholder="Номер телефона"
               className={classes.main_wrapper__content__input_input}
               value={number}
-              onChange={(e) => setNumber(e.target.value)}
+              type="number"
+              onChange={(e) => setNumber(e.target.valueAsNumber)}
             />
           </div>
           <div className={classes.main_wrapper__title_button_bottom}>

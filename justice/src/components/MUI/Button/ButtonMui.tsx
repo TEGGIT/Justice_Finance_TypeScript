@@ -83,7 +83,7 @@ const ButtonMui = ({
   type,
   alt,
 }: ButtonMuiProps) => {
-  const [hover, setHover] = useState(false);
+  const [hover, setHover] = useState<boolean>(false);
 
   return (
     <Stack spacing={0} direction="row">

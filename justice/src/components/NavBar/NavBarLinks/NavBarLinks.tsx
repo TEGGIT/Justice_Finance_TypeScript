@@ -2,6 +2,8 @@ import React from "react";
 
 import { NavLink } from "react-router-dom";
 
+import Cookies from "js-cookie";
+
 import ButtonMui from "../../MUI/Button/ButtonMui";
 
 import classes from "./NavBarLinks.module.scss";
@@ -12,7 +14,6 @@ import arrow from "../../../assets/image/Arrow.svg";
 import suitcase from "../../../assets/image/Suitcase.svg";
 import checklist from "../../../assets/image/Checklist.svg";
 import logOut from "../../../assets/image/LogOut.svg";
-import Cookies from "js-cookie";
 
 const NavBarLinks = () => {
   const clear = () => {
@@ -66,10 +67,6 @@ const NavBarLinks = () => {
                 disabled={false}
                 direction="row"
                 fontWeight="500"
-                height="auto"
-                mt="0"
-                onClick={() => ({})}
-                type="button"
               />
             </NavLink>
           );
@@ -87,13 +84,7 @@ const NavBarLinks = () => {
               fontSize="0.875rem"
               hb="transparent"
               mt="200px"
-              border="0"
-              rounding="0"
-              disabled={false}
-              direction="0"
               fontWeight="500"
-              height="auto"
-              type="button"
             />
           </NavLink>
         </div>
@@ -109,14 +100,7 @@ const NavBarLinks = () => {
               coloring="#363636"
               fontSize="0.875rem"
               hb="transparent"
-              mt="0"
-              border="0"
-              rounding="0"
-              disabled={false}
-              direction="0"
               fontWeight="500"
-              height="auto"
-              type="button"
             />
           </NavLink>
         </div>

@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 const Header = () => {
   return (
     <header className={styles.header}>
-      <p></p>
       <nav className={styles.header__nav}>
         <div className={styles.header__nav__text}>
           <p className={styles.text_bold}>Justice</p>
