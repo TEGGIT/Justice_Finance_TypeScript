@@ -82,9 +82,8 @@ const PursePage = () => {
         headers: {
           Authorization: `${Cookies.get("TOKEN")}`
         }
-      },).then((responce) => {
+      },).then(() => {
         FetchWallets()
-
       })
     }
   };
