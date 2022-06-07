@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import {NavLink} from "react-router-dom";
-import {useNavigate} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
@@ -63,12 +63,12 @@ const RegisterPage = () => {
   };
 
   const registration = () => {
-    axios.post('http://localhost:5000/api/auth/register-page', {
-      "name": name,
-      "email": email,
-      "password": password
-    })
-    navigate("/login-page", {replace: true});
+    axios.post("http://localhost:5000/api/auth/register-page", {
+      name: name,
+      email: email,
+      password: password,
+    });
+    navigate("/login-page", { replace: true });
   };
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const RegisterPage = () => {
                   icon={google}
                   text="Sing up with Google"
                   gap="8px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="16px 25px 16px 30px"
                   fontWeight="500"
@@ -112,7 +112,7 @@ const RegisterPage = () => {
                   icon={github}
                   text="Sing up with GitHub"
                   gap="8px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="16px 25px 16px 30px"
                   fontWeight="500"
@@ -124,7 +124,7 @@ const RegisterPage = () => {
                   icon={google}
                   text="Sing up with Google"
                   gap="4px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="12px 12px 12px 12px"
                   fontWeight="500"
@@ -135,7 +135,7 @@ const RegisterPage = () => {
                   icon={github}
                   text="Sing up with GitHub"
                   gap="4px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="12px 12px 12px 12px"
                   fontWeight="500"
@@ -144,9 +144,9 @@ const RegisterPage = () => {
             </div>
             <div></div>
             <div className={classes.line_wrapper}>
-              <div className={classes.line}/>
+              <div className={classes.line} />
               <p className={classes.line__text}>Or</p>
-              <div className={classes.line}/>
+              <div className={classes.line} />
             </div>
             <div className={classes.input_wrapper}>
               {nameError ? (
@@ -248,12 +248,12 @@ const RegisterPage = () => {
               <ButtonMui
                 text="Зарегистрироваться"
                 padding="12px 180px"
-                backgroundcolor="#363636"
-                fontcolor="#FFFFFF"
+                bc="#363636"
+                coloring="#FFFFFF"
                 onClick={() => registration()}
                 disabled={disabledBtn}
                 fontWeight="600"
-                hoverbackground="#363636"
+                hb="#363636"
                 fontSize="16px"
               />
             </div>
@@ -261,12 +261,12 @@ const RegisterPage = () => {
               <ButtonMui
                 text="Зарегистрироваться"
                 padding="12px 80px"
-                backgroundcolor="#363636"
-                fontcolor="#FFFFFF"
+                bc="#363636"
+                coloring="#FFFFFF"
                 onClick={() => registration()}
                 disabled={disabledBtn}
                 fontWeight="600"
-                hoverbackground="#363636"
+                hb="#363636"
                 fontSize="16px"
               />
             </div>
@@ -289,7 +289,7 @@ const RegisterPage = () => {
           <p className={classes.text_regular}>Finance</p>
         </NavLink>
         <div className={classes.main__image_wrapper}>
-          <img src={image} alt="Register"/>
+          <img src={image} alt="Register" />
         </div>
       </div>
     </main>

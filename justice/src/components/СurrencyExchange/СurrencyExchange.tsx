@@ -184,13 +184,13 @@ const CurrencyExchange = () => {
                 <ButtonMui
                   text="Обменять"
                   icon={exchange}
-                  backgroundcolor="#363636"
+                  bc="#363636"
                   padding="16px"
                   gap="8px"
-                  fontcolor="#FFFFFF"
+                  coloring="#FFFFFF"
                   fontWeight="600"
                   fontSize="16px"
-                  hoverbackground="#363636"
+                  hb="#363636"
                   disabled={isDisabled}
                   direction="row-reverse"
                   onClick={addTransaction}
@@ -202,13 +202,13 @@ const CurrencyExchange = () => {
                   <ButtonMui
                     text="Обменять"
                     icon={exchange}
-                    backgroundcolor="#A52800"
+                    bc="#A52800"
                     padding="16px"
                     gap="8px"
-                    fontcolor="#FFFFFF"
+                    coloring="#FFFFFF"
                     fontWeight="600"
                     fontSize="16px"
-                    hoverbackground="#A52800"
+                    hb="#A52800"
                     direction="row-reverse"
                     onClick={() => {}}
                   />

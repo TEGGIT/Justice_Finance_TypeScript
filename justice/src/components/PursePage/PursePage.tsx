@@ -25,7 +25,7 @@ import { SelectChangeEvent } from "@mui/material";
 
 const customStyles = {
   overlay: {
-    backgroundcolor: "rgba(0, 0, 0, 0.8)",
+    bc: "rgba(0, 0, 0, 0.8)",
     zIndex: "3",
   },
   content: {
@@ -188,13 +188,13 @@ const PursePage = () => {
             />
             <ButtonMui
               text="Добавить кошелек"
-              backgroundcolor="#363636"
+              bc="#363636"
               padding="15px 24px"
               disabled={isDisabledBtn}
-              fontcolor="#EEEEEE"
+              coloring="#EEEEEE"
               fontSize="16px"
               fontWeight="600"
-              hoverbackground="#363636"
+              hb="#363636"
               onClick={addPurse}
             />
           </div>

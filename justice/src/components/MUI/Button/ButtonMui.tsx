@@ -1,5 +1,5 @@
-import * as React from "react";
-import { memo, useState } from "react";
+import React, { memo, useState } from "react";
+
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -9,33 +9,36 @@ import classes from "./ButtonMui.module.scss";
 interface ButtonMuiStyleProps {
   direction?: string;
   border?: string;
-  fontcolor?: string;
-  borderradius?: string;
+  coloring?: string;
+  rounding?: string; // border-radius
   textTransform?: string;
-  mt?: string;
+  mt?: string; // margin-top
   fontSize?: string;
   gap?: string;
   height?: string;
   padding?: string;
   fontWeight?: string;
-  backgroundcolor?: string;
-  hoverbackground?: string;
+  bc?: string; // background-color
+  hb?: string; // background-color:hover
 }
+
+type ButtonType = "submit" | "reset" | "button";
 
 interface ButtonMuiProps extends ButtonMuiStyleProps {
   text: string;
   icon?: string;
   onClick?: () => void;
   disabled?: boolean;
-  type?: string;
+  type?: ButtonType;
+  alt?: string;
 }
 
 const BootstrapButton = styled(Button)<ButtonMuiStyleProps>`
   box-shadow: none;
   flex-direction: ${({ direction }) => direction};
   border: ${({ border }) => border};
-  color: ${({ fontcolor }) => fontcolor};
-  border-radius: ${({ borderradius }) => borderradius};
+  color: ${({ coloring }) => coloring};
+  border-radius: ${({ rounding }) => rounding};
   text-transform: none;
   overflow: hidden;
   margin-top: ${({ mt }) => mt};
@@ -46,7 +49,7 @@ const BootstrapButton = styled(Button)<ButtonMuiStyleProps>`
   padding: ${({ padding }) => padding};
   font-style: normal;
   font-weight: ${({ fontWeight }) => fontWeight};
-  background-color: ${({ backgroundcolor }) => backgroundcolor};
+  background-color: ${({ bc }) => bc};
   font-family: "Inter", sans-serif;
 
   :disabled {
@@ -56,7 +59,7 @@ const BootstrapButton = styled(Button)<ButtonMuiStyleProps>`
 
   :hover {
     box-shadow: none;
-    background-color: ${({ backgroundcolor }) => backgroundcolor};
+    background-color: ${({ bc }) => bc};
   }
 `;
 
@@ -64,13 +67,13 @@ const ButtonMui = ({
   text,
   padding,
   icon,
-  fontcolor,
+  coloring,
   gap,
   fontSize,
-  hoverbackground,
+  hb,
   mt,
-  borderradius,
-  backgroundcolor,
+  rounding,
+  bc,
   height,
   onClick,
   border,
@@ -78,6 +81,7 @@ const ButtonMui = ({
   disabled,
   direction,
   type,
+  alt,
 }: ButtonMuiProps) => {
   const [hover, setHover] = useState(false);
 
@@ -94,16 +98,16 @@ const ButtonMui = ({
         fontWeight={fontWeight}
         border={border}
         height={height}
-        borderradius={borderradius}
+        rounding={rounding}
         mt={mt}
-        hoverbackground={hoverbackground}
+        hb={hb}
         fontSize={fontSize}
-        fontcolor={fontcolor}
-        backgroundcolor={backgroundcolor}
+        coloring={coloring}
+        bc={bc}
         gap={gap}
         padding={padding}
       >
-        <img src={icon} />
+        <img src={icon} alt={alt} />
         <p>{text}</p>
         {hover && <div className={classes.buttonBackground} />}
       </BootstrapButton>

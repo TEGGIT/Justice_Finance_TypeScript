@@ -75,9 +75,9 @@ const ExchangeRatesPage = () => {
                 fontWeight="600"
                 padding="12px 24px"
                 text="Обменять"
-                fontcolor="white"
-                backgroundcolor="#363636"
-                hoverbackground="#363636"
+                coloring="white"
+                bc="#363636"
+                hb="#363636"
               />
             </NavLink>
           </div>

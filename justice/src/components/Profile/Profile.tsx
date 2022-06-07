@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
@@ -8,15 +8,14 @@ import Input from "../UI/Input/Input";
 import classes from "./Profile.module.scss";
 
 import axios from "axios";
-import {useTypedSelector} from "../../hooks/useTypesSelector";
+import { useTypedSelector } from "../../hooks/useTypesSelector";
 import Cookies from "js-cookie";
-import {useActions} from "../../hooks/useAction";
+import { useActions } from "../../hooks/useAction";
 // import CustomizedSnackbars from "../MUI/Snackbar/Snackbar";
 
 const Profile = () => {
-
-  const {users} = useTypedSelector(state => state.user)
-  const {FetchUser} = useActions()
+  const { users } = useTypedSelector((state) => state.user);
+  const { FetchUser } = useActions();
 
   const [name, setName] = useState(users[0]?.name);
   const [email, setEmail] = useState("");
@@ -33,9 +32,9 @@ const Profile = () => {
 
   const passwordChecker = () => {
     if (password.password === oldPassword) {
-      setIsOldPassword(false)
+      setIsOldPassword(false);
     } else {
-      setIsOldPassword(true)
+      setIsOldPassword(true);
     }
   };
 
@@ -59,21 +58,18 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    setEmail(users[0]?.email)
-    setName(users[0]?.name)
-    setCity(users[0]?.city)
-    setBirthday(users[0]?.birthday)
-    setNumber(users[0]?.phoneNumber)
-
-  }, [users[0]?.name])
+    setEmail(users[0]?.email);
+    setName(users[0]?.name);
+    setCity(users[0]?.city);
+    setBirthday(users[0]?.birthday);
+    setNumber(users[0]?.phoneNumber);
+  }, [users[0]?.name]);
 
   useEffect(() => {
     if (!isOldPassword && repeatPassword && password) {
-      setIsDisabledPassword(false)
-    } else
-      setIsDisabledPassword(true)
-
-  }, [isOldPassword, repeatPassword, password])
+      setIsDisabledPassword(false);
+    } else setIsDisabledPassword(true);
+  }, [isOldPassword, repeatPassword, password]);
 
   useEffect(() => {
     if (!name || !email) {
@@ -84,45 +80,53 @@ const Profile = () => {
   }, [name, email]);
 
   const changeProfile = () => {
-
-    axios.patch('http://localhost:5000/api/profile', {
-      name,
-      email,
-      city,
-      birthday,
-      phoneNumber: number,
-    }, {
-      headers:
-        {Authorization: `${Cookies.get("TOKEN")}`}
-    },).then(() => {
-      FetchUser()
-
-    })
-    setIsSnackBar(true)
-
+    axios
+      .patch(
+        "http://localhost:5000/api/profile",
+        {
+          name,
+          email,
+          city,
+          birthday,
+          phoneNumber: number,
+        },
+        {
+          headers: { Authorization: `${Cookies.get("TOKEN")}` },
+        }
+      )
+      .then(() => {
+        FetchUser();
+      });
+    setIsSnackBar(true);
   };
   const changePassword = () => {
-    axios.patch('http://localhost:5000/api/profile/changePassword', {
-      password: oldPassword,
-      newPassword: password
-    }, {headers: {Authorization: `${Cookies.get("TOKEN")}`}},).then(() => {
-      FetchUser()
-    })
-    setPassword('')
-    setOldPassword('')
-    setRepeatPassword('')
+    axios
+      .patch(
+        "http://localhost:5000/api/profile/changePassword",
+        {
+          password: oldPassword,
+          newPassword: password,
+        },
+        { headers: { Authorization: `${Cookies.get("TOKEN")}` } }
+      )
+      .then(() => {
+        FetchUser();
+      });
+    setPassword("");
+    setOldPassword("");
+    setRepeatPassword("");
   };
 
   return (
     <main className={classes.main}>
-      <NavBar/>
+      <NavBar />
       <section className={classes.main_wrapper}>
         <div className={classes.main_wrapper__title}>
           <h1 className={classes.main_wrapper__title_text}>Мой профиль</h1>
           <div className={classes.main_wrapper__title_button}>
             <ButtonMui
-              backgroundcolor="#363636"
-              fontcolor="#FFFFFF"
+              bc="#363636"
+              coloring="#FFFFFF"
               text="Сохранить изменения"
               padding="12px 24px"
               fontWeight="600"
@@ -179,11 +183,11 @@ const Profile = () => {
           </div>
           <div className={classes.main_wrapper__title_button_bottom}>
             <ButtonMui
-              backgroundcolor="#363636"
-              fontcolor="#FFFFFF"
+              bc="#363636"
+              coloring="#FFFFFF"
               text="Сохранить изменения"
               padding="12px 24px"
-              hoverbackground="#363636"
+              hb="#363636"
               fontWeight="600"
               disabled={isDisabled}
               onClick={changeProfile}
@@ -222,11 +226,11 @@ const Profile = () => {
             />
 
             <ButtonMui
-              backgroundcolor="#363636"
+              bc="#363636"
               text="Изменить пароль"
-              fontcolor="white"
+              coloring="white"
               padding="15px 24px"
-              hoverbackground="#363636"
+              hb="#363636"
               fontSize="16px"
               disabled={isDisabledPassword}
               fontWeight="600"
@@ -235,7 +239,7 @@ const Profile = () => {
           </div>
         </div>
       </section>
-      <ProfileBar/>
+      <ProfileBar />
     </main>
   );
 };

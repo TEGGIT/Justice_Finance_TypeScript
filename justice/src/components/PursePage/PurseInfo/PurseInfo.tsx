@@ -25,7 +25,7 @@ import { WalletsType } from "../../../store/reducers/WalletsReducer";
 const PurseInfo = () => {
   const customStyles = {
     overlay: {
-      backgroundcolor: "rgba(0, 0, 0, 0.8)",
+      bc: "rgba(0, 0, 0, 0.8)",
       zIndex: "3",
     },
     content: {
@@ -144,9 +144,9 @@ const PurseInfo = () => {
             text="Удалить кошелёк"
             padding="12px"
             border="1px solid #363636"
-            backgroundcolor="#FFFFFF"
-            hoverbackground="#FFFFFF"
-            fontcolor="#363636"
+            bc="#FFFFFF"
+            hb="#FFFFFF"
+            coloring="#363636"
             fontSize="12px"
             fontWeight="600"
             onClick={deleteWallet}
@@ -204,10 +204,10 @@ const PurseInfo = () => {
             <ButtonMui
               text="Пополнить кошелек"
               padding="15px 24px"
-              backgroundcolor="#363636"
+              bc="#363636"
               disabled={isDisabled}
-              hoverbackground="#363636"
-              fontcolor="#FFFFFF"
+              hb="#363636"
+              coloring="#FFFFFF"
               fontSize="16px"
               fontWeight="600"
               onClick={addSumWallet}
