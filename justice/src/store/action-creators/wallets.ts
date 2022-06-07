@@ -1,12 +1,12 @@
-import {UserAction, UsersActionTypes} from "../../types/user";
+import {WalletsAction, WalletsActionTypes} from "../../types/wallets";
 import {Dispatch} from "redux";
 import axios from "axios";
 
-export const FetchUser = () => {
-  return async (dispatch: Dispatch<UserAction>) => {
+export const FetchWallets = () => {
+  return async (dispatch: Dispatch<WalletsAction>) => {
     try {
       dispatch({
-        type: UsersActionTypes.FETCH_USERS
+        type: WalletsActionTypes.FETCH_WALLETS
       })
       const response = await axios.get('http://localhost:5000/api/wallets', {
         headers: {
@@ -14,11 +14,12 @@ export const FetchUser = () => {
         }
       })
       setTimeout(() => {
-        dispatch({type: UsersActionTypes.FETCH_USERS_SUCCESS, payload: response.data})
+        dispatch({type: WalletsActionTypes.FETCH_WALLETS_SUCCESS, payload: response.data})
       }, 500)
+      console.log(response)
     } catch (e) {
       dispatch({
-        type: UsersActionTypes.FETCH_USERS_ERROR,
+        type: WalletsActionTypes.FETCH_WALLETS_ERROR,
         payload: "Произошла ошибка при загрузке данных"
       })
     }

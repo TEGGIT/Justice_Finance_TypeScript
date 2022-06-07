@@ -1,4 +1,4 @@
-import { UserAction, UsersActionTypes, UserState } from "../../types/todo";
+import { UserAction, UsersActionTypes, UserState } from "../../types/user";
 
 const FETCH_USERS = "FETCH_USERS";
 

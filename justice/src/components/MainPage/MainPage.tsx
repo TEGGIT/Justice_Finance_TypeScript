@@ -9,25 +9,23 @@ import interfaceFinance from '../../assets/image/interface.png'
 import starTwo from '../../assets/image/StarTwo.svg'
 import positive from '../../assets/image/Positive.png'
 import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {useDispatch} from "react-redux";
 import {FetchUser} from "../../store/action-creators/user";
 import {useActions} from "../../hooks/useAction";
 
 const MainPage = () => {
   const {users, error, loading} = useTypedSelector(state => state.user)
-
+  const {wallets} = useTypedSelector(state => state.wallets)
   const {FetchUser} = useActions()
 
   useEffect(() => {
-   // @ts-ignore
+    // @ts-ignore
     FetchUser()
-  },[])
-  if (loading){
-       return <h1>Идет загрузка...</h1>
+  }, [])
+  if (loading) {
+    return <h1>Идет загрузка...</h1>
 
   }
-  console.log(users)
-  if (error){
+  if (error) {
     return <h1>{error}</h1>
   }
   return (
