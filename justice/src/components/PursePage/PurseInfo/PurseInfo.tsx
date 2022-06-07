@@ -34,7 +34,7 @@ const PurseInfo = () => {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       display: "flex",
-      flexdirection: "column",
+      direction: "column",
       alignItems: "flex-end",
     },
   };

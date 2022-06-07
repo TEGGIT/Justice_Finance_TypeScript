@@ -4,6 +4,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import {countryIcon} from "../../../mockdata/countryIcon";
+import {countryIconWallet} from "../../../mockdata/countryIconWallet";
 
 
 interface TypeSelectMui {
@@ -23,7 +25,7 @@ const SelectMui: React.FC<TypeSelectMui> = (props) => {
     name,
     array
   } = props
-
+  console.log('array', array)
   return (
     <Box sx={{minWidth}}>
       <FormControl fullWidth>
@@ -40,7 +42,7 @@ const SelectMui: React.FC<TypeSelectMui> = (props) => {
               key={country.currency}
               value={country.currency}>
               <img
-                src={`${country.icon}`}
+                src={country.icon}
                 alt='Иконка'/>
               {country.currency}
             </MenuItem>

@@ -54,7 +54,7 @@ const NavBarLinks = () => {
             <NavLink key={items.pass} to={`${items.pass}`}>
               <ButtonMui
                 text={items.text}
-                img={items.img}
+                icon={items.icon}
                 padding="12px 0 12px 8px"
                 gap="8px"
                 backgroundcolor="#FFFFFF"
@@ -64,10 +64,10 @@ const NavBarLinks = () => {
                 hoverbackground="transparent"
                 borderradius="0"
                 disabled={false}
-                flexdirection="row"
+                direction="row"
                 fontWeight="500"
                 height="auto"
-                margintop="0"
+                mt="0"
                 onClick={() => ({})}
                 type="button"
               />
@@ -79,18 +79,18 @@ const NavBarLinks = () => {
             <ButtonMui
               onClick={clear}
               text="Выход"
-              img={logOut}
+              icon={logOut}
               padding="12px 61px 12px 8px"
               gap="8px"
               backgroundcolor="#FFFFFF"
               fontcolor="#363636"
               fontSize="0.875rem"
               hoverbackground="transparent"
-              margintop="200px"
+              mt="200px"
               border="0"
               borderradius="0"
               disabled={false}
-              flexdirection="0"
+              direction="0"
               fontWeight="500"
               height="auto"
               type="button"
@@ -102,18 +102,18 @@ const NavBarLinks = () => {
             <ButtonMui
               onClick={clear}
               text="Выход"
-              img={logOut}
+              icon={logOut}
               padding="12px 61px 12px 8px"
               gap="8px"
               backgroundcolor="#FFFFFF"
               fontcolor="#363636"
               fontSize="0.875rem"
               hoverbackground="transparent"
-              margintop="0"
+              mt="0"
               border="0"
               borderradius="0"
               disabled={false}
-              flexdirection="0"
+              direction="0"
               fontWeight="500"
               height="auto"
               type="button"

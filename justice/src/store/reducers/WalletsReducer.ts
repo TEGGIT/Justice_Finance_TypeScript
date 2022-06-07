@@ -1,4 +1,17 @@
-import {WalletsAction, WalletsActionTypes, WalletsState} from "../../types/wallets";
+import {WalletsAction, WalletsActionTypes} from "../../types/wallets";
+import {CurrencyType} from "../../components/PursePage/PursePage";
+
+type WalletsType = {
+  currency: CurrencyType
+  purseNumber: number
+  sum: number
+}
+
+interface WalletsState {
+  wallets: WalletsType[];
+  loading: boolean;
+  error: null | string;
+}
 
 const initialState: WalletsState = {
   wallets: [],

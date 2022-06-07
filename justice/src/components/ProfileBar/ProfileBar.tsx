@@ -92,7 +92,7 @@ const ProfileBar = () => {
               <p>Добавьте кошелек</p>
               <NavLink to="/purse-page">
                 <ButtonMui
-                  img={plus}
+                  icon={plus}
                   backgroundcolor="#363636"
                   hoverbackground="#363636"
                   borderradius="30px "

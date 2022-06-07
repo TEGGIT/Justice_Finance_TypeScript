@@ -23,6 +23,8 @@ import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {FetchWallets} from "../../store/action-creators/wallets";
 import {useActions} from "../../hooks/useAction";
 import Cookies from "js-cookie";
+import {countryIconWallet} from "../../mockdata/countryIconWallet";
+import RUB from "../../assets/icon/RUB.svg";
 
 const customStyles = {
   overlay: {
@@ -37,15 +39,17 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     display: "flex",
-    flexdirection: "column",
+    direction: "column",
     alignItems: "flex-end",
   },
 };
 
+export type CurrencyType = 'USD' | 'TRY' | 'EUR' | 'CNY' | 'RUB';
+
 const PursePage = () => {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = React.useState<boolean>(false);
   const [modalErrorIsOpen, setModalErrorIsOpen] = React.useState(false);
-  const [currency, setСurrency] = React.useState("");
+  const [currency, setCurrency] = React.useState<CurrencyType>();
   const [numberPurse, setNumberPurse] = useState("");
   const [isDisabledBtn, setIsDisabledBtn] = useState(true);
   const navigate = useNavigate();
@@ -60,7 +64,6 @@ const PursePage = () => {
       setIsDisabledBtn(false);
     }
   }, [numberPurse, currency]);
-
 
   const addPurse = () => {
 
@@ -87,6 +90,7 @@ const PursePage = () => {
       })
     }
   };
+  console.log(wallets)
   useEffect(() => {
     if (modalIsOpen) {
       setTimeout(() => {
@@ -104,8 +108,8 @@ const PursePage = () => {
     }
   });
 
-  const handleChange = (event: any) => {
-    setСurrency(event.target.value);
+  const handleChange = (event: CurrencyType) => {
+    setCurrency(event);
   };
 
   const walletLink = (wallet: { currency: any; }) => {

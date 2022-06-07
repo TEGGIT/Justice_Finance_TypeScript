@@ -98,7 +98,7 @@ const RegisterPage = () => {
               <div className={classes.desktopTop_button}>
                 <ButtonMui
                   fontSize="12px"
-                  img={google}
+                  icon={google}
                   text="Sing up with Google"
                   gap="8px"
                   fontcolor="#363636"
@@ -109,7 +109,7 @@ const RegisterPage = () => {
 
                 <ButtonMui
                   fontSize="12px"
-                  img={github}
+                  icon={github}
                   text="Sing up with GitHub"
                   gap="8px"
                   fontcolor="#363636"
@@ -121,7 +121,7 @@ const RegisterPage = () => {
               <div className={classes.mobileTop_button}>
                 <ButtonMui
                   fontSize="9px"
-                  img={google}
+                  icon={google}
                   text="Sing up with Google"
                   gap="4px"
                   fontcolor="#363636"
@@ -132,7 +132,7 @@ const RegisterPage = () => {
 
                 <ButtonMui
                   fontSize="9px"
-                  img={github}
+                  icon={github}
                   text="Sing up with GitHub"
                   gap="4px"
                   fontcolor="#363636"

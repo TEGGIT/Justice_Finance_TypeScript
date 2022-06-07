@@ -27,7 +27,6 @@ const CurrencyExchange = () => {
   const {users} = useTypedSelector(state => state.user)
   const {wallets} = useTypedSelector(state => state.wallets)
   const {FetchWallets, FetchUser} = useActions()
-
   const Data = new Date();
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
@@ -179,7 +178,7 @@ const CurrencyExchange = () => {
               <>
                 <ButtonMui
                   text="Обменять"
-                  img={exchange}
+                  icon={exchange}
                   backgroundcolor="#363636"
                   padding="16px"
                   gap="8px"
@@ -188,7 +187,7 @@ const CurrencyExchange = () => {
                   fontSize="16px"
                   hoverbackground="#363636"
                   disabled={isDisabled}
-                  flexdirection="row-reverse"
+                  direction="row-reverse"
                   onClick={addTransaction}
                 />
               </>
@@ -197,7 +196,7 @@ const CurrencyExchange = () => {
                 <div className={classes.button_error}>
                   <ButtonMui
                     text="Обменять"
-                    img={exchange}
+                    icon={exchange}
                     backgroundcolor="#A52800"
                     padding="16px"
                     gap="8px"
@@ -205,7 +204,7 @@ const CurrencyExchange = () => {
                     fontWeight="600"
                     fontSize="16px"
                     hoverbackground="#A52800"
-                    flexdirection="row-reverse"
+                    direction="row-reverse"
                     onClick={() => {
                     }}
                   />

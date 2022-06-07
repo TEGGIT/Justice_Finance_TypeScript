@@ -18,7 +18,6 @@ const Profile = () => {
   const {users} = useTypedSelector(state => state.user)
   const {FetchUser} = useActions()
 
-
   const [name, setName] = useState(users[0]?.name);
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
@@ -39,6 +38,7 @@ const Profile = () => {
       setIsOldPassword(true)
     }
   };
+
   const repeatsPassword = () => {
     if (password === repeatPassword) {
       setIsOldPassword(false);
@@ -46,6 +46,7 @@ const Profile = () => {
       setIsOldPassword(true);
     }
   };
+
   const newPassword = () => {
     const passwordChecker = new RegExp(
       "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
@@ -58,7 +59,6 @@ const Profile = () => {
   };
 
   useEffect(() => {
-
     setEmail(users[0]?.email)
     setName(users[0]?.name)
     setCity(users[0]?.city)
