@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from "react";
 
+import NavBar from "../NavBar/NavBar";
+import ProfileBar from "../ProfileBar/ProfileBar";
+import ButtonMui from "../MUI/Button/ButtonMui";
+import Input from "../UI/Input/Input";
+
 import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 import axios from "axios";
 import Cookies from "js-cookie";
-
-import NavBar from "../NavBar/NavBar";
-import ProfileBar from "../ProfileBar/ProfileBar";
-import ButtonMui from "../MUI/Button/ButtonMui";
-import Input from "../UI/Input/Input";
 
 import classes from "./Profile.module.scss";
 

@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 import classes from './Modal.module.scss'
 
 import close from '../../../assets/image/Close.svg'

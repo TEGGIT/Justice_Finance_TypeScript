@@ -4,8 +4,9 @@ import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
 import TransactionStatus from "./TransactionStatus/TransactionStatus";
 
-import classes from "./TransactionsPage.module.scss";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
+
+import classes from "./TransactionsPage.module.scss";
 
 const TransactionsPage = () => {
   const Data = new Date();

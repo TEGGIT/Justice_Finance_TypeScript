@@ -2,47 +2,31 @@ import React, {useEffect, useState} from "react";
 
 import {useNavigate} from "react-router-dom";
 
-import axios from "axios";
-
 import Input from "../UI/Input/Input";
 import Select from "../MUI/Select/Select";
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Wallet from "../ProfileBar/WalletBar/Wallet";
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
+import Modal from "../UI/Modal/Modal";
+
+import axios from "axios";
+import Cookies from "js-cookie";
+
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+import {useActions} from "../../hooks/useAction";
+
+import {SelectChangeEvent} from "@mui/material";
+
+export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB";
 
 import classes from "./PursePage.module.scss";
 import {countryIcon} from "../../mockdata/countryIcon";
 
 import wallet from "../../assets/image/wallet.svg";
-import close from "../../assets/image/Close.svg";
 import WalletsIcon from '../../assets/image/WalletIcon.svg'
-import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {FetchWallets} from "../../store/action-creators/wallets";
-import {useActions} from "../../hooks/useAction";
-import Cookies from "js-cookie";
-import {SelectChangeEvent} from "@mui/material";
-import Modal from "../UI/Modal/Modal";
 
-const customStyles = {
-  overlay: {
-    bc: "rgba(0, 0, 0, 0.8)",
-    zIndex: "3",
-  },
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    display: "flex",
-    direction: "column",
-    alignItems: "flex-end",
-  },
-};
 
-export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB";
 const PursePage = () => {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
   const [modalErrorIsOpen, setModalErrorIsOpen] = useState<boolean>(false);

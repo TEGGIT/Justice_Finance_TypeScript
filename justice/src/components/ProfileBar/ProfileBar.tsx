@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from "react";
 
-
 import {NavLink, useNavigate} from "react-router-dom";
+
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Wallet from "./WalletBar/Wallet";
+
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+import {useActions} from "../../hooks/useAction";
 
 import classes from "./ProfileBar.module.scss";
 import avatar from "../../assets/image/Avatar.svg";
@@ -12,8 +15,7 @@ import transactions from "../../assets/image/transaction.svg";
 import greenEllipse from "../../assets/image/GreenElipse.svg";
 import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
-import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {useActions} from "../../hooks/useAction";
+
 
 const ProfileBar = () => {
   const navigate = useNavigate();

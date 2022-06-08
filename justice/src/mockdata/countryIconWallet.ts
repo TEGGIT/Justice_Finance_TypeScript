@@ -3,7 +3,6 @@ import USD from '../../src/assets/icon/USD.svg'
 import CHY from '../../src/assets/icon/CNY.svg'
 import EUR from '../../src/assets/icon/EUR.svg'
 import TRY from '../../src/assets/icon/TRY.svg'
-import {keys} from "@material-ui/core/styles/createBreakpoints";
 
 
 export const countryIconWallet: { [keys: string]: string } = {

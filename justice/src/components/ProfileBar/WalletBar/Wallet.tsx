@@ -1,8 +1,12 @@
 import React from "react";
-import classes from "./Wallet.module.scss";
+
+import {CurrencyType} from "../../PursePage/PursePage";
+
 import {countryCount} from "../../../mockdata/countryCount";
 import {countryIconWallet} from "../../../mockdata/countryIconWallet";
-import {CurrencyType} from "../../PursePage/PursePage";
+
+import classes from "./Wallet.module.scss";
+
 
 interface WalletType {
   onClick?: () => void;

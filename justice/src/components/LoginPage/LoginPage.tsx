@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 
 import {NavLink, useNavigate} from "react-router-dom";
 
+import {useActions} from "../../hooks/useAction";
+
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -14,7 +16,6 @@ import classes from "./LoginPage.module.scss";
 import image from "../../assets/image/IllustrationOne.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import {useActions} from "../../hooks/useAction";
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");

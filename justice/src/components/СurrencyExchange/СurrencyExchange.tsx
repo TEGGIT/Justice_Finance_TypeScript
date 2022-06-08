@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+import Modal from "../UI/Modal/Modal";
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
 import Input from "../UI/Input/Input";
@@ -18,7 +19,6 @@ import {CurrencyType} from "../PursePage/PursePage";
 import classes from "./СurrencyExchange.module.scss";
 
 import exchange from "../../assets/image/exchange.svg";
-import Modal from "../UI/Modal/Modal";
 import exchangeRatesIcon from '../../assets/image/ExchangeIcon.svg'
 
 const CurrencyExchange = () => {

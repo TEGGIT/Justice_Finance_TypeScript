@@ -4,6 +4,7 @@ import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
@@ -13,7 +14,6 @@ import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import Cookies from "js-cookie";
 
 const RegisterPage = () => {
   const [checked, setChecked] = React.useState<boolean>(false);
