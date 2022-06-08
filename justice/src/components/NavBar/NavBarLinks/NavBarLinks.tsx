@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useEffect} from "react";
 
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 import Cookies from "js-cookie";
 
@@ -14,11 +14,17 @@ import arrow from "../../../assets/image/Arrow.svg";
 import suitcase from "../../../assets/image/Suitcase.svg";
 import checklist from "../../../assets/image/Checklist.svg";
 import logOut from "../../../assets/image/LogOut.svg";
+import {useActions} from "../../../hooks/useAction";
+
 
 const NavBarLinks = () => {
+  const {loginUser} = useActions();
+
   const clear = () => {
     Cookies.remove("TOKEN");
+    loginUser(false)
   };
+
   const item = [
     {
       img: exchangeRates,
@@ -89,20 +95,18 @@ const NavBarLinks = () => {
           </NavLink>
         </div>
         <div className={classes.mobile}>
-          <NavLink to="/">
-            <ButtonMui
-              onClick={clear}
-              text="Выход"
-              icon={logOut}
-              padding="12px 61px 12px 8px"
-              gap="8px"
-              bc="#FFFFFF"
-              coloring="#363636"
-              fontSize="0.875rem"
-              hb="transparent"
-              fontWeight="500"
-            />
-          </NavLink>
+          <ButtonMui
+            onClick={clear}
+            text="Выход"
+            icon={logOut}
+            padding="12px 61px 12px 8px"
+            gap="8px"
+            bc="#FFFFFF"
+            coloring="#363636"
+            fontSize="0.875rem"
+            hb="transparent"
+            fontWeight="500"
+          />
         </div>
       </div>
     </div>

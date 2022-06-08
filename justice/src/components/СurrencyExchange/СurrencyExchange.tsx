@@ -13,11 +13,11 @@ import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 import {exchangeRates} from "../../types/exchangeRates";
+import {CurrencyType} from "../PursePage/PursePage";
 
 import classes from "./СurrencyExchange.module.scss";
 
 import exchange from "../../assets/image/exchange.svg";
-import {CurrencyType} from "../PursePage/PursePage";
 
 
 const CurrencyExchange = () => {
