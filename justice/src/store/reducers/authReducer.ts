@@ -6,7 +6,9 @@ export const authReducer = (
 ) => {
   switch (action.type) {
     case AuthActionTypes.LOGIN:
+      console.log('qwe', action.payload)
       return action.payload;
+
     default: {
       return state;
     }
