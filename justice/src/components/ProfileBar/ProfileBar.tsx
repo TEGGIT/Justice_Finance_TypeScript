@@ -25,13 +25,14 @@ const ProfileBar = () => {
 
   const [x, setX] = useState(0);
   const moveBlockLeft = () => {
-    setX(x + 20);
+    setX(x + 250);
     if (x === 0) setX(0);
   };
   const moveBlockRight = () => {
-    setX((x - 120) * wallets.length);
-    if (x === -80) setX(0);
+    setX(x - 250);
+    if (x === -250 * wallets.length) setX(0);
   };
+  console.log(x)
   const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
