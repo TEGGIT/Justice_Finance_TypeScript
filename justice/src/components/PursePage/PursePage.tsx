@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 // import Modal from 'react-modal';
 import axios from "axios";
@@ -13,15 +13,15 @@ import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
 
 import classes from "./PursePage.module.scss";
-import { countryIcon } from "../../mockdata/countryIcon";
+import {countryIcon} from "../../mockdata/countryIcon";
 
 import wallet from "../../assets/image/wallet.svg";
 import close from "../../assets/image/Close.svg";
-import { useTypedSelector } from "../../hooks/useTypesSelector";
-import { FetchWallets } from "../../store/action-creators/wallets";
-import { useActions } from "../../hooks/useAction";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+import {FetchWallets} from "../../store/action-creators/wallets";
+import {useActions} from "../../hooks/useAction";
 import Cookies from "js-cookie";
-import { SelectChangeEvent } from "@mui/material";
+import {SelectChangeEvent} from "@mui/material";
 
 const customStyles = {
   overlay: {
@@ -41,18 +41,17 @@ const customStyles = {
   },
 };
 
-export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB" | "";
-
+export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB";
 const PursePage = () => {
-  const [modalIsOpen, setIsOpen] = React.useState<boolean>(false);
-  const [modalErrorIsOpen, setModalErrorIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const [modalErrorIsOpen, setModalErrorIsOpen] = useState<boolean>(false);
   const [currency, setCurrency] = useState<CurrencyType>();
   const [numberPurse, setNumberPurse] = useState<number>();
   const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  const { wallets } = useTypedSelector((state) => state.wallets) ?? {};
-  const { FetchWallets } = useActions();
+  const {wallets} = useTypedSelector((state) => state.wallets) ?? {};
+  const {FetchWallets} = useActions();
 
   useEffect(() => {
     if (!numberPurse || !currency) {
@@ -116,13 +115,13 @@ const PursePage = () => {
     setCurrency(event.target.value as CurrencyType);
   };
 
-  const walletLink = (wallet: { currency: any }) => {
-    navigate(`/purse-info-page/#${wallet.currency}`, { replace: true });
+  const walletLink = (wallet: { currency: string }) => {
+    navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
-
+  console.log(currency)
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main__wrapper}>
         <div className={classes.main__wrapper__title}>
           <h1 className={classes.main__wrapper__title_text}>Кошельки</h1>
@@ -132,7 +131,7 @@ const PursePage = () => {
           <div className={classes.main__wrapper__wallet_container__wallets}>
             {wallets.map((wallet, index) => (
               <Wallet
-                pointer={{ cursor: "pointer" }}
+                pointer={{cursor: "pointer"}}
                 key={index}
                 countryName={wallet.currency}
                 country={wallet.currency}
@@ -144,7 +143,7 @@ const PursePage = () => {
           </div>
         ) : (
           <div className={classes.main__wrapper__wallet_container}>
-            <img src={wallet} alt="Кошелек" />
+            <img src={wallet} alt="Кошелек"/>
             <p className={classes.main__wrapper__title_wallet}>
               На данный момент у вас не созданно ни одного кошелька
             </p>
@@ -165,7 +164,6 @@ const PursePage = () => {
                 array={countryIcon}
               />
             </div>
-
             <div className={classes.mobile_button}>
               <Select
                 handleChangeSelect={handleChange}
@@ -200,7 +198,7 @@ const PursePage = () => {
           </div>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
     </main>
   );
 };

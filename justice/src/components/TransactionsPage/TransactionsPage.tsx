@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
@@ -13,7 +13,6 @@ const TransactionsPage = () => {
 
   const {users} = useTypedSelector(state => state.user)
 
-  // @ts-ignore
   return (
     <main className={classes.main}>
       <NavBar/>
@@ -32,7 +31,7 @@ const TransactionsPage = () => {
         </div>
         {users[0]?.transaction ? (
           <>
-            {users[0]?.transaction.map((transactionItem: any, index: any) => (
+            {users[0]?.transaction.map((transactionItem, index) => (
 
               <TransactionStatus
                 key={index}

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 
 import NavBar from "../../NavBar/NavBar";
 import ProfileBar from "../../ProfileBar/ProfileBar";
@@ -18,9 +18,9 @@ import arrowBack from "../../../assets/image/Back.svg";
 import banner from "../../../assets/image/Banner.png";
 import close from "../../../assets/image/Close.svg";
 import walletIcon from "../../../assets/image/WalletIcon.svg";
-import { useTypedSelector } from "../../../hooks/useTypesSelector";
-import { CurrencyType } from "../PursePage";
-import { WalletsType } from "../../../store/reducers/WalletsReducer";
+import {useTypedSelector} from "../../../hooks/useTypesSelector";
+import {CurrencyType} from "../PursePage";
+import {WalletsType} from "../../../store/reducers/WalletsReducer";
 
 const PurseInfo = () => {
   const customStyles = {
@@ -52,7 +52,7 @@ const PurseInfo = () => {
   const [cvc, setCvc] = useState("");
   const [ownerCard, setOwnerCard] = useState("");
 
-  const { wallets } = useTypedSelector((state) => state.wallets);
+  const {wallets} = useTypedSelector((state) => state.wallets);
 
   const currentWallet: WalletsType | undefined = wallets.find(
     (wallet) => `#${wallet.currency}` === location.hash
@@ -70,11 +70,12 @@ const PurseInfo = () => {
           id,
         },
         {
-          headers: { Authorization: `${Cookies.get("TOKEN")}` },
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
         }
       )
-      .then((res) => {});
-    navigate("/purse-page", { replace: true });
+      .then((res) => {
+      });
+    navigate("/purse-page", {replace: true});
   };
 
   const addSumWallet = () => {
@@ -96,10 +97,11 @@ const PurseInfo = () => {
           wallets: [...newWalletStorage],
         },
         {
-          headers: { Authorization: `${Cookies.get("TOKEN")}` },
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
         }
       )
-      .then((res) => {});
+      .then((res) => {
+      });
     setIsOpen(true);
   };
 
@@ -112,12 +114,12 @@ const PurseInfo = () => {
   }, [sum, isDisabled, numberCard, date, cvc, ownerCard]);
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main_wrapper}>
         <div className={classes.main_wrapper__title}>
           <div className={classes.main_wrapper__title_purse_id}>
             <NavLink to="/purse-page">
-              <img src={arrowBack} alt="Назад" />
+              <img src={arrowBack} alt="Назад"/>
             </NavLink>
             <h1 className={classes.main_wrapper__title_text}>
               {`${currentWallet?.currency}`}
@@ -161,7 +163,7 @@ const PurseInfo = () => {
               countryCounter={currentWallet?.currency}
             />
           )}
-          <img src={banner} alt="баннер" />
+          <img src={banner} alt="баннер"/>
         </div>
         <div className={classes.main_wrapper__replenishment}>
           <p className={classes.main_wrapper__replenishment_text}>Пополнение</p>
@@ -215,7 +217,7 @@ const PurseInfo = () => {
           </div>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
     </main>
   );
 };

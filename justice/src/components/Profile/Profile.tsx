@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-import { useActions } from "../../hooks/useAction";
-import { useTypedSelector } from "../../hooks/useTypesSelector";
+import {useActions} from "../../hooks/useAction";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -14,8 +14,8 @@ import Input from "../UI/Input/Input";
 import classes from "./Profile.module.scss";
 
 const Profile = () => {
-  const { users } = useTypedSelector((state) => state.user);
-  const { FetchUser } = useActions();
+  const {users} = useTypedSelector((state) => state.user);
+  const {FetchUser} = useActions();
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -47,7 +47,7 @@ const Profile = () => {
 
   const newPassword = () => {
     const passwordChecker = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])(?=.{8,})"
     );
     if (!passwordChecker.test(password)) {
       setIsOldPassword(true);
@@ -90,7 +90,7 @@ const Profile = () => {
           phoneNumber: number,
         },
         {
-          headers: { Authorization: `${Cookies.get("TOKEN")}` },
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
         }
       )
       .then(() => {
@@ -105,7 +105,7 @@ const Profile = () => {
           password: oldPassword,
           newPassword: password,
         },
-        { headers: { Authorization: `${Cookies.get("TOKEN")}` } }
+        {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
       )
       .then(() => {
         FetchUser();
@@ -117,7 +117,7 @@ const Profile = () => {
 
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main_wrapper}>
         <div className={classes.main_wrapper__title}>
           <h1 className={classes.main_wrapper__title_text}>Мой профиль</h1>
@@ -238,7 +238,7 @@ const Profile = () => {
           </div>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
     </main>
   );
 };

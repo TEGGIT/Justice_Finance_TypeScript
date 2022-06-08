@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import {NavLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+
+import axios from "axios";
 
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
@@ -11,19 +13,18 @@ import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import axios from "axios";
 
 const RegisterPage = () => {
   const [checked, setChecked] = React.useState<boolean>(false);
-  const [disabledBtn, setDisabledBtn] = useState(true);
-  const [name, setName] = useState("");
-  const [nameError, setNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [repeatPasswordError, setRepeatPasswordError] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
+  const [name, setName] = useState<string>("");
+  const [nameError, setNameError] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [repeatPassword, setRepeatPassword] = useState<string>("");
+  const [repeatPasswordError, setRepeatPasswordError] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ const RegisterPage = () => {
   };
 
   const emailErrorChecker = () => {
-    const emailChecker = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
+    const emailChecker = /^[-\w.]+@([A-z\d][-A-z\d]+\.)+[A-z]{2,4}$/;
     if (!emailChecker.test(email)) {
       setEmailError(true);
     } else {
@@ -46,7 +47,7 @@ const RegisterPage = () => {
   };
   const passwordErrorChecker = () => {
     const passwordChecker = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])(?=.{8,})"
     );
     if (!passwordChecker.test(password)) {
       setPasswordError(true);
@@ -67,8 +68,8 @@ const RegisterPage = () => {
       name: name,
       email: email,
       password: password,
-    });
-    navigate("/login-page", { replace: true });
+    }).then();
+    navigate("/login-page", {replace: true});
   };
 
   useEffect(() => {
@@ -144,9 +145,9 @@ const RegisterPage = () => {
             </div>
             <div></div>
             <div className={classes.line_wrapper}>
-              <div className={classes.line} />
+              <div className={classes.line}/>
               <p className={classes.line__text}>Or</p>
-              <div className={classes.line} />
+              <div className={classes.line}/>
             </div>
             <div className={classes.input_wrapper}>
               {nameError ? (
@@ -271,7 +272,7 @@ const RegisterPage = () => {
               />
             </div>
 
-            <div className={classes.newperson}>
+            <div className={classes.newPerson}>
               <p>
                 {" "}
                 У вас уже есть учетная запись?{" "}
@@ -289,7 +290,7 @@ const RegisterPage = () => {
           <p className={classes.text_regular}>Finance</p>
         </NavLink>
         <div className={classes.main__image_wrapper}>
-          <img src={image} alt="Register" />
+          <img src={image} alt="Register"/>
         </div>
       </div>
     </main>

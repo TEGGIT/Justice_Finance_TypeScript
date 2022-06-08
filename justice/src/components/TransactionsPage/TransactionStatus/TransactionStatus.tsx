@@ -5,13 +5,13 @@ import exchange from "../../../assets/image/ExchangeIcon.svg";
 
 interface transaction {
   exchangeValue: string,
-  time: any,
+  time: string,
   changeValue: string,
   currency: string,
-  plus: any,
-  currencyPlus: any,
+  plus: string,
+  currencyPlus: string,
   status: string,
-  styles: any
+  styles: string
 }
 
 const TransactionStatus: React.FC<transaction> = (props) => {
