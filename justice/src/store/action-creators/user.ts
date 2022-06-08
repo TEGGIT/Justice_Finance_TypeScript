@@ -21,6 +21,8 @@ export const FetchUser = () => {
         })
       ).catch(function () {
         Cookies.remove("TOKEN")
+        alert('Срок годности токена истек.' +
+          'Необходимо повторно авторизоваться.')
       })
     } catch (e) {
       dispatch({
