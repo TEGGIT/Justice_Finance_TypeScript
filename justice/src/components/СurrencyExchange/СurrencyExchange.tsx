@@ -217,9 +217,7 @@ const CurrencyExchange = () => {
                     onClick={() => {
                     }}
                   />
-                  <p style={{color: "red"}}>
-                    Вы не можете обменять одинаковую валюту
-                  </p>
+                  <p style={{color: "red"}}>Вы не можете обменять одинаковую валюту</p>
                 </div>
               </>
             )}

@@ -1,7 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+
 import {Route, Routes, Navigate} from 'react-router-dom'
-import {privateRoutes, publicRoutes} from "../router";
+
 import {useTypedSelector} from "../../hooks/useTypesSelector";
+
+import {privateRoutes, publicRoutes} from "../router";
 
 const AppRouter = () => {
 
@@ -12,10 +15,10 @@ const AppRouter = () => {
       {auth
         ? (
           <>
-            {privateRoutes.map((route) =>
+            {privateRoutes.map((route, index) =>
               <>
                 <Route
-                  key={route.path}
+                  key={index}
                   element={route.element}
                   path={route.path}
                 />
@@ -25,9 +28,9 @@ const AppRouter = () => {
         )
         : (
           <>
-            {publicRoutes.map((route) =>
+            {publicRoutes.map((route, index) =>
               <Route
-                key={route.path}
+                key={index}
                 element={route.element}
                 path={route.path}
               />

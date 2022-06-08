@@ -7,12 +7,6 @@ export interface UserState {
   error: null | string;
 }
 
-const FETCH_USERS = "FETCH_USERS";
-
-const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
-
-const FETCH_USERS_ERROR = "FETCH_USERS_ERROR";
-
 const initialState: UserState = {
   users: [],
   loading: false,
