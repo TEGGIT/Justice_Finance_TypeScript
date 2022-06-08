@@ -29,16 +29,19 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const checkUser = () => {
-    axios
-      .post("http://localhost:5000/api/auth/login-page", {
-        email,
-        password,
-      })
-      .then((res) => {
-        Cookies.set("TOKEN", res.data.token);
-        loginUser(true)
-        navigate("/exchange-rates-page", {replace: true});
-      });
+    axios.post("http://localhost:5000/api/auth/login-page", {
+      email,
+      password,
+    }).then(res => {
+      Cookies.set("TOKEN", res.data.token);
+      console.log(res.data)
+      loginUser(true)
+      navigate("/exchange-rates-page", {replace: true});
+    }).catch(function (e) {
+      setIsEmailError(true)
+      setIsPasswordError(true)
+    })
+
   };
   const checkEmail = () => {
     const emailChecker = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;

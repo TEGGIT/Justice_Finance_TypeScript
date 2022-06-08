@@ -68,8 +68,12 @@ const RegisterPage = () => {
       name: name,
       email: email,
       password: password,
-    }).then();
-    navigate("/login-page", {replace: true});
+    }).then(() => {
+      navigate("/login-page", {replace: true});
+
+    }).catch(function () {
+      setEmailError(true)
+    });
   };
 
   useEffect(() => {
