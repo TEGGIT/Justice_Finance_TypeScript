@@ -80,7 +80,7 @@ const ProfileBar = () => {
               >
                 {wallets?.map((wallet) => (
                   <Wallet
-                    pointer={{cursor: "pointer"}}
+                    pointer
                     key={wallet.currency}
                     countryName={wallet.currency}
                     country={wallet.currency}

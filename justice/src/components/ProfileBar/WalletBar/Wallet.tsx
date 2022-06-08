@@ -7,10 +7,9 @@ import {countryIconWallet} from "../../../mockdata/countryIconWallet";
 
 import classes from "./Wallet.module.scss";
 
-
 interface WalletType {
   onClick?: () => void;
-  pointer?: object;
+  pointer?: boolean;
   countryName: CurrencyType;
   country: CurrencyType;
   countryCounter: CurrencyType;
@@ -18,11 +17,17 @@ interface WalletType {
 }
 
 const Wallet: React.FC<WalletType> = (props) => {
-  const {onClick, pointer, countryName, country, countryCounter, count} =
-    props;
+  const {
+    onClick,
+    pointer = false,
+    countryName,
+    country,
+    countryCounter,
+    count
+  } = props;
 
   return (
-    <div className={classes.wallet} onClick={onClick} style={pointer}>
+    <div className={classes.wallet} onClick={onClick}>
       <div className={classes.wallet_top}>
         <p>{`${countryName}`}</p>
         <img src={countryIconWallet[`${country}`]} alt="Иконка страны"/>

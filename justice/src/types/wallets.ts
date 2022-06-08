@@ -1,4 +1,4 @@
-import {CurrencyType} from "../components/PursePage/PursePage";
+import {CurrencyType} from "./currency";
 
 export enum WalletsActionTypes {
   FETCH_WALLETS = 'FETCH_WALLETS',

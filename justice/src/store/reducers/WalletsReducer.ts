@@ -27,7 +27,11 @@ export const walletsReducer = (
     case WalletsActionTypes.FETCH_WALLETS:
       return {...state, loading: true};
     case WalletsActionTypes.FETCH_WALLETS_SUCCESS:
-      return {...state, loading: false, wallets: action.payload};
+      return {
+        ...state,
+        loading: false,
+        wallets: action.payload
+      };
     case WalletsActionTypes.FETCH_WALLETS_ERROR:
       return {...state, loading: false, error: action.payload};
     default:
