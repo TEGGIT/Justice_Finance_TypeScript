@@ -30,7 +30,7 @@ const ProfileBar = () => {
   };
   const moveBlockRight = () => {
     setX(x - 250);
-    if (x === -250 * wallets.length) setX(0);
+    if (x === -250 * (wallets.length - 1)) setX(0);
   };
   console.log(x)
   const walletLink = (wallet: { currency: string }) => {
