@@ -76,12 +76,7 @@ const RegisterPage = () => {
       setEmailError(true)
     });
   };
-
-  useEffect(() => {
-    if (!Cookies.get("TOKEN")) {
-      navigate('/', {replace: true})
-    }
-  }, [Cookies.get("TOKEN")])
+  
 
   useEffect(() => {
     if (

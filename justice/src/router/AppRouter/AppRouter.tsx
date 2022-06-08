@@ -15,10 +15,10 @@ const AppRouter = () => {
       {auth
         ? (
           <>
-            {privateRoutes.map((route, index) =>
+            {privateRoutes.map((route) =>
               <>
                 <Route
-                  key={index}
+                  key={route.path}
                   element={route.element}
                   path={route.path}
                 />
@@ -28,9 +28,9 @@ const AppRouter = () => {
         )
         : (
           <>
-            {publicRoutes.map((route, index) =>
+            {publicRoutes.map((route) =>
               <Route
-                key={index}
+                key={route.path}
                 element={route.element}
                 path={route.path}
               />
@@ -39,7 +39,7 @@ const AppRouter = () => {
         )}
       <Route
         path="*"
-        element={<Navigate to="/" replace={true}/>}
+        element={<Navigate to="/"/>}
       />
     </Routes>
   );

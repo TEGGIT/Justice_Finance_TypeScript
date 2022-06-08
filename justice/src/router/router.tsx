@@ -10,7 +10,6 @@ import TransactionsPage from "../components/TransactionsPage/TransactionsPage";
 
 
 export const privateRoutes = [
-  {path: '/', element: <MainPage/>},
   {path: '/login-page', element: <LoginPage/>},
   {path: '/register-page', element: <RegisterPage/>},
   {path: '/exchange-rates-page', element: <ExchangeRatesPage/>},
