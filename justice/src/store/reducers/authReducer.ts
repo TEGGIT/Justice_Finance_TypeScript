@@ -1,12 +1,12 @@
 import {AuthAction, AuthActionTypes} from "../../types/auth";
+import Cookies from "js-cookie";
 
 export const authReducer = (
-  state = false,
+  state = Boolean(Cookies.get('TOKEN')),
   action: AuthAction
 ) => {
   switch (action.type) {
     case AuthActionTypes.LOGIN:
-      console.log('qwe', action.payload)
       return action.payload;
 
     default: {

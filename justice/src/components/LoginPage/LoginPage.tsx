@@ -38,7 +38,6 @@ const LoginPage = () => {
       loginUser(true)
       navigate("/exchange-rates-page", {replace: true});
     }).catch(function (e) {
-      console.log(e.response.data.message)
       setIsEmailError(true)
       setIsPasswordError(true)
     })
