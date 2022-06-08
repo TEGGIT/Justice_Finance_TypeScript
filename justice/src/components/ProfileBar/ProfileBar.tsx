@@ -60,13 +60,15 @@ const ProfileBar = () => {
         <div className={classes.profile_wrapper__balance}>
           <div className={classes.profile_wrapper__balance_arrows}>
             <p>Мой баланс</p>
-            <div className={classes.profile_wrapper__balance_arrows_arrow}>
-              <img src={left} onClick={moveBlockLeft} alt="#" />
-              <img src={right} onClick={moveBlockRight} alt="#" />
-            </div>
+            {wallets?.length > 1 && (
+              <div className={classes.profile_wrapper__balance_arrows_arrow}>
+                <img src={left} onClick={moveBlockLeft} alt="#" />
+                <img src={right} onClick={moveBlockRight} alt="#" />
+              </div>
+            )}
           </div>
 
-          {wallets && wallets.length ? (
+          {wallets?.length ? (
             <div className={classes.slider}>
               <div
                 style={{
