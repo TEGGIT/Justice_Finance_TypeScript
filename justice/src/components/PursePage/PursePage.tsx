@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 
 import {useNavigate} from "react-router-dom";
 
-// import Modal from 'react-modal';
 import axios from "axios";
 
 import Input from "../UI/Input/Input";
@@ -17,11 +16,13 @@ import {countryIcon} from "../../mockdata/countryIcon";
 
 import wallet from "../../assets/image/wallet.svg";
 import close from "../../assets/image/Close.svg";
+import WalletsIcon from '../../assets/image/WalletIcon.svg'
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {FetchWallets} from "../../store/action-creators/wallets";
 import {useActions} from "../../hooks/useAction";
 import Cookies from "js-cookie";
 import {SelectChangeEvent} from "@mui/material";
+import Modal from "../UI/Modal/Modal";
 
 const customStyles = {
   overlay: {
@@ -47,6 +48,7 @@ const PursePage = () => {
   const [modalErrorIsOpen, setModalErrorIsOpen] = useState<boolean>(false);
   const [currency, setCurrency] = useState<CurrencyType>();
   const [numberPurse, setNumberPurse] = useState<number>();
+  const [openModal, setOpenModal] = useState<boolean>(false)
   const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
   const navigate = useNavigate();
 
@@ -60,9 +62,9 @@ const PursePage = () => {
       setIsDisabledBtn(false);
     }
   }, [numberPurse, currency]);
-  console.log(currency);
 
   const addPurse = () => {
+    setOpenModal(true)
     const isFindWallet = wallets?.find(
       (wallet) => wallet.currency === currency
     );
@@ -118,7 +120,6 @@ const PursePage = () => {
   const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
-  console.log(currency)
   return (
     <main className={classes.main}>
       <NavBar/>
@@ -199,6 +200,12 @@ const PursePage = () => {
         </div>
       </section>
       <ProfileBar/>
+      {openModal && openModal &&
+        <Modal setOpenModal={setOpenModal}
+               image={WalletsIcon}
+               textMain="Кошелек успешно добавлен"
+               textBottom="Теперь вы можете совершать любые операции."
+        />}
     </main>
   );
 };

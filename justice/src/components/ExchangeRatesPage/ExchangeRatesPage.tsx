@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 import axios from "axios";
 
@@ -11,7 +11,7 @@ import NavBar from "../NavBar/NavBar";
 import Input from "../UI/Input/Input";
 import ProfileBar from "../ProfileBar/ProfileBar";
 
-import { exchangeRates } from "../../types/exchangeRates";
+import {exchangeRates} from "../../types/exchangeRates";
 // import SlideButton from "../UI/SlideButton/SlideButton";
 import classes from "./ExchangeRatesPage.module.scss";
 // import arrowButtonLeft from "../../assets/image/ArrowButtonLeft.svg";
@@ -38,7 +38,7 @@ const ExchangeRatesPage = () => {
   return (
     <>
       <div className={classes.wrapper}>
-        <NavBar />
+        <NavBar/>
         <main className={classes.main}>
           <div className={classes.main_title}>
             <h1 className={classes.main_title_text}>Курсы валют</h1>
@@ -52,9 +52,9 @@ const ExchangeRatesPage = () => {
             {/*<SlideButton img={arrowButtonLeft} onClick={moveBlockLeft}/>*/}
 
             {exchangeRates
-              ?.map((slide) => (
+              ?.map((slide, index) => (
                 <SliderRate
-                  key={slide.currencyName}
+                  key={index}
                   currency={slide.currencyName}
                   rates={slide.rubleRatio}
                 />
@@ -92,7 +92,7 @@ const ExchangeRatesPage = () => {
                 83,8750
               </p>
               <p className={classes.main_wrapper__chart_price_percent}>
-                <img src={arrowUpMin} alt="Проценты" />
+                <img src={arrowUpMin} alt="Проценты"/>
                 0,45 %
               </p>
               <p className={classes.main_wrapper__chart_price_plus}>
@@ -100,9 +100,9 @@ const ExchangeRatesPage = () => {
               </p>
             </div>
           </div>
-          <Charts />
+          <Charts/>
         </main>
-        <ProfileBar />
+        <ProfileBar/>
       </div>
     </>
   );

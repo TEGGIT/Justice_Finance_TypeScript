@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 
+
 import {NavLink, useNavigate} from "react-router-dom";
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Wallet from "./WalletBar/Wallet";
@@ -26,7 +27,7 @@ const ProfileBar = () => {
     if (x === 0) setX(0);
   };
   const moveBlockRight = () => {
-    setX(x - 20);
+    setX((x - 120) * wallets.length);
     if (x === -80) setX(0);
   };
   const walletLink = (wallet: { currency: string }) => {
@@ -36,6 +37,7 @@ const ProfileBar = () => {
     FetchUser();
     FetchWallets();
   }, []);
+
 
   const transaction = users[0]?.transaction;
 
@@ -67,7 +69,7 @@ const ProfileBar = () => {
             <div className={classes.slider}>
               <div
                 style={{
-                  transform: `translateX(${x}%)`,
+                  transform: `translateX(${x}px)`,
                   display: "flex",
                   transition: "0.5s",
                   gap: "10px",
