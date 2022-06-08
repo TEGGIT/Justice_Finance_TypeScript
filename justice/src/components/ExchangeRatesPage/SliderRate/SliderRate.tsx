@@ -1,15 +1,15 @@
 import React from "react";
 import classes from "../ExchangeRatesPage.module.scss";
 import arrowUp from "../../../assets/image/ArrowUp.svg";
-import {CurrencyType} from "../../../types/currency";
+import { CurrencyType } from "../../../types/currency";
 
 interface currencyExchange {
-  currency: CurrencyType;
+  currency: CurrencyType | string;
   rates: string;
 }
 
 const SliderRate: React.FC<currencyExchange> = (props) => {
-  const {currency, rates} = props;
+  const { currency, rates } = props;
   return (
     <div className={classes.main_wrapper__slider__rate}>
       <img
@@ -25,7 +25,7 @@ const SliderRate: React.FC<currencyExchange> = (props) => {
           </p>
         </div>
         <div className={classes.main_wrapper__slider__rate__positive}>
-          <p style={{width: "100px"}}>{rates}</p>
+          <p style={{ width: "100px" }}>{rates}</p>
           <p className={classes.main_wrapper__slider__rate__positive_plus}>
             +0,2380
           </p>
