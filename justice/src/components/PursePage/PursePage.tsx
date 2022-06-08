@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 
 // import Modal from 'react-modal';
 import axios from "axios";
-// import Cookies from "js-cookie";
 
 import Input from "../UI/Input/Input";
 import Select from "../MUI/Select/Select";
@@ -17,16 +16,16 @@ import classes from "./PursePage.module.scss";
 import {countryIcon} from "../../mockdata/countryIcon";
 
 import wallet from "../../assets/image/wallet.svg";
-import walletIcon from "../../assets/image/WalletIcon.svg";
 import close from "../../assets/image/Close.svg";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {FetchWallets} from "../../store/action-creators/wallets";
 import {useActions} from "../../hooks/useAction";
 import Cookies from "js-cookie";
+import {SelectChangeEvent} from "@mui/material";
 
 const customStyles = {
   overlay: {
-    backgroundcolor: "rgba(0, 0, 0, 0.8)",
+    bc: "rgba(0, 0, 0, 0.8)",
     zIndex: "3",
   },
   content: {
@@ -37,21 +36,22 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     display: "flex",
-    flexdirection: "column",
+    direction: "column",
     alignItems: "flex-end",
   },
 };
 
+export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB";
 const PursePage = () => {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [modalErrorIsOpen, setModalErrorIsOpen] = React.useState(false);
-  const [currency, setСurrency] = React.useState("");
-  const [numberPurse, setNumberPurse] = useState("");
-  const [isDisabledBtn, setIsDisabledBtn] = useState(true);
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const [modalErrorIsOpen, setModalErrorIsOpen] = useState<boolean>(false);
+  const [currency, setCurrency] = useState<CurrencyType>();
+  const [numberPurse, setNumberPurse] = useState<number>();
+  const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  const {wallets} = useTypedSelector(state => state.wallets)
-  const {FetchWallets} = useActions()
+  const {wallets} = useTypedSelector((state) => state.wallets) ?? {};
+  const {FetchWallets} = useActions();
 
   useEffect(() => {
     if (!numberPurse || !currency) {
@@ -60,31 +60,39 @@ const PursePage = () => {
       setIsDisabledBtn(false);
     }
   }, [numberPurse, currency]);
-
+  console.log(currency);
 
   const addPurse = () => {
-
-    const isFindWallet = wallets?.find(wallet => wallet.currency === currency)
+    const isFindWallet = wallets?.find(
+      (wallet) => wallet.currency === currency
+    );
     if (isFindWallet) {
-      setModalErrorIsOpen(true)
+      setModalErrorIsOpen(true);
     } else {
-      setIsOpen(true)
+      setIsOpen(true);
 
-      axios.patch('http://localhost:5000/api/wallets/create', {
-        wallets: [
-          ...wallets,
+      axios
+        .patch(
+          "http://localhost:5000/api/wallets/create",
           {
-            currency,
-            purseNumber: numberPurse,
-            sum: 0
-          }]
-      }, {
-        headers: {
-          Authorization: `${Cookies.get("TOKEN")}`
-        }
-      },).then(() => {
-        FetchWallets()
-      })
+            wallets: [
+              ...wallets,
+              {
+                currency,
+                purseNumber: numberPurse,
+                sum: 0,
+              },
+            ],
+          },
+          {
+            headers: {
+              Authorization: `${Cookies.get("TOKEN")}`,
+            },
+          }
+        )
+        .then(() => {
+          FetchWallets();
+        });
     }
   };
   useEffect(() => {
@@ -93,7 +101,6 @@ const PursePage = () => {
         setIsOpen(false);
       }, 3000);
     }
-
   }, [modalIsOpen]);
 
   useEffect(() => {
@@ -104,14 +111,14 @@ const PursePage = () => {
     }
   });
 
-  const handleChange = (event: any) => {
-    setСurrency(event.target.value);
+  const handleChange = (event: SelectChangeEvent<CurrencyType>) => {
+    setCurrency(event.target.value as CurrencyType);
   };
 
-  const walletLink = (wallet: { currency: any; }) => {
+  const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
-  }
-
+  };
+  console.log(currency)
   return (
     <main className={classes.main}>
       <NavBar/>
@@ -122,10 +129,10 @@ const PursePage = () => {
 
         {wallets.length > 0 ? (
           <div className={classes.main__wrapper__wallet_container__wallets}>
-            {wallets.map((wallet) => (
+            {wallets.map((wallet, index) => (
               <Wallet
-                pointer={{cursor: 'pointer'}}
-                key={wallet.currency}
+                pointer={{cursor: "pointer"}}
+                key={index}
                 countryName={wallet.currency}
                 country={wallet.currency}
                 count={wallet.sum.toFixed(2)}
@@ -157,7 +164,6 @@ const PursePage = () => {
                 array={countryIcon}
               />
             </div>
-
             <div className={classes.mobile_button}>
               <Select
                 handleChangeSelect={handleChange}
@@ -175,18 +181,18 @@ const PursePage = () => {
               }
               value={numberPurse}
               onChange={(e) => {
-                setNumberPurse(e.target.value);
+                setNumberPurse(e.target.valueAsNumber);
               }}
             />
             <ButtonMui
               text="Добавить кошелек"
-              backgroundcolor="#363636"
+              bc="#363636"
               padding="15px 24px"
               disabled={isDisabledBtn}
-              fontcolor="#EEEEEE"
+              coloring="#EEEEEE"
               fontSize="16px"
               fontWeight="600"
-              hoverbackground="#363636"
+              hb="#363636"
               onClick={addPurse}
             />
           </div>

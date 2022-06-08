@@ -1,39 +1,44 @@
-import React, {useState, useEffect} from "react";
-import {NavLink} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
+import { NavLink } from "react-router-dom";
+
+import axios from "axios";
+
 import Charts from "./Chart/Chart";
 import SliderRate from "./SliderRate/SliderRate";
 import ButtonMui from "../MUI/Button/ButtonMui";
 import NavBar from "../NavBar/NavBar";
 import Input from "../UI/Input/Input";
 import ProfileBar from "../ProfileBar/ProfileBar";
+
+import { exchangeRates } from "../../types/exchangeRates";
 // import SlideButton from "../UI/SlideButton/SlideButton";
 import classes from "./ExchangeRatesPage.module.scss";
-import arrowButtonLeft from "../../assets/image/ArrowButtonLeft.svg";
-import arrowButtonRight from "../../assets/image/arrowButtonRight.svg";
+// import arrowButtonLeft from "../../assets/image/ArrowButtonLeft.svg";
+// import arrowButtonRight from "../../assets/image/arrowButtonRight.svg";
 import arrowUpMin from "../../assets/image/ArrowUpMin.svg";
-import axios from "axios";
 
 const ExchangeRatesPage = () => {
-  const [x, setX] = useState(0);
-  const [exchangeRates, setExchangeRates] = useState<any>([]);
-  const moveBlockLeft = () => {
-    // setX(x + 10)
-    // if (x === 0) setX(-30)
-  };
-  const moveBlockRight = () => {
-    // setX(x - 10)
-    // if (x === 10) setX(0)
-  };
+  // const [x, setX] = useState(0);
+  const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
+  // const moveBlockLeft = () => {
+  //   // setX(x + 10)
+  //   // if (x === 0) setX(-30)
+  // };
+  // const moveBlockRight = () => {
+  //   // setX(x - 10)
+  //   // if (x === 10) setX(0)
+  // };
   useEffect(() => {
-    axios.get("http://localhost:5000/api/exchangeRates").then((responce) => {
-      setExchangeRates(responce.data[0].exchangeRates);
+    axios.get("http://localhost:5000/api/exchangeRates").then((res) => {
+      setExchangeRates(res.data[0].exchangeRates);
     });
   }, []);
 
   return (
     <>
       <div className={classes.wrapper}>
-        <NavBar/>
+        <NavBar />
         <main className={classes.main}>
           <div className={classes.main_title}>
             <h1 className={classes.main_title_text}>Курсы валют</h1>
@@ -46,13 +51,14 @@ const ExchangeRatesPage = () => {
           <div className={classes.main_wrapper__slider}>
             {/*<SlideButton img={arrowButtonLeft} onClick={moveBlockLeft}/>*/}
 
-            {exchangeRates?.map((slide: any) => (
-              <SliderRate
-                key={slide.currencyName}
-                currency={slide.currencyName}
-                rates={slide.rubleRatio}
-              />
-            ))
+            {exchangeRates
+              ?.map((slide) => (
+                <SliderRate
+                  key={slide.currencyName}
+                  currency={slide.currencyName}
+                  rates={slide.rubleRatio}
+                />
+              ))
               .splice(1, 4)}
 
             {/*<SlideButton img={arrowButtonRight} onClick={moveBlockRight}/>*/}
@@ -74,9 +80,9 @@ const ExchangeRatesPage = () => {
                 fontWeight="600"
                 padding="12px 24px"
                 text="Обменять"
-                fontcolor="white"
-                backgroundcolor="#363636"
-                hoverbackground="#363636"
+                coloring="white"
+                bc="#363636"
+                hb="#363636"
               />
             </NavLink>
           </div>
@@ -86,7 +92,7 @@ const ExchangeRatesPage = () => {
                 83,8750
               </p>
               <p className={classes.main_wrapper__chart_price_percent}>
-                <img src={arrowUpMin} alt="Проценты"/>
+                <img src={arrowUpMin} alt="Проценты" />
                 0,45 %
               </p>
               <p className={classes.main_wrapper__chart_price_plus}>
@@ -94,9 +100,9 @@ const ExchangeRatesPage = () => {
               </p>
             </div>
           </div>
-          <Charts/>
+          <Charts />
         </main>
-        <ProfileBar/>
+        <ProfileBar />
       </div>
     </>
   );

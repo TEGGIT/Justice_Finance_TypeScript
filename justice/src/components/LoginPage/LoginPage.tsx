@@ -1,6 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import {NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
+import Cookies from "js-cookie";
+import axios from "axios";
 
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Input from "../UI/Input/Input";
@@ -11,28 +14,27 @@ import classes from "./LoginPage.module.scss";
 import image from "../../assets/image/IllustrationOne.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import Cookies from "js-cookie";
-import axios from "axios";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isEmailError, setIsEmailError] = useState(false);
-  const [isPasswordError, setIsPasswordError] = useState(false);
-  const [isDisabledBtn, setIsDisabledBtn] = useState(true);
-  const [checked, setChecked] = React.useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isEmailError, setIsEmailError] = useState<boolean>(false);
+  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+  const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
+  const [checked, setChecked] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const checkUser = () => {
-    axios.post('http://localhost:5000/api/auth/login-page', {
-      email,
-      password,
-    }).then((responce) => {
-      Cookies.set("TOKEN", responce.data.token)
-      navigate("/exchange-rates-page", {replace: true});
-
-    })
+    axios
+      .post("http://localhost:5000/api/auth/login-page", {
+        email,
+        password,
+      })
+      .then((res) => {
+        Cookies.set("TOKEN", res.data.token);
+        navigate("/exchange-rates-page", { replace: true });
+      });
   };
   const checkEmail = () => {
     const emailChecker = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
@@ -78,10 +80,10 @@ const LoginPage = () => {
               <div className={classes.desktop_button}>
                 <ButtonMui
                   fontSize="12px"
-                  img={google}
+                  icon={google}
                   text="Sing up with Google"
                   gap="8px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="16px 25px 16px 30px"
                   fontWeight="500"
@@ -89,10 +91,10 @@ const LoginPage = () => {
 
                 <ButtonMui
                   fontSize="12px"
-                  img={github}
+                  icon={github}
                   text="Sing up with GitHub"
                   gap="8px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="16px 25px 16px 30px"
                   fontWeight="500"
@@ -101,10 +103,10 @@ const LoginPage = () => {
               <div className={classes.mobile_button}>
                 <ButtonMui
                   fontSize="10px"
-                  img={google}
+                  icon={google}
                   text="Sing up with Google"
                   gap="6px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="12px 12px 12px 12px"
                   fontWeight="500"
@@ -112,10 +114,10 @@ const LoginPage = () => {
 
                 <ButtonMui
                   fontSize="10px"
-                  img={github}
+                  icon={github}
                   text="Sing up with GitHub"
                   gap="6px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="12px 12px 12px 12px"
                   fontWeight="500"
@@ -123,9 +125,9 @@ const LoginPage = () => {
               </div>
             </div>
             <div className={classes.line_wrapper}>
-              <div className={classes.line}/>
+              <div className={classes.line} />
               <p className={classes.line__text}>Or</p>
-              <div className={classes.line}/>
+              <div className={classes.line} />
             </div>
             <div className={classes.input_wrapper}>
               {isEmailError ? (
@@ -168,7 +170,7 @@ const LoginPage = () => {
               )}
 
               <div className={classes.checkbox}>
-                <CheckBox onChange={handleChange} checked={checked}/>
+                <CheckBox onChange={handleChange} checked={checked} />
                 <p>Запомнить меня</p>
               </div>
             </div>
@@ -177,9 +179,9 @@ const LoginPage = () => {
                 text="Войти"
                 fontSize="1rem"
                 padding="12px 195px"
-                backgroundcolor="#363636"
-                fontcolor="#FFFFFF"
-                hoverbackground="#363636"
+                bc="#363636"
+                coloring="#FFFFFF"
+                hb="#363636"
                 fontWeight="600"
                 onClick={checkUser}
                 disabled={isDisabledBtn}
@@ -190,15 +192,15 @@ const LoginPage = () => {
                 text="Войти"
                 fontSize="1rem"
                 padding="12px 100px"
-                backgroundcolor="#363636"
-                fontcolor="#FFFFFF"
-                hoverbackground="#363636"
+                bc="#363636"
+                coloring="#FFFFFF"
+                hb="#363636"
                 fontWeight="600"
                 onClick={checkUser}
                 disabled={isDisabledBtn}
               />
             </div>
-            <div className={classes.newperson}>
+            <div className={classes.newPerson}>
               <p>
                 Нет аккаунта?{" "}
                 <NavLink to="/register-page" className={classes.signup}>
@@ -215,7 +217,7 @@ const LoginPage = () => {
           <p className={classes.text_regular}>Finance</p>
         </NavLink>
         <div className={classes.main__image_wrapper}>
-          <img src={image} alt="SignUp"/>
+          <img src={image} alt="SignUp" />
         </div>
       </div>
     </main>

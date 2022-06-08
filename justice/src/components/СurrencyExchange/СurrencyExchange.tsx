@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
@@ -8,119 +9,126 @@ import Input from "../UI/Input/Input";
 import Select from "../MUI/Select/Select";
 import ButtonMui from "../MUI/Button/ButtonMui";
 
+import {useActions} from "../../hooks/useAction";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+
+import {exchangeRates} from "../../types/exchangeRates";
+
 import classes from "./СurrencyExchange.module.scss";
 
 import exchange from "../../assets/image/exchange.svg";
-import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {useActions} from "../../hooks/useAction";
-import Cookies from "js-cookie";
+import {CurrencyType} from "../PursePage/PursePage";
+
 
 const CurrencyExchange = () => {
-  const [give, setGive] = React.useState("");
-  const [get, setGet] = React.useState("");
-  const [giveValue, setGiveValue]: any = useState("");
-  const [getValue, setGetValue] = useState("");
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [isDisabledError, setIsDisabledError] = useState(false)
-  const [exchangeRates, setExchangeRates]: any[] = useState([]);
+  const [give, setGive] = useState<CurrencyType>();
+  const [get, setGet] = useState<CurrencyType>();
+  const [giveValue, setGiveValue] = useState<string>('');
+  const [getValue, setGetValue] = useState<string>('');
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const [isDisabledError, setIsDisabledError] = useState<boolean>(false);
+  const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
 
-  const {users} = useTypedSelector(state => state.user)
-  const {wallets} = useTypedSelector(state => state.wallets)
-  const {FetchWallets, FetchUser} = useActions()
-
+  const {users} = useTypedSelector((state) => state.user);
+  const {wallets} = useTypedSelector((state) => state.wallets);
+  const {FetchWallets, FetchUser} = useActions();
   const Data = new Date();
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
 
-
   useEffect(() => {
-    if (get === give && get.length && give.length) {
-      setIsDisabledError(true)
+    if (get === give && get?.length && give?.length) {
+      setIsDisabledError(true);
     } else {
-      setIsDisabledError(false)
+      setIsDisabledError(false);
     }
-  }, [get, give, isDisabledError])
+  }, [get, give, isDisabledError]);
 
   const addTransaction = () => {
-    const refreshWalletSum = wallets?.map(item => {
+    const refreshWalletSum = wallets.map((item) => {
       if (item.currency === give) {
         return {
           ...item,
-          sum: item.sum - giveValue
-        }
+          sum: item.sum - Number(giveValue),
+        };
       }
       if (item.currency === get) {
         return {
           ...item,
-          sum: item.sum + +getValue
-        }
+          sum: item.sum + +getValue,
+        };
       }
-      return item
-    })
+      return item;
+    });
 
-    setIsDisabled(true)
+    setIsDisabled(true);
 
-    axios.patch('http://localhost:5000/api/wallets/update', {
-      wallets: [
-        ...refreshWalletSum
-      ]
-    }, {
-      headers: {Authorization: `${Cookies.get("TOKEN")}`}
-    },).then(() => {
-      FetchWallets()
-    })
-
-    axios.patch('http://localhost:5000/api/transaction', {
-      transaction: [
-        ...users[0].transaction,
+    axios
+      .patch(
+        "http://localhost:5000/api/wallets/update",
         {
-          get,
-          Hour,
-          Minutes,
-          give,
-          giveValue,
-          getValue
+          wallets: [...refreshWalletSum],
+        },
+        {
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
         }
-      ]
-    }, {headers: {Authorization: `${Cookies.get("TOKEN")}`}},).then((res) => {
-      FetchUser()
-    })
-    setGiveValue('')
+      )
+      .then(() => {
+        FetchWallets();
+      });
+
+    axios
+      .patch(
+        "http://localhost:5000/api/transaction",
+        {
+          transaction: [
+            ...users[0].transaction,
+            {
+              get,
+              Hour,
+              Minutes,
+              give,
+              giveValue,
+              getValue,
+            },
+          ],
+        },
+        {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
+      )
+      .then(() => {
+        FetchUser();
+      });
+    setGiveValue("");
   };
 
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/exchangeRates").then((res) => {
+      setExchangeRates(res.data[0].exchangeRates);
+    });
+  }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/exchangeRates').then((responce) => {
-
-      setExchangeRates(responce.data[0].exchangeRates)
-
-    })
-  }, [])
-
-  useEffect(() => {
-    const walletGive = wallets?.filter(wallet => wallet.currency === give && wallet)
-    walletGive.length && (giveValue > walletGive[0].sum
-    ||
-    Boolean(!get)
-    ||
-    Boolean(!give)
-    ||
+    const walletGive = wallets?.filter(
+      (wallet) => wallet.currency === give && wallet
+    );
+    walletGive.length &&
+    (Number(giveValue) > walletGive[0].sum ||
+    Boolean(!get) ||
+    Boolean(!give) ||
     Boolean(!giveValue)
-      ?
-      setIsDisabled(true) : setIsDisabled(false))
-    exchangeRates?.map((input: any) => {
-      walletGive.length
-      &&
-      walletGive[0].currency === input.currencyName
-      &&
-      exchangeRates?.map((output: any) => {
-        get === output.currencyName
-        &&
-        setGetValue(((input.rubleRatio * giveValue) / output.rubleRatio).toFixed(2))
-      })
-    })
-
-  }, [giveValue, getValue, get, give, isDisabled])
+      ? setIsDisabled(true)
+      : setIsDisabled(false));
+    exchangeRates?.map((input) => {
+      walletGive.length &&
+      walletGive[0].currency === input.currencyName &&
+      exchangeRates?.map((output) => {
+        get === output.currencyName &&
+        setGetValue(
+          ((Number(input.rubleRatio) * Number(giveValue)) / Number(output.rubleRatio)).toFixed(2)
+        );
+      });
+    });
+  }, [giveValue, getValue, get, give, isDisabled]);
 
   return (
     <main className={classes.main}>
@@ -143,7 +151,7 @@ const CurrencyExchange = () => {
             />
             {wallets ? (
               <Select
-                handleChangeSelect={(e: any) => setGive(e.target.value)}
+                handleChangeSelect={(event) => setGive(event.target.value as CurrencyType)}
                 selectValue={give}
                 minWidth="21rem"
                 name="Выберите кошелек"
@@ -164,7 +172,7 @@ const CurrencyExchange = () => {
             />
             {wallets ? (
               <Select
-                handleChangeSelect={(e: any) => setGet(e.target.value)}
+                handleChangeSelect={(event) => setGet(event.target.value as CurrencyType)}
                 selectValue={get}
                 minWidth="21rem"
                 name="Выберите кошелек"
@@ -179,16 +187,16 @@ const CurrencyExchange = () => {
               <>
                 <ButtonMui
                   text="Обменять"
-                  img={exchange}
-                  backgroundcolor="#363636"
+                  icon={exchange}
+                  bc="#363636"
                   padding="16px"
                   gap="8px"
-                  fontcolor="#FFFFFF"
+                  coloring="#FFFFFF"
                   fontWeight="600"
                   fontSize="16px"
-                  hoverbackground="#363636"
+                  hb="#363636"
                   disabled={isDisabled}
-                  flexdirection="row-reverse"
+                  direction="row-reverse"
                   onClick={addTransaction}
                 />
               </>
@@ -197,24 +205,24 @@ const CurrencyExchange = () => {
                 <div className={classes.button_error}>
                   <ButtonMui
                     text="Обменять"
-                    img={exchange}
-                    backgroundcolor="#A52800"
+                    icon={exchange}
+                    bc="#A52800"
                     padding="16px"
                     gap="8px"
-                    fontcolor="#FFFFFF"
+                    coloring="#FFFFFF"
                     fontWeight="600"
                     fontSize="16px"
-                    hoverbackground="#A52800"
-                    flexdirection="row-reverse"
+                    hb="#A52800"
+                    direction="row-reverse"
                     onClick={() => {
                     }}
                   />
-                  <p style={{color: 'red'}}>Вы не можете обменять одинаковую валюту</p>
+                  <p style={{color: "red"}}>
+                    Вы не можете обменять одинаковую валюту
+                  </p>
                 </div>
               </>
             )}
-
-
           </div>
         </div>
       </section>

@@ -1,8 +1,4 @@
-export interface UserState {
-  users: any[];
-  loading: boolean;
-  error: null | string;
-}
+import {WalletsType} from "../store/reducers/WalletsReducer";
 
 export enum UsersActionTypes {
   FETCH_USERS = "FETCH_USERS",
@@ -14,9 +10,30 @@ interface FetchUsersAction {
   type: UsersActionTypes.FETCH_USERS;
 }
 
+export type UserType = {
+  email: string;
+  password: string;
+  name: string;
+  wallets: WalletsType[];
+  transaction: [
+    {
+      get: string;
+      Hour: number;
+      Minutes: number;
+      give: string;
+      giveValue: number;
+      getValue: number;
+    }
+  ];
+  birthday: string;
+  city: string;
+  phoneNumber: number;
+}
+
+
 interface FetchUsersSuccessAction {
   type: UsersActionTypes.FETCH_USERS_SUCCESS;
-  payload: any[];
+  payload: UserType[];
 }
 
 interface FetchUsersErrorAction {

@@ -3,6 +3,8 @@ import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
+import axios from "axios";
+
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
 import ButtonMui from "../MUI/Button/ButtonMui";
@@ -11,19 +13,18 @@ import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import axios from "axios";
 
 const RegisterPage = () => {
   const [checked, setChecked] = React.useState<boolean>(false);
-  const [disabledBtn, setDisabledBtn] = useState(true);
-  const [name, setName] = useState("");
-  const [nameError, setNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [repeatPasswordError, setRepeatPasswordError] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
+  const [name, setName] = useState<string>("");
+  const [nameError, setNameError] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [repeatPassword, setRepeatPassword] = useState<string>("");
+  const [repeatPasswordError, setRepeatPasswordError] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ const RegisterPage = () => {
   };
 
   const emailErrorChecker = () => {
-    const emailChecker = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
+    const emailChecker = /^[-\w.]+@([A-z\d][-A-z\d]+\.)+[A-z]{2,4}$/;
     if (!emailChecker.test(email)) {
       setEmailError(true);
     } else {
@@ -46,7 +47,7 @@ const RegisterPage = () => {
   };
   const passwordErrorChecker = () => {
     const passwordChecker = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])(?=.{8,})"
     );
     if (!passwordChecker.test(password)) {
       setPasswordError(true);
@@ -63,11 +64,11 @@ const RegisterPage = () => {
   };
 
   const registration = () => {
-    axios.post('http://localhost:5000/api/auth/register-page', {
-      "name": name,
-      "email": email,
-      "password": password
-    })
+    axios.post("http://localhost:5000/api/auth/register-page", {
+      name: name,
+      email: email,
+      password: password,
+    }).then();
     navigate("/login-page", {replace: true});
   };
 
@@ -98,10 +99,10 @@ const RegisterPage = () => {
               <div className={classes.desktopTop_button}>
                 <ButtonMui
                   fontSize="12px"
-                  img={google}
+                  icon={google}
                   text="Sing up with Google"
                   gap="8px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="16px 25px 16px 30px"
                   fontWeight="500"
@@ -109,10 +110,10 @@ const RegisterPage = () => {
 
                 <ButtonMui
                   fontSize="12px"
-                  img={github}
+                  icon={github}
                   text="Sing up with GitHub"
                   gap="8px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="16px 25px 16px 30px"
                   fontWeight="500"
@@ -121,10 +122,10 @@ const RegisterPage = () => {
               <div className={classes.mobileTop_button}>
                 <ButtonMui
                   fontSize="9px"
-                  img={google}
+                  icon={google}
                   text="Sing up with Google"
                   gap="4px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="12px 12px 12px 12px"
                   fontWeight="500"
@@ -132,10 +133,10 @@ const RegisterPage = () => {
 
                 <ButtonMui
                   fontSize="9px"
-                  img={github}
+                  icon={github}
                   text="Sing up with GitHub"
                   gap="4px"
-                  fontcolor="#363636"
+                  coloring="#363636"
                   border="1px solid #ECECEC"
                   padding="12px 12px 12px 12px"
                   fontWeight="500"
@@ -248,12 +249,12 @@ const RegisterPage = () => {
               <ButtonMui
                 text="Зарегистрироваться"
                 padding="12px 180px"
-                backgroundcolor="#363636"
-                fontcolor="#FFFFFF"
+                bc="#363636"
+                coloring="#FFFFFF"
                 onClick={() => registration()}
                 disabled={disabledBtn}
                 fontWeight="600"
-                hoverbackground="#363636"
+                hb="#363636"
                 fontSize="16px"
               />
             </div>
@@ -261,17 +262,17 @@ const RegisterPage = () => {
               <ButtonMui
                 text="Зарегистрироваться"
                 padding="12px 80px"
-                backgroundcolor="#363636"
-                fontcolor="#FFFFFF"
+                bc="#363636"
+                coloring="#FFFFFF"
                 onClick={() => registration()}
                 disabled={disabledBtn}
                 fontWeight="600"
-                hoverbackground="#363636"
+                hb="#363636"
                 fontSize="16px"
               />
             </div>
 
-            <div className={classes.newperson}>
+            <div className={classes.newPerson}>
               <p>
                 {" "}
                 У вас уже есть учетная запись?{" "}

@@ -19,11 +19,13 @@ import banner from "../../../assets/image/Banner.png";
 import close from "../../../assets/image/Close.svg";
 import walletIcon from "../../../assets/image/WalletIcon.svg";
 import {useTypedSelector} from "../../../hooks/useTypesSelector";
+import {CurrencyType} from "../PursePage";
+import {WalletsType} from "../../../store/reducers/WalletsReducer";
 
 const PurseInfo = () => {
   const customStyles = {
     overlay: {
-      backgroundcolor: "rgba(0, 0, 0, 0.8)",
+      bc: "rgba(0, 0, 0, 0.8)",
       zIndex: "3",
     },
     content: {
@@ -34,7 +36,7 @@ const PurseInfo = () => {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       display: "flex",
-      flexdirection: "column",
+      direction: "column",
       alignItems: "flex-end",
     },
   };
@@ -50,45 +52,57 @@ const PurseInfo = () => {
   const [cvc, setCvc] = useState("");
   const [ownerCard, setOwnerCard] = useState("");
 
+  const {wallets} = useTypedSelector((state) => state.wallets);
 
-  const {wallets} = useTypedSelector(state => state.wallets)
-
-  const currentWallet = wallets?.find((wallet) => `#${wallet.currency}` === location.hash)
+  const currentWallet: WalletsType | undefined = wallets.find(
+    (wallet) => `#${wallet.currency}` === location.hash
+  );
 
   const deleteWallet = () => {
-    const newWallets = wallets?.filter(wallet => wallet.currency !== currentWallet.currency)
-    axios.patch('http://localhost:5000/api/wallets/remove', {
-      wallets: newWallets,
-      id
-    }, {
-      headers: {Authorization: `${Cookies.get("TOKEN")}`}
-    },).then((res) => {
-    })
+    const newWallets =
+      currentWallet &&
+      wallets.filter((wallet) => wallet.currency !== currentWallet.currency);
+    axios
+      .patch(
+        "http://localhost:5000/api/wallets/remove",
+        {
+          wallets: newWallets,
+          id,
+        },
+        {
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
+        }
+      )
+      .then((res) => {
+      });
     navigate("/purse-page", {replace: true});
   };
 
   const addSumWallet = () => {
     const newWalletStorage = wallets?.map((wallet) => {
-      if (wallet.currency === currentWallet.currency)
-        wallet.sum = +currentWallet.sum + +sum
-      setSum('')
-      setNumberCard('')
-      setDate('')
-      setCvc('')
-      setOwnerCard('')
-      return wallet
-    })
+      if (wallet.currency === currentWallet?.currency)
+        wallet.sum = +currentWallet.sum + +sum;
+      setSum("");
+      setNumberCard("");
+      setDate("");
+      setCvc("");
+      setOwnerCard("");
+      return wallet;
+    });
 
-    axios.patch('http://localhost:5000/api/wallets/update', {
-      wallets: [
-        ...newWalletStorage
-      ]
-    }, {
-      headers: {Authorization: `${Cookies.get("TOKEN")}`}
-    },).then((res) => {
-
-    })
-    setIsOpen(true)
+    axios
+      .patch(
+        "http://localhost:5000/api/wallets/update",
+        {
+          wallets: [...newWalletStorage],
+        },
+        {
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
+        }
+      )
+      .then((res) => {
+      });
+    setIsOpen(true);
   };
 
   useEffect(() => {
@@ -108,12 +122,11 @@ const PurseInfo = () => {
               <img src={arrowBack} alt="Назад"/>
             </NavLink>
             <h1 className={classes.main_wrapper__title_text}>
-              {currentWallet?.currency}
-
-              <span className={classes.main_wrapper__title_text_number}>
-                {`#${currentWallet?.purseNumber}`}
-              </span>
+              {`${currentWallet?.currency}`}
             </h1>
+            <span className={classes.main_wrapper__title_text_number}>
+              {`#${currentWallet?.purseNumber}`}
+            </span>
           </div>
           {/*<Modal style={customStyles}*/}
           {/*       isOpen={modalIsOpen}*/}
@@ -133,19 +146,23 @@ const PurseInfo = () => {
             text="Удалить кошелёк"
             padding="12px"
             border="1px solid #363636"
-            backgroundcolor="#FFFFFF"
-            hoverbackground="#FFFFFF"
-            fontcolor="#363636"
+            bc="#FFFFFF"
+            hb="#FFFFFF"
+            coloring="#363636"
             fontSize="12px"
             fontWeight="600"
             onClick={deleteWallet}
           />
         </div>
         <div className={classes.main_wrapper__purse}>
-          <Wallet countryName={currentWallet && currentWallet.currency}
-                  country={currentWallet && currentWallet.currency}
-                  count={currentWallet && currentWallet.sum.toFixed(2)}
-                  countryCounter={currentWallet && currentWallet.currency}/>
+          {currentWallet?.currency && (
+            <Wallet
+              countryName={currentWallet.currency}
+              country={currentWallet?.currency}
+              count={currentWallet?.sum.toFixed(2)}
+              countryCounter={currentWallet?.currency}
+            />
+          )}
           <img src={banner} alt="баннер"/>
         </div>
         <div className={classes.main_wrapper__replenishment}>
@@ -189,10 +206,10 @@ const PurseInfo = () => {
             <ButtonMui
               text="Пополнить кошелек"
               padding="15px 24px"
-              backgroundcolor="#363636"
+              bc="#363636"
               disabled={isDisabled}
-              hoverbackground="#363636"
-              fontcolor="#FFFFFF"
+              hb="#363636"
+              coloring="#FFFFFF"
               fontSize="16px"
               fontWeight="600"
               onClick={addSumWallet}

@@ -2,12 +2,11 @@ import React from "react";
 
 import ButtonMui from "../../MUI/Button/ButtonMui";
 import styles from "./Header.module.scss";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
     <header className={styles.header}>
-      <p></p>
       <nav className={styles.header__nav}>
         <div className={styles.header__nav__text}>
           <p className={styles.text_bold}>Justice</p>
@@ -18,11 +17,11 @@ const Header = () => {
             <ButtonMui
               text="Войти"
               padding="12px 24px"
-              backgroundcolor="#363636"
-              fontcolor="#FFFFFF"
+              bc="#363636"
+              coloring="#FFFFFF"
               fontSize="12px"
-              hoverbackground="#363636"
-              borderradius="none"
+              hb="#363636"
+              rounding="none"
               fontWeight="600"
             />
           </NavLink>

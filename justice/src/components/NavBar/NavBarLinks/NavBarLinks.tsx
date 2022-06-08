@@ -1,6 +1,8 @@
 import React from "react";
 
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
+import Cookies from "js-cookie";
 
 import ButtonMui from "../../MUI/Button/ButtonMui";
 
@@ -12,11 +14,10 @@ import arrow from "../../../assets/image/Arrow.svg";
 import suitcase from "../../../assets/image/Suitcase.svg";
 import checklist from "../../../assets/image/Checklist.svg";
 import logOut from "../../../assets/image/LogOut.svg";
-import Cookies from "js-cookie";
 
 const NavBarLinks = () => {
   const clear = () => {
-    Cookies.remove("TOKEN")
+    Cookies.remove("TOKEN");
   };
   const item = [
     {
@@ -54,22 +55,18 @@ const NavBarLinks = () => {
             <NavLink key={items.pass} to={`${items.pass}`}>
               <ButtonMui
                 text={items.text}
-                img={items.img}
+                icon={items.img}
                 padding="12px 0 12px 8px"
                 gap="8px"
-                backgroundcolor="#FFFFFF"
-                fontcolor="#363636"
+                bc="#FFFFFF"
+                coloring="#363636"
                 fontSize="0.875rem"
                 border="none"
-                hoverbackground="transparent"
-                borderradius="0"
+                hb="transparent"
+                rounding="0"
                 disabled={false}
-                flexdirection="row"
+                direction="row"
                 fontWeight="500"
-                height="auto"
-                margintop="0"
-                onClick={() => ({})}
-                type="button"
               />
             </NavLink>
           );
@@ -79,21 +76,15 @@ const NavBarLinks = () => {
             <ButtonMui
               onClick={clear}
               text="Выход"
-              img={logOut}
+              icon={logOut}
               padding="12px 61px 12px 8px"
               gap="8px"
-              backgroundcolor="#FFFFFF"
-              fontcolor="#363636"
+              bc="#FFFFFF"
+              coloring="#363636"
               fontSize="0.875rem"
-              hoverbackground="transparent"
-              margintop="200px"
-              border="0"
-              borderradius="0"
-              disabled={false}
-              flexdirection="0"
+              hb="transparent"
+              mt="200px"
               fontWeight="500"
-              height="auto"
-              type="button"
             />
           </NavLink>
         </div>
@@ -102,21 +93,14 @@ const NavBarLinks = () => {
             <ButtonMui
               onClick={clear}
               text="Выход"
-              img={logOut}
+              icon={logOut}
               padding="12px 61px 12px 8px"
               gap="8px"
-              backgroundcolor="#FFFFFF"
-              fontcolor="#363636"
+              bc="#FFFFFF"
+              coloring="#363636"
               fontSize="0.875rem"
-              hoverbackground="transparent"
-              margintop="0"
-              border="0"
-              borderradius="0"
-              disabled={false}
-              flexdirection="0"
+              hb="transparent"
               fontWeight="500"
-              height="auto"
-              type="button"
             />
           </NavLink>
         </div>
