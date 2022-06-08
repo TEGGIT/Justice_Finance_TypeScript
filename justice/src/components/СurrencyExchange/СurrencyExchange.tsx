@@ -18,11 +18,13 @@ import {CurrencyType} from "../PursePage/PursePage";
 import classes from "./СurrencyExchange.module.scss";
 
 import exchange from "../../assets/image/exchange.svg";
-
+import Modal from "../UI/Modal/Modal";
+import exchangeRatesIcon from '../../assets/image/ExchangeIcon.svg'
 
 const CurrencyExchange = () => {
   const [give, setGive] = useState<CurrencyType>();
   const [get, setGet] = useState<CurrencyType>();
+  const [openModal, setOpenModal] = useState<boolean>(false)
   const [giveValue, setGiveValue] = useState<string>('');
   const [getValue, setGetValue] = useState<string>('');
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -60,6 +62,7 @@ const CurrencyExchange = () => {
       }
       return item;
     });
+    setOpenModal(true)
 
     setIsDisabled(true);
 
@@ -225,6 +228,12 @@ const CurrencyExchange = () => {
         </div>
       </section>
       <ProfileBar/>
+      {openModal && openModal &&
+        <Modal setOpenModal={setOpenModal}
+               image={exchangeRatesIcon}
+               textMain="Успешно"
+               textBottom="Ву успешно обменяли валюту по актуальному курсу"
+        />}
     </main>
   );
 };

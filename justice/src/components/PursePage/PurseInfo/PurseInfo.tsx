@@ -24,15 +24,15 @@ import Modal from "../../UI/Modal/Modal";
 const PurseInfo = () => {
 
 
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const location = useLocation();
   const navigate = useNavigate();
-  const [sum, setSum] = useState("");
-  const [id, setId] = useState("");
-  const [numberCard, setNumberCard] = useState("");
-  const [date, setDate] = useState("");
-  const [cvc, setCvc] = useState("");
-  const [ownerCard, setOwnerCard] = useState("");
+  const [sum, setSum] = useState<string>("");
+  const [id, setId] = useState<string>("");
+  const [numberCard, setNumberCard] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [cvc, setCvc] = useState<string>("");
+  const [ownerCard, setOwnerCard] = useState<string>("");
   const [openModal, setOpenModal] = useState<boolean>(false)
 
   const {wallets} = useTypedSelector((state) => state.wallets);
