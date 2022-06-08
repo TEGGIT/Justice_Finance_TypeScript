@@ -16,31 +16,14 @@ import classes from "./PurseInfo.module.scss";
 import arrowBack from "../../../assets/image/Back.svg";
 import banner from "../../../assets/image/Banner.png";
 import close from "../../../assets/image/Close.svg";
-import walletIcon from "../../../assets/image/WalletIcon.svg";
+import walletIconSum from "../../../assets/image/WalletsSum.svg";
 import {useTypedSelector} from "../../../hooks/useTypesSelector";
-import {CurrencyType} from "../PursePage";
 import {WalletsType} from "../../../store/reducers/WalletsReducer";
+import Modal from "../../UI/Modal/Modal";
 
 const PurseInfo = () => {
-  const customStyles = {
-    overlay: {
-      bc: "rgba(0, 0, 0, 0.8)",
-      zIndex: "3",
-    },
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-      display: "flex",
-      direction: "column",
-      alignItems: "flex-end",
-    },
-  };
 
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+
   const [isDisabled, setIsDisabled] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -50,6 +33,7 @@ const PurseInfo = () => {
   const [date, setDate] = useState("");
   const [cvc, setCvc] = useState("");
   const [ownerCard, setOwnerCard] = useState("");
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   const {wallets} = useTypedSelector((state) => state.wallets);
 
@@ -80,6 +64,7 @@ const PurseInfo = () => {
     const newWalletStorage = wallets?.map((wallet) => {
       if (wallet.currency === currentWallet?.currency)
         wallet.sum = +currentWallet.sum + +sum;
+      setOpenModal(true)
       setSum("");
       setNumberCard("");
       setDate("");
@@ -99,7 +84,6 @@ const PurseInfo = () => {
     )
       .then((res) => {
       });
-    setIsOpen(true);
   };
 
   useEffect(() => {
@@ -201,6 +185,12 @@ const PurseInfo = () => {
         </div>
       </section>
       <ProfileBar/>
+      {openModal && openModal &&
+        <Modal setOpenModal={setOpenModal}
+               image={walletIconSum}
+               textMain="Пополнение прошло успешно"
+               textBottom="Вы успешно пополнили свой кошелек."
+        />}
     </main>
   );
 };
