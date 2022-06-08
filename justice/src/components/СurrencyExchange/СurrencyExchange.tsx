@@ -45,7 +45,6 @@ const CurrencyExchange = () => {
       setIsDisabledError(false);
     }
   }, [get, give, isDisabledError]);
-
   const addTransaction = () => {
     const refreshWalletSum = wallets.map((item) => {
       if (item.currency === give) {

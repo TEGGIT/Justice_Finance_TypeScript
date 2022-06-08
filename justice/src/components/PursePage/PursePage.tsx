@@ -44,7 +44,6 @@ const PursePage = () => {
       setIsDisabledBtn(false);
     }
   }, [numberPurse, currency]);
-
   const addPurse = () => {
     const isFindWallet = wallets?.find(
       (wallet) => wallet.currency === currency
@@ -101,6 +100,7 @@ const PursePage = () => {
   const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, { replace: true });
   };
+
   return (
     <main className={classes.main}>
       <NavBar />

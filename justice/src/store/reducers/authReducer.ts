@@ -1,10 +1,15 @@
-import {AuthAction, AuthActionTypes} from "../../types/auth";
+import { AuthAction, AuthActionTypes } from "../../types/auth";
 import Cookies from "js-cookie";
 
-export const authReducer = (
-  state = Boolean(Cookies.get('TOKEN')),
-  action: AuthAction
-) => {
+interface IsAuth {
+  isAuth: boolean;
+}
+
+const initialState: IsAuth = {
+  isAuth: Boolean(Cookies.get("TOKEN")),
+};
+
+export const authReducer = (state = initialState, action: AuthAction) => {
   switch (action.type) {
     case AuthActionTypes.LOGIN:
       return action.payload;
