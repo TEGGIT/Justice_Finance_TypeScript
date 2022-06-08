@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -14,6 +14,7 @@ import classes from "./LoginPage.module.scss";
 import image from "../../assets/image/IllustrationOne.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
+import {useActions} from "../../hooks/useAction";
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
@@ -22,6 +23,8 @@ const LoginPage = () => {
   const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
   const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
   const [checked, setChecked] = React.useState<boolean>(false);
+
+  const {loginUser} = useActions();
 
   const navigate = useNavigate();
 
@@ -33,7 +36,8 @@ const LoginPage = () => {
       })
       .then((res) => {
         Cookies.set("TOKEN", res.data.token);
-        navigate("/exchange-rates-page", { replace: true });
+        loginUser(true)
+        navigate("/exchange-rates-page", {replace: true});
       });
   };
   const checkEmail = () => {
@@ -125,9 +129,9 @@ const LoginPage = () => {
               </div>
             </div>
             <div className={classes.line_wrapper}>
-              <div className={classes.line} />
+              <div className={classes.line}/>
               <p className={classes.line__text}>Or</p>
-              <div className={classes.line} />
+              <div className={classes.line}/>
             </div>
             <div className={classes.input_wrapper}>
               {isEmailError ? (
@@ -170,7 +174,7 @@ const LoginPage = () => {
               )}
 
               <div className={classes.checkbox}>
-                <CheckBox onChange={handleChange} checked={checked} />
+                <CheckBox onChange={handleChange} checked={checked}/>
                 <p>Запомнить меня</p>
               </div>
             </div>
@@ -217,7 +221,7 @@ const LoginPage = () => {
           <p className={classes.text_regular}>Finance</p>
         </NavLink>
         <div className={classes.main__image_wrapper}>
-          <img src={image} alt="SignUp" />
+          <img src={image} alt="SignUp"/>
         </div>
       </div>
     </main>
