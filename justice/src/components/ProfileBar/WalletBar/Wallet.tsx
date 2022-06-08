@@ -1,6 +1,6 @@
 import React from "react";
 
-import {CurrencyType} from "../../PursePage/PursePage";
+import {CurrencyType} from "../../../types/currency"
 
 import {countryCount} from "../../../mockdata/countryCount";
 import {countryIconWallet} from "../../../mockdata/countryIconWallet";

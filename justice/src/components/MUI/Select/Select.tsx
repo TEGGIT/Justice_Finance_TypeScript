@@ -7,7 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import {SelectChangeEvent} from "@mui/material";
 
-import {CurrencyType} from "../../PursePage/PursePage";
+import {CurrencyType} from "../../../types/currency";
 
 type ArrayType = {
   currency: CurrencyType;
@@ -15,9 +15,7 @@ type ArrayType = {
 
 
 interface TypeSelectMui {
-  /*
-  // TODO Добавить тип//
-*/
+
   selectValue?: CurrencyType;
   handleChangeSelect: (event: SelectChangeEvent<CurrencyType>) => void;
   minWidth: string;

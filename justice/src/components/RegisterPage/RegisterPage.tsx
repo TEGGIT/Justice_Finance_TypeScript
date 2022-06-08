@@ -4,7 +4,6 @@ import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
 import axios from "axios";
-import Cookies from "js-cookie";
 
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
@@ -76,7 +75,7 @@ const RegisterPage = () => {
       setEmailError(true)
     });
   };
-  
+
 
   useEffect(() => {
     if (

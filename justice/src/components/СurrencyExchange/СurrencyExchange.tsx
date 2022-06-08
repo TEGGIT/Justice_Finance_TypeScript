@@ -14,7 +14,7 @@ import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 import {exchangeRates} from "../../types/exchangeRates";
-import {CurrencyType} from "../PursePage/PursePage";
+import {CurrencyType} from '../../types/currency';
 
 import classes from "./СurrencyExchange.module.scss";
 

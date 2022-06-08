@@ -17,8 +17,7 @@ import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {useActions} from "../../hooks/useAction";
 
 import {SelectChangeEvent} from "@mui/material";
-
-export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB";
+import {CurrencyType} from "../../types/currency";
 
 import classes from "./PursePage.module.scss";
 import {countryIcon} from "../../mockdata/countryIcon";

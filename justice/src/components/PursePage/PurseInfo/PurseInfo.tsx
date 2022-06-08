@@ -15,7 +15,6 @@ import classes from "./PurseInfo.module.scss";
 
 import arrowBack from "../../../assets/image/Back.svg";
 import banner from "../../../assets/image/Banner.png";
-import close from "../../../assets/image/Close.svg";
 import walletIconSum from "../../../assets/image/WalletsSum.svg";
 import {useTypedSelector} from "../../../hooks/useTypesSelector";
 import {WalletsType} from "../../../store/reducers/WalletsReducer";
@@ -55,7 +54,7 @@ const PurseInfo = () => {
         headers: {Authorization: `${Cookies.get("TOKEN")}`},
       }
     )
-      .then((res) => {
+      .then(() => {
       });
     navigate("/purse-page", {replace: true});
   };
@@ -63,7 +62,7 @@ const PurseInfo = () => {
   const addSumWallet = () => {
     const newWalletStorage = wallets?.map((wallet) => {
       if (wallet.currency === currentWallet?.currency)
-        wallet.sum = +currentWallet.sum + +sum;
+        wallet.sum = +Number(currentWallet?.sum) + +sum;
       setOpenModal(true)
       setSum("");
       setNumberCard("");
@@ -82,7 +81,7 @@ const PurseInfo = () => {
         headers: {Authorization: `${Cookies.get("TOKEN")}`},
       }
     )
-      .then((res) => {
+      .then(() => {
       });
   };
 
