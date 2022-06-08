@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import {NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Wallet from "./WalletBar/Wallet";
 
-import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {useActions} from "../../hooks/useAction";
+import { useTypedSelector } from "../../hooks/useTypesSelector";
+import { useActions } from "../../hooks/useAction";
 
 import classes from "./ProfileBar.module.scss";
 import avatar from "../../assets/image/Avatar.svg";
@@ -16,12 +16,11 @@ import greenEllipse from "../../assets/image/GreenElipse.svg";
 import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
 
-
 const ProfileBar = () => {
   const navigate = useNavigate();
-  const {FetchUser, FetchWallets} = useActions();
-  const {users, loading} = useTypedSelector((state) => state.user);
-  const {wallets} = useTypedSelector((state) => state.wallets);
+  const { FetchUser, FetchWallets } = useActions();
+  const { users, loading } = useTypedSelector((state) => state.user);
+  const { wallets } = useTypedSelector((state) => state.wallets);
 
   const [x, setX] = useState(0);
   const moveBlockLeft = () => {
@@ -32,15 +31,14 @@ const ProfileBar = () => {
     setX(x - 250);
     if (x === -250 * (wallets.length - 1)) setX(0);
   };
-  console.log(x)
+  console.log(x);
   const walletLink = (wallet: { currency: string }) => {
-    navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
+    navigate(`/purse-info-page/#${wallet.currency}`, { replace: true });
   };
   useEffect(() => {
     FetchUser();
     FetchWallets();
   }, []);
-
 
   const transaction = users[0]?.transaction;
 
@@ -48,11 +46,11 @@ const ProfileBar = () => {
     <div className={classes.profile}>
       <div className={classes.profile_wrapper}>
         <div className={classes.profile_wrapper__avatar}>
-          <img src={avatar} alt="аватар"/>
+          <img src={avatar} alt="аватар" />
           <p className={classes.profile_wrapper__avatar_name}>
             {loading ? (
               <>
-                <p style={{fontWeight: "600"}}>Загрузка...</p>
+                <p style={{ fontWeight: "600" }}>Загрузка...</p>
               </>
             ) : (
               <>{users[0]?.name}</>
@@ -63,8 +61,8 @@ const ProfileBar = () => {
           <div className={classes.profile_wrapper__balance_arrows}>
             <p>Мой баланс</p>
             <div className={classes.profile_wrapper__balance_arrows_arrow}>
-              <img src={left} onClick={moveBlockLeft} alt="#"/>
-              <img src={right} onClick={moveBlockRight} alt="#"/>
+              <img src={left} onClick={moveBlockLeft} alt="#" />
+              <img src={right} onClick={moveBlockRight} alt="#" />
             </div>
           </div>
 
@@ -80,7 +78,7 @@ const ProfileBar = () => {
               >
                 {wallets?.map((wallet) => (
                   <Wallet
-                    pointer
+                    pointer={true}
                     key={wallet.currency}
                     countryName={wallet.currency}
                     country={wallet.currency}
@@ -115,7 +113,7 @@ const ProfileBar = () => {
           <p>Последние транзацкции </p>
           {transaction?.length < 1 ? (
             <div className={classes.profile_wrapper__transactions__history}>
-              <img src={transactions} alt="Транзакции"/>
+              <img src={transactions} alt="Транзакции" />
               <p>Вы не совершили не одной транзакции</p>
             </div>
           ) : (
@@ -132,7 +130,7 @@ const ProfileBar = () => {
                   >
                     <p>{`-${item.giveValue}${item.give} / +${item.getValue} ${item.get}`}</p>
 
-                    <img src={greenEllipse} alt="Успешно"/>
+                    <img src={greenEllipse} alt="Успешно" />
                   </div>
                 ))
                 .reverse()}

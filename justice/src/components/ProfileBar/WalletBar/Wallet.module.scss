@@ -40,4 +40,13 @@
 
 .pointer {
   cursor: pointer;
+  margin-top: 1rem;
+  border: 1px solid #ECECEC;
+  color: #363636;;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 14px;
+  padding: 24px;
 }

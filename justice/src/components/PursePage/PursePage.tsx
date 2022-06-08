@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../UI/Input/Input";
 import Select from "../MUI/Select/Select";
@@ -13,30 +13,29 @@ import Modal from "../UI/Modal/Modal";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {useActions} from "../../hooks/useAction";
+import { useTypedSelector } from "../../hooks/useTypesSelector";
+import { useActions } from "../../hooks/useAction";
 
-import {SelectChangeEvent} from "@mui/material";
-import {CurrencyType} from "../../types/currency";
+import { SelectChangeEvent } from "@mui/material";
+import { CurrencyType } from "../../types/currency";
 
 import classes from "./PursePage.module.scss";
-import {countryIcon} from "../../mockdata/countryIcon";
+import { countryIcon } from "../../mockdata/countryIcon";
 
 import wallet from "../../assets/image/wallet.svg";
-import WalletsIcon from '../../assets/image/WalletIcon.svg'
-
+import WalletsIcon from "../../assets/image/WalletIcon.svg";
 
 const PursePage = () => {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
   const [modalErrorIsOpen, setModalErrorIsOpen] = useState<boolean>(false);
   const [currency, setCurrency] = useState<CurrencyType>();
   const [numberPurse, setNumberPurse] = useState<number>();
-  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  const {wallets} = useTypedSelector((state) => state.wallets) ?? {};
-  const {FetchWallets} = useActions();
+  const { wallets } = useTypedSelector((state) => state.wallets) ?? {};
+  const { FetchWallets } = useActions();
 
   useEffect(() => {
     if (!numberPurse || !currency) {
@@ -47,14 +46,13 @@ const PursePage = () => {
   }, [numberPurse, currency]);
 
   const addPurse = () => {
-    setOpenModal(true)
     const isFindWallet = wallets?.find(
       (wallet) => wallet.currency === currency
     );
     if (isFindWallet) {
       setModalErrorIsOpen(true);
     } else {
-      setIsOpen(true);
+      setOpenModal(true);
 
       axios
         .patch(
@@ -101,11 +99,11 @@ const PursePage = () => {
   };
 
   const walletLink = (wallet: { currency: string }) => {
-    navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
+    navigate(`/purse-info-page/#${wallet.currency}`, { replace: true });
   };
   return (
     <main className={classes.main}>
-      <NavBar/>
+      <NavBar />
       <section className={classes.main__wrapper}>
         <div className={classes.main__wrapper__title}>
           <h1 className={classes.main__wrapper__title_text}>Кошельки</h1>
@@ -115,7 +113,7 @@ const PursePage = () => {
           <div className={classes.main__wrapper__wallet_container__wallets}>
             {wallets.map((wallet, index) => (
               <Wallet
-                pointer={{cursor: "pointer"}}
+                pointer={true}
                 key={index}
                 countryName={wallet.currency}
                 country={wallet.currency}
@@ -127,7 +125,7 @@ const PursePage = () => {
           </div>
         ) : (
           <div className={classes.main__wrapper__wallet_container}>
-            <img src={wallet} alt="Кошелек"/>
+            <img src={wallet} alt="Кошелек" />
             <p className={classes.main__wrapper__title_wallet}>
               На данный момент у вас не созданно ни одного кошелька
             </p>
@@ -182,13 +180,24 @@ const PursePage = () => {
           </div>
         </div>
       </section>
-      <ProfileBar/>
-      {openModal && openModal &&
-        <Modal setOpenModal={setOpenModal}
-               image={WalletsIcon}
-               textMain="Кошелек успешно добавлен"
-               textBottom="Теперь вы можете совершать любые операции."
-        />}
+      <ProfileBar />
+      {openModal && openModal && (
+        <Modal
+          setOpenModal={setOpenModal}
+          image={WalletsIcon}
+          textMain="Кошелек успешно добавлен"
+          textBottom="Теперь вы можете совершать любые операции."
+        />
+      )}
+      {modalErrorIsOpen && (
+        <>
+          <Modal
+            setOpenModal={setOpenModal}
+            textMain="Ошибка"
+            textBottom="Кошелёк с такой валютой уже существует"
+          />
+        </>
+      )}
     </main>
   );
 };
