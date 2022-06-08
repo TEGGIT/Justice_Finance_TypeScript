@@ -8,7 +8,6 @@ import ButtonMui from "../../MUI/Button/ButtonMui";
 import Wallet from "../../ProfileBar/WalletBar/Wallet";
 import Input from "../../UI/Input/Input";
 
-// import Modal from 'react-modal';
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -62,17 +61,16 @@ const PurseInfo = () => {
     const newWallets =
       currentWallet &&
       wallets.filter((wallet) => wallet.currency !== currentWallet.currency);
-    axios
-      .patch(
-        "http://localhost:5000/api/wallets/remove",
-        {
-          wallets: newWallets,
-          id,
-        },
-        {
-          headers: {Authorization: `${Cookies.get("TOKEN")}`},
-        }
-      )
+    axios.patch("http://localhost:5000/api/wallets/remove", {
+
+        wallets: newWallets,
+        id,
+
+      },
+      {
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      }
+    )
       .then((res) => {
       });
     navigate("/purse-page", {replace: true});
@@ -90,16 +88,15 @@ const PurseInfo = () => {
       return wallet;
     });
 
-    axios
-      .patch(
-        "http://localhost:5000/api/wallets/update",
-        {
-          wallets: [...newWalletStorage],
-        },
-        {
-          headers: {Authorization: `${Cookies.get("TOKEN")}`},
-        }
-      )
+    axios.patch(
+      "http://localhost:5000/api/wallets/update",
+      {
+        wallets: [...newWalletStorage],
+      },
+      {
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      }
+    )
       .then((res) => {
       });
     setIsOpen(true);
@@ -128,20 +125,6 @@ const PurseInfo = () => {
               {`#${currentWallet?.purseNumber}`}
             </span>
           </div>
-          {/*<Modal style={customStyles}*/}
-          {/*       isOpen={modalIsOpen}*/}
-          {/*>*/}
-          {/*  <img src={close} alt='закрыть' className={classes.img} onClick={() => setIsOpen(false)}/>*/}
-          {/*  <div className={classes.modal_wrapper}>*/}
-          {/*    <div className={classes.modal_wrapper__content}>*/}
-          {/*      <img src={walletIcon} alt='Иконка кошелька'/>*/}
-          {/*      <p className={classes.modal_wrapper__content_text_main}>*/}
-          {/*        Пополнение прошло успешно*/}
-          {/*      </p>*/}
-          {/*      <p className={classes.modal_wrapper__content_text_bottom}>Вы успешно пополнили свой кошелек.</p>*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*</Modal>*/}
           <ButtonMui
             text="Удалить кошелёк"
             padding="12px"
