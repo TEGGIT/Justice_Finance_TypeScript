@@ -102,6 +102,7 @@ const PursePage = () => {
 
   const existingWallets = wallets.find(wallet => wallet?.currency)
   console.log(existingWallets)
+
   const newArrayCountry = countryIcon.filter(country => !wallets.find(wal => wal.currency === country?.currency))
 
   return (
@@ -147,6 +148,7 @@ const PursePage = () => {
                 minWidth="388px"
                 name="Выберите валюту"
                 array={newArrayCountry}
+
               />
             </div>
             <div className={classes.mobile_button}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -10,11 +10,11 @@ import Input from "../UI/Input/Input";
 import Select from "../MUI/Select/Select";
 import ButtonMui from "../MUI/Button/ButtonMui";
 
-import { useActions } from "../../hooks/useAction";
-import { useTypedSelector } from "../../hooks/useTypesSelector";
+import {useActions} from "../../hooks/useAction";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
 
-import { exchangeRates } from "../../types/exchangeRates";
-import { CurrencyType } from "../../types/currency";
+import {exchangeRates} from "../../types/exchangeRates";
+import {CurrencyType} from "../../types/currency";
 
 import classes from "./СurrencyExchange.module.scss";
 
@@ -31,12 +31,17 @@ const CurrencyExchange = () => {
   const [isDisabledError, setIsDisabledError] = useState<boolean>(false);
   const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
 
-  const { users } = useTypedSelector((state) => state.user);
-  const { wallets } = useTypedSelector((state) => state.wallets);
-  const { FetchWallets, FetchUser } = useActions();
+  const {users} = useTypedSelector((state) => state.user);
+  const {wallets} = useTypedSelector((state) => state.wallets);
+  const {FetchWallets, FetchUser} = useActions();
   const Data = new Date();
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
+
+
+  const giveWallets = wallets.filter(wallet => wallet.currency !== get)
+
+  const getWallets = wallets.filter(wallet => wallet.currency !== give)
 
   useEffect(() => {
     if (get === give && get?.length && give?.length) {
@@ -72,7 +77,7 @@ const CurrencyExchange = () => {
           wallets: [...refreshWalletSum],
         },
         {
-          headers: { Authorization: `${Cookies.get("TOKEN")}` },
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
         }
       )
       .then(() => {
@@ -95,7 +100,7 @@ const CurrencyExchange = () => {
             },
           ],
         },
-        { headers: { Authorization: `${Cookies.get("TOKEN")}` } }
+        {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
       )
       .then(() => {
         FetchUser();
@@ -114,32 +119,32 @@ const CurrencyExchange = () => {
       (wallet) => wallet.currency === give && wallet
     );
     walletGive.length &&
-      (Number(giveValue) > walletGive[0].sum ||
-      Boolean(!get) ||
-      Boolean(!give) ||
-      Boolean(!giveValue)
-        ? setIsDisabled(true)
-        : setIsDisabled(false));
+    (Number(giveValue) > walletGive[0].sum ||
+    Boolean(!get) ||
+    Boolean(!give) ||
+    Boolean(!giveValue)
+      ? setIsDisabled(true)
+      : setIsDisabled(false));
     exchangeRates?.map((input) => {
       walletGive.length &&
-        walletGive[0].currency === input.currencyName &&
-        exchangeRates?.map((output) => {
-          get === output.currencyName &&
-            setGetValue(
-              Number(
-                (
-                  (Number(input.rubleRatio) * Number(giveValue)) /
-                  Number(output.rubleRatio)
-                ).toFixed(2)
-              )
-            );
-        });
+      walletGive[0].currency === input.currencyName &&
+      exchangeRates?.map((output) => {
+        get === output.currencyName &&
+        setGetValue(
+          Number(
+            (
+              (Number(input.rubleRatio) * Number(giveValue)) /
+              Number(output.rubleRatio)
+            ).toFixed(2)
+          )
+        );
+      });
     });
   }, [giveValue, getValue, get, give, isDisabled]);
 
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main__wrapper}>
         <div className={classes.main__wrapper__title}>
           <h1 className={classes.main__wrapper__title_text}>Обмен валют</h1>
@@ -164,7 +169,7 @@ const CurrencyExchange = () => {
                 selectValue={give}
                 minWidth="21rem"
                 name="Выберите кошелек"
-                array={wallets}
+                array={giveWallets}
               />
             ) : (
               <h1>LoAdInG...</h1>
@@ -187,7 +192,7 @@ const CurrencyExchange = () => {
                 selectValue={get}
                 minWidth="21rem"
                 name="Выберите кошелек"
-                array={wallets}
+                array={getWallets}
               />
             ) : (
               <h1>LoAdInG...</h1>
@@ -225,9 +230,10 @@ const CurrencyExchange = () => {
                     fontSize="16px"
                     hb="#A52800"
                     direction="row-reverse"
-                    onClick={() => {}}
+                    onClick={() => {
+                    }}
                   />
-                  <p style={{ color: "red" }}>
+                  <p style={{color: "red"}}>
                     Вы не можете обменять одинаковую валюту
                   </p>
                 </div>
@@ -236,7 +242,7 @@ const CurrencyExchange = () => {
           </div>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
       {openModal && openModal && (
         <Modal
           setOpenModal={setOpenModal}
