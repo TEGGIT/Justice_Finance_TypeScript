@@ -97,6 +97,24 @@
 
           }
         }
+
+        &_input_error {
+          display: flex;
+          width: 29.50rem;
+          font-family: 'Inter', sans-serif;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+          border: 1px solid red;
+          padding: 18px 230px 18px 16px;
+          color: #363636;
+
+          @media (max-width: 735px) {
+            padding: 18px 18px 18px 16px;
+
+          }
+        }
       }
     }
   }

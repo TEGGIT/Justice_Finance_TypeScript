@@ -23,6 +23,7 @@ const Profile = () => {
   const [birthday, setBirthday] = useState<string>("");
   const [number, setNumber] = useState<number>();
   const [password, setPassword] = useState<string>("");
+  const [isPasswordError, setIsPasswordError] = useState<boolean>(false)
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [isDisabledPassword, setIsDisabledPassword] = useState<boolean>(false);
@@ -98,18 +99,20 @@ const Profile = () => {
       });
   };
   const changePassword = () => {
-    axios
-      .patch(
-        "http://localhost:5000/api/profile/changePassword",
-        {
-          password: oldPassword,
-          newPassword: password,
-        },
-        {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
-      )
+    axios.patch(
+      "http://localhost:5000/api/profile/changePassword", {
+        password: oldPassword,
+        newPassword: password,
+      },
+      {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
+    )
       .then(() => {
         FetchUser();
-      });
+        setIsPasswordError(false)
+      }).catch(function () {
+        setIsPasswordError(true)
+      }
+    );
     setPassword("");
     setOldPassword("");
     setRepeatPassword("");
@@ -197,14 +200,27 @@ const Profile = () => {
             <p>Пароль</p>
           </div>
           <div className={classes.main_wrapper__content__input}>
-            <Input
-              placeholder="Введите старый пароль"
-              type="password"
-              className={classes.main_wrapper__content__input_input}
-              onBlur={passwordChecker}
-              value={oldPassword}
-              onChange={(e) => setOldPassword(e.target.value)}
-            />
+            {isPasswordError ? (
+              <Input
+                placeholder="Введите старый пароль"
+                type="password"
+                className={classes.main_wrapper__content__input_input_error}
+                onBlur={passwordChecker}
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+
+            ) : (
+              <Input
+                placeholder="Введите старый пароль"
+                type="password"
+                className={classes.main_wrapper__content__input_input}
+                onBlur={passwordChecker}
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+            )}
+
 
             <Input
               placeholder="Повторите новый пароль"
