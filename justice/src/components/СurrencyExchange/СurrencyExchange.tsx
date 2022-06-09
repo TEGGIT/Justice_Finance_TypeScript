@@ -28,7 +28,6 @@ const CurrencyExchange = () => {
   const [giveValue, setGiveValue] = useState<number>();
   const [getValue, setGetValue] = useState<number>();
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [isDisabledError, setIsDisabledError] = useState<boolean>(false);
   const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
 
   const {users} = useTypedSelector((state) => state.user);
@@ -45,11 +44,9 @@ const CurrencyExchange = () => {
 
   useEffect(() => {
     if (get === give && get?.length && give?.length) {
-      setIsDisabledError(true);
     } else {
-      setIsDisabledError(false);
     }
-  }, [get, give, isDisabledError]);
+  }, [get, give]);
   const addTransaction = () => {
     const refreshWalletSum = wallets.map((item) => {
       if (item.currency === give) {
@@ -199,46 +196,22 @@ const CurrencyExchange = () => {
             )}
           </div>
           <div className={classes.main__wrapper__content__exchange}>
-            {!isDisabledError ? (
-              <>
-                <ButtonMui
-                  text="Обменять"
-                  icon={exchange}
-                  bc="#363636"
-                  padding="16px"
-                  gap="8px"
-                  coloring="#FFFFFF"
-                  fontWeight="600"
-                  fontSize="16px"
-                  hb="#363636"
-                  disabled={isDisabled}
-                  direction="row-reverse"
-                  onClick={addTransaction}
-                />
-              </>
-            ) : (
-              <>
-                <div className={classes.button_error}>
-                  <ButtonMui
-                    text="Обменять"
-                    icon={exchange}
-                    bc="#A52800"
-                    padding="16px"
-                    gap="8px"
-                    coloring="#FFFFFF"
-                    fontWeight="600"
-                    fontSize="16px"
-                    hb="#A52800"
-                    direction="row-reverse"
-                    onClick={() => {
-                    }}
-                  />
-                  <p style={{color: "red"}}>
-                    Вы не можете обменять одинаковую валюту
-                  </p>
-                </div>
-              </>
-            )}
+
+            <ButtonMui
+              text="Обменять"
+              icon={exchange}
+              bc="#363636"
+              padding="16px"
+              gap="8px"
+              coloring="#FFFFFF"
+              fontWeight="600"
+              fontSize="16px"
+              hb="#363636"
+              disabled={isDisabled}
+              direction="row-reverse"
+              onClick={addTransaction}
+            />
+
           </div>
         </div>
       </section>
@@ -248,7 +221,7 @@ const CurrencyExchange = () => {
           setOpenModal={setOpenModal}
           image={exchangeRatesIcon}
           textMain="Успешно"
-          textBottom="Ву успешно обменяли валюту по актуальному курсу"
+          textBottom="Вы успешно обменяли валюту по актуальному курсу"
         />
       )}
     </main>
