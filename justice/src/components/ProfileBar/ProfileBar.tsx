@@ -22,7 +22,7 @@ const ProfileBar = () => {
   const {users, loading} = useTypedSelector((state) => state.user);
   const {wallets} = useTypedSelector((state) => state.wallets);
 
-  const [x, setX] = useState(0);
+  const [x, setX] = useState<number>(0);
   const moveBlockLeft = () => {
     setX(x + 250);
     if (x === 0) setX(0);

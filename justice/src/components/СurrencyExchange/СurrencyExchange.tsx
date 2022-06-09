@@ -81,24 +81,21 @@ const CurrencyExchange = () => {
         FetchWallets();
       });
 
-    axios
-      .patch(
-        "http://localhost:5000/api/transaction",
-        {
-          transaction: [
-            ...users[0].transaction,
-            {
-              get,
-              Hour,
-              Minutes,
-              give,
-              giveValue,
-              getValue,
-            },
-          ],
-        },
-        {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
-      )
+    axios.patch("http://localhost:5000/api/transaction", {
+        transaction: [
+          ...users[0].transaction,
+          {
+            get,
+            Hour,
+            Minutes,
+            give,
+            giveValue,
+            getValue,
+          },
+        ],
+      },
+      {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
+    )
       .then(() => {
         FetchUser();
       });
