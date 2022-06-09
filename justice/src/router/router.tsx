@@ -1,4 +1,4 @@
-import MainPage from '../components/MainPage/MainPage'
+import MainPage from "../components/MainPage/MainPage";
 import LoginPage from "../components/LoginPage/LoginPage";
 import RegisterPage from "../components/RegisterPage/RegisterPage";
 import ExchangeRatesPage from "../components/ExchangeRatesPage/ExchangeRatesPage";
@@ -8,22 +8,20 @@ import PursePage from "../components/PursePage/PursePage";
 import PurseInfo from "../components/PursePage/PurseInfo/PurseInfo";
 import TransactionsPage from "../components/TransactionsPage/TransactionsPage";
 
-
 export const privateRoutes = [
-  {path: '/', element: <MainPage/>},
-  {path: '/login-page', element: <LoginPage/>},
-  {path: '/register-page', element: <RegisterPage/>},
-  {path: '/exchange-rates-page', element: <ExchangeRatesPage/>},
-  {path: '/profile-page', element: <Profile/>},
-  {path: '/currency-exchange', element: <CurrencyExchange/>},
-  {path: '/purse-page', element: <PursePage/>},
-  {path: '/transactions-page', element: <TransactionsPage/>},
-  {path: '/purse-info-page', element: <PurseInfo/>}
-]
+  { path: "/", element: <MainPage /> },
+  { path: "/login-page", element: <LoginPage /> },
+  { path: "/register-page", element: <RegisterPage /> },
+  { path: "/exchange-rates-page", element: <ExchangeRatesPage /> },
+  { path: "/profile-page", element: <Profile /> },
+  { path: "/currency-exchange", element: <CurrencyExchange /> },
+  { path: "/purse-page", element: <PursePage /> },
+  { path: "/transactions-page", element: <TransactionsPage /> },
+  { path: "/purse-info-page", element: <PurseInfo /> },
+];
 
 export const publicRoutes = [
-  {path: '/', element: <MainPage/>},
-  {path: '/login-page', element: <LoginPage/>},
-  {path: '/register-page', element: <RegisterPage/>},
-
-]
+  { path: "/", element: <MainPage /> },
+  { path: "/login-page", element: <LoginPage /> },
+  { path: "/register-page", element: <RegisterPage /> },
+];

@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+import Modal from "../UI/Modal/Modal";
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
 import Input from "../UI/Input/Input";
@@ -13,20 +14,21 @@ import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 import {exchangeRates} from "../../types/exchangeRates";
-import {CurrencyType} from "../PursePage/PursePage";
+import {CurrencyType} from "../../types/currency";
 
 import classes from "./СurrencyExchange.module.scss";
 
 import exchange from "../../assets/image/exchange.svg";
-
+import exchangeRatesIcon from "../../assets/image/ExchangeIcon.svg";
 
 const CurrencyExchange = () => {
   const [give, setGive] = useState<CurrencyType>();
   const [get, setGet] = useState<CurrencyType>();
-  const [giveValue, setGiveValue] = useState<string>('');
-  const [getValue, setGetValue] = useState<string>('');
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [giveValue, setGiveValue] = useState<number>();
+  const [getValue, setGetValue] = useState<number>();
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [isDisabledError, setIsDisabledError] = useState<boolean>(false);
+  const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true)
   const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
 
   const {users} = useTypedSelector((state) => state.user);
@@ -36,14 +38,23 @@ const CurrencyExchange = () => {
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
 
+
+  const giveWallets = wallets.filter(wallet => wallet.currency !== get)
+
+  const getWallets = wallets.filter(wallet => wallet.currency !== give)
+
+
+  useEffect(() => {
+    giveWallets.length && getWallets.length ? setIsDisabledSelect(false) : setIsDisabledSelect(true)
+
+  }, [])
+
+
   useEffect(() => {
     if (get === give && get?.length && give?.length) {
-      setIsDisabledError(true);
     } else {
-      setIsDisabledError(false);
     }
-  }, [get, give, isDisabledError]);
-
+  }, [get, give]);
   const addTransaction = () => {
     const refreshWalletSum = wallets.map((item) => {
       if (item.currency === give) {
@@ -55,11 +66,12 @@ const CurrencyExchange = () => {
       if (item.currency === get) {
         return {
           ...item,
-          sum: item.sum + +getValue,
+          sum: item.sum + +Number(getValue),
         };
       }
       return item;
     });
+    setOpenModal(true);
 
     setIsDisabled(true);
 
@@ -77,28 +89,25 @@ const CurrencyExchange = () => {
         FetchWallets();
       });
 
-    axios
-      .patch(
-        "http://localhost:5000/api/transaction",
-        {
-          transaction: [
-            ...users[0].transaction,
-            {
-              get,
-              Hour,
-              Minutes,
-              give,
-              giveValue,
-              getValue,
-            },
-          ],
-        },
-        {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
-      )
+    axios.patch("http://localhost:5000/api/transaction", {
+        transaction: [
+          ...users[0].transaction,
+          {
+            get,
+            Hour,
+            Minutes,
+            give,
+            giveValue,
+            getValue,
+          },
+        ],
+      },
+      {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
+    )
       .then(() => {
         FetchUser();
       });
-    setGiveValue("");
+    setGiveValue(0);
   };
 
   useEffect(() => {
@@ -124,7 +133,12 @@ const CurrencyExchange = () => {
       exchangeRates?.map((output) => {
         get === output.currencyName &&
         setGetValue(
-          ((Number(input.rubleRatio) * Number(giveValue)) / Number(output.rubleRatio)).toFixed(2)
+          Number(
+            (
+              (Number(input.rubleRatio) * Number(giveValue)) /
+              Number(output.rubleRatio)
+            ).toFixed(2)
+          )
         );
       });
     });
@@ -146,7 +160,7 @@ const CurrencyExchange = () => {
               placeholder="Отдаю"
               type="number"
               className={classes.main__wrapper__content__exchange__input}
-              onChange={(e) => setGiveValue(e.target.value)}
+              onChange={(e) => setGiveValue(e.target.valueAsNumber)}
               value={giveValue}
             />
             {wallets ? (
@@ -155,7 +169,8 @@ const CurrencyExchange = () => {
                 selectValue={give}
                 minWidth="21rem"
                 name="Выберите кошелек"
-                array={wallets}
+                array={giveWallets}
+                disabled={isDisabledSelect}
               />
             ) : (
               <h1>LoAdInG...</h1>
@@ -166,65 +181,55 @@ const CurrencyExchange = () => {
               placeholder="Получаю"
               type="number"
               className={classes.main__wrapper__content__exchange__input}
-              onChange={(e) => setGetValue(e.target.value)}
+              onChange={(e) => setGetValue(e.target.valueAsNumber)}
               value={getValue}
               readOnly={true}
             />
             {wallets ? (
               <Select
-                handleChangeSelect={(event) => setGet(event.target.value as CurrencyType)}
+                handleChangeSelect={(event) =>
+                  setGet(event.target.value as CurrencyType)
+                }
                 selectValue={get}
                 minWidth="21rem"
                 name="Выберите кошелек"
-                array={wallets}
+                array={getWallets}
+                disabled={isDisabledSelect}
+
               />
             ) : (
               <h1>LoAdInG...</h1>
             )}
           </div>
           <div className={classes.main__wrapper__content__exchange}>
-            {!isDisabledError ? (
-              <>
-                <ButtonMui
-                  text="Обменять"
-                  icon={exchange}
-                  bc="#363636"
-                  padding="16px"
-                  gap="8px"
-                  coloring="#FFFFFF"
-                  fontWeight="600"
-                  fontSize="16px"
-                  hb="#363636"
-                  disabled={isDisabled}
-                  direction="row-reverse"
-                  onClick={addTransaction}
-                />
-              </>
-            ) : (
-              <>
-                <div className={classes.button_error}>
-                  <ButtonMui
-                    text="Обменять"
-                    icon={exchange}
-                    bc="#A52800"
-                    padding="16px"
-                    gap="8px"
-                    coloring="#FFFFFF"
-                    fontWeight="600"
-                    fontSize="16px"
-                    hb="#A52800"
-                    direction="row-reverse"
-                    onClick={() => {
-                    }}
-                  />
-                  <p style={{color: "red"}}>Вы не можете обменять одинаковую валюту</p>
-                </div>
-              </>
-            )}
+
+            <ButtonMui
+              text="Обменять"
+              icon={exchange}
+              bc="#363636"
+              padding="16px"
+              gap="8px"
+              coloring="#FFFFFF"
+              fontWeight="600"
+              fontSize="16px"
+              hb="#363636"
+              disabled={isDisabled}
+              direction="row-reverse"
+              onClick={addTransaction}
+            />
+
           </div>
         </div>
       </section>
       <ProfileBar/>
+      {openModal && openModal && (
+        <Modal
+          setOpenModal={setOpenModal}
+          image={exchangeRatesIcon}
+          textMain="Успешно"
+          textBottom="Вы успешно обменяли валюту по актуальному курсу"
+        />
+      )}
     </main>
   );
 };

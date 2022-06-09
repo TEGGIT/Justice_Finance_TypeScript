@@ -51,19 +51,41 @@
       padding-bottom: 81px;
       border-bottom: 1px solid #F3F3F3;
 
-      &__wallets {
+      &__wallets_desktop {
         padding-top: 81px;
-        gap: 16px;
+        gap: 24px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         padding-bottom: 81px;
         border-bottom: 1px solid #F3F3F3;
-        @media (max-width: 735px) {
-          overflow: unset;
+        @media (max-width: 1530px) {
+          display: none;
+        }
+      }
+
+      &__wallets_desktop {
+        padding-top: 81px;
+        gap: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding-bottom: 81px;
+        border-bottom: 1px solid #F3F3F3;
+        @media (max-width: 1530px) {
+          display: none;
+        }
+      }
+
+      &__wallets_mobile {
+        display: none;
+        @media (max-width: 1530px) {
+          padding-top: 81px;
           display: flex;
-          width: 100%;
-          flex-direction: column;
+          flex-wrap: wrap;
+          align-items: center;
+          padding-bottom: 81px;
+          border-bottom: 1px solid #F3F3F3;
         }
       }
 
@@ -100,8 +122,11 @@
           font-weight: 400;
           font-size: 16px;
           line-height: 24px;
-          color: #848484;
           padding-bottom: 40px;
+
+          &_text {
+            color: #848484;
+          }
         }
       }
     }
@@ -143,6 +168,8 @@
 
 .desktop_button {
   display: flex;
+  flex-direction: column;
+
   @media (max-width: 735px) {
     display: none;
   }
@@ -152,7 +179,38 @@
   display: none;
   @media (max-width: 735px) {
     display: flex;
+    flex-direction: column;
   }
 }
 
+.slider__button {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px
+}
 
+.slider {
+  display: flex;
+  flex-direction: row;
+  max-width: 770px;
+  overflow: hidden;
+  gap: 12px;
+}
+
+.select_limit {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  position: absolute;
+  color: tomato;
+
+}
+
+.slider_mobile {
+  display: flex;
+  flex-direction: row;
+  max-width: 250px;
+  overflow: hidden;
+
+}

@@ -1,5 +1,5 @@
 import { WalletsAction, WalletsActionTypes } from "../../types/wallets";
-import { CurrencyType } from "../../components/PursePage/PursePage";
+import { CurrencyType } from "../../types/currency";
 
 export type WalletsType = {
   currency: CurrencyType;
@@ -27,9 +27,17 @@ export const walletsReducer = (
     case WalletsActionTypes.FETCH_WALLETS:
       return { ...state, loading: true };
     case WalletsActionTypes.FETCH_WALLETS_SUCCESS:
-      return { ...state, loading: false, wallets: action.payload };
+      return {
+        ...state,
+        loading: false,
+        wallets: action.payload,
+      };
     case WalletsActionTypes.FETCH_WALLETS_ERROR:
-      return { ...state, loading: false, error: action.payload };
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }

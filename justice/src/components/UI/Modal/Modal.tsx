@@ -4,9 +4,8 @@ import classes from './Modal.module.scss'
 
 import close from '../../../assets/image/Close.svg'
 
-
 interface ModalInterface {
-  setOpenModal: (e: boolean) => void;
+  setOpenModal: (visible: boolean) => void;
   image?: string;
   textMain?: string;
   textBottom?: string
@@ -14,7 +13,7 @@ interface ModalInterface {
 
 const Modal = ({setOpenModal, image, textMain, textBottom}: ModalInterface) => {
   const closeModal = () => setOpenModal(false)
-
+  
   return (
     <div>
       <div className={classes.background} onClick={closeModal}>

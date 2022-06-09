@@ -1,6 +1,8 @@
-import React, {useEffect} from "react";
+import React from "react";
 
 import {NavLink} from "react-router-dom";
+
+import {useActions} from "../../../hooks/useAction";
 
 import Cookies from "js-cookie";
 
@@ -14,7 +16,6 @@ import arrow from "../../../assets/image/Arrow.svg";
 import suitcase from "../../../assets/image/Suitcase.svg";
 import checklist from "../../../assets/image/Checklist.svg";
 import logOut from "../../../assets/image/LogOut.svg";
-import {useActions} from "../../../hooks/useAction";
 
 
 const NavBarLinks = () => {

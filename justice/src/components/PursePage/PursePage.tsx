@@ -2,58 +2,81 @@ import React, {useEffect, useState} from "react";
 
 import {useNavigate} from "react-router-dom";
 
-import axios from "axios";
-
 import Input from "../UI/Input/Input";
 import Select from "../MUI/Select/Select";
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Wallet from "../ProfileBar/WalletBar/Wallet";
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
+import Modal from "../UI/Modal/Modal";
+
+import axios from "axios";
+import Cookies from "js-cookie";
+
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+import {useActions} from "../../hooks/useAction";
+
+import {SelectChangeEvent} from "@mui/material";
+import {CurrencyType} from "../../types/currency";
 
 import classes from "./PursePage.module.scss";
 import {countryIcon} from "../../mockdata/countryIcon";
 
+import arrowRightSlide from '../../assets/image/ButtonRight.svg'
+import arrowLeftSlide from '../../assets/image/LeftButtonSlide.svg'
 import wallet from "../../assets/image/wallet.svg";
-import close from "../../assets/image/Close.svg";
-import WalletsIcon from '../../assets/image/WalletIcon.svg'
-import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {FetchWallets} from "../../store/action-creators/wallets";
-import {useActions} from "../../hooks/useAction";
-import Cookies from "js-cookie";
-import {SelectChangeEvent} from "@mui/material";
-import Modal from "../UI/Modal/Modal";
+import WalletsIcon from "../../assets/image/WalletIcon.svg";
 
-const customStyles = {
-  overlay: {
-    bc: "rgba(0, 0, 0, 0.8)",
-    zIndex: "3",
-  },
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    display: "flex",
-    direction: "column",
-    alignItems: "flex-end",
-  },
-};
-
-export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB";
 const PursePage = () => {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
   const [modalErrorIsOpen, setModalErrorIsOpen] = useState<boolean>(false);
   const [currency, setCurrency] = useState<CurrencyType>();
   const [numberPurse, setNumberPurse] = useState<number>();
-  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(false)
   const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
+
+  const [x, setX] = useState<number>(0);
+
+  const [xMobile, setXMobile] = useState<number>(0)
+
+  const moveBlockLeftMobile = () => {
+
+    setXMobile(xMobile + 250);
+    if (xMobile === 0) setXMobile(0);
+  };
+  const moveBlockRightMobile = () => {
+    setXMobile(xMobile - 250);
+    if (xMobile === -250 * (wallets.length - 1)) setXMobile(0);
+  };
+
+
+  const moveBlockLeft = () => {
+    setX(x + 250);
+    if (x === 0) setX(0);
+  };
+  const moveBlockRight = () => {
+    setX(x - 250);
+    if (x === -250 * (wallets.length - 3)) setX(0);
+  };
+
   const navigate = useNavigate();
 
   const {wallets} = useTypedSelector((state) => state.wallets) ?? {};
+
   const {FetchWallets} = useActions();
+
+
+  const newArrayCountry = countryIcon.filter(country => !wallets.find(wal => wal.currency === country?.currency))
+
+  useEffect(() => {
+    if (newArrayCountry.length === 0) {
+      setIsDisabledSelect(true)
+      setIsDisabledBtn(true)
+    } else {
+      setIsDisabledSelect(false)
+    }
+  }, [newArrayCountry])
 
   useEffect(() => {
     if (!numberPurse || !currency) {
@@ -62,39 +85,35 @@ const PursePage = () => {
       setIsDisabledBtn(false);
     }
   }, [numberPurse, currency]);
-
   const addPurse = () => {
-    setOpenModal(true)
     const isFindWallet = wallets?.find(
       (wallet) => wallet.currency === currency
     );
     if (isFindWallet) {
       setModalErrorIsOpen(true);
     } else {
-      setIsOpen(true);
+      setOpenModal(true);
 
-      axios
-        .patch(
-          "http://localhost:5000/api/wallets/create",
-          {
-            wallets: [
-              ...wallets,
-              {
-                currency,
-                purseNumber: numberPurse,
-                sum: 0,
-              },
-            ],
-          },
-          {
-            headers: {
-              Authorization: `${Cookies.get("TOKEN")}`,
+      axios.patch("http://localhost:5000/api/wallets/create", {
+          wallets: [
+            ...wallets,
+            {
+              currency,
+              purseNumber: numberPurse,
+              sum: 0,
             },
-          }
-        )
+          ],
+        },
+        {
+          headers: {
+            Authorization: `${Cookies.get("TOKEN")}`,
+          },
+        }
+      )
         .then(() => {
           FetchWallets();
         });
+      setNumberPurse(0)
     }
   };
   useEffect(() => {
@@ -120,6 +139,8 @@ const PursePage = () => {
   const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
+
+
   return (
     <main className={classes.main}>
       <NavBar/>
@@ -129,19 +150,71 @@ const PursePage = () => {
         </div>
 
         {wallets.length > 0 ? (
-          <div className={classes.main__wrapper__wallet_container__wallets}>
-            {wallets.map((wallet, index) => (
-              <Wallet
-                pointer={{cursor: "pointer"}}
-                key={index}
-                countryName={wallet.currency}
-                country={wallet.currency}
-                count={wallet.sum.toFixed(2)}
-                countryCounter={wallet.currency}
-                onClick={() => walletLink(wallet)}
-              />
-            ))}
-          </div>
+          <>
+            <div className={classes.main__wrapper__wallet_container__wallets_desktop}>
+              <div className={classes.slider}>
+                <div style={{
+                  transform: `translateX(${x}px)`,
+                  display: "flex",
+                  transition: "0.5s",
+                  gap: "17px",
+                }}>
+
+
+                  {wallets.map((wallet, index) => (
+
+                    <Wallet
+                      pointer={true}
+                      key={index}
+                      countryName={wallet.currency}
+                      country={wallet.currency}
+                      count={wallet.sum.toFixed(2)}
+                      countryCounter={wallet.currency}
+                      onClick={() => walletLink(wallet)}
+                    />
+
+                  ))}
+                </div>
+              </div>
+              {wallets.length > 3 && (
+                <div className={classes.slider__button}>
+                  <img src={arrowLeftSlide} onClick={moveBlockRight}/>
+                  <img src={arrowRightSlide} onClick={moveBlockLeft}/>
+                </div>
+              )}
+            </div>
+            <div className={classes.main__wrapper__wallet_container__wallets_mobile}>
+              <img src={arrowRightSlide} onClick={moveBlockLeftMobile}/>
+
+              <div className={classes.slider_mobile}>
+                <div style={{
+                  transform: `translateX(${xMobile}px)`,
+                  display: "flex",
+                  transition: "0.5s",
+                  gap: "12px",
+                }}>
+
+
+                  {wallets.map((wallet, index) => (
+
+                    <Wallet
+                      pointer={true}
+                      key={index}
+                      countryName={wallet.currency}
+                      country={wallet.currency}
+                      count={wallet.sum.toFixed(2)}
+                      countryCounter={wallet.currency}
+                      onClick={() => walletLink(wallet)}
+                    />
+
+                  ))}
+                </div>
+              </div>
+
+              <img src={arrowLeftSlide} onClick={moveBlockRightMobile}/>
+
+            </div>
+          </>
         ) : (
           <div className={classes.main__wrapper__wallet_container}>
             <img src={wallet} alt="Кошелек"/>
@@ -151,18 +224,26 @@ const PursePage = () => {
           </div>
         )}
 
+
         <div className={classes.main__wrapper__wallet_container__add}>
           <div className={classes.main__wrapper__wallet_container__add_title}>
-            <p>Добавление кошелька</p>
+            <p className={classes.main__wrapper__wallet_container__add_title_text}>Добавление кошелька</p>
+            {newArrayCountry.length === 0 && (
+              <>
+                <p className={classes.select_limit}>Достигнут лимит количества кошельков</p>
+              </>
+            )}
           </div>
           <div className={classes.main__wrapper__wallet_container__add__select}>
+
             <div className={classes.desktop_button}>
               <Select
                 handleChangeSelect={handleChange}
                 selectValue={currency}
                 minWidth="388px"
                 name="Выберите валюту"
-                array={countryIcon}
+                array={newArrayCountry}
+                disabled={isDisabledSelect}
               />
             </div>
             <div className={classes.mobile_button}>
@@ -171,7 +252,9 @@ const PursePage = () => {
                 selectValue={currency}
                 minWidth="250px"
                 name="Выберите валюту"
-                array={countryIcon}
+                array={newArrayCountry}
+                disabled={isDisabledSelect}
+
               />
             </div>
             <Input
@@ -200,12 +283,14 @@ const PursePage = () => {
         </div>
       </section>
       <ProfileBar/>
-      {openModal && openModal &&
-        <Modal setOpenModal={setOpenModal}
-               image={WalletsIcon}
-               textMain="Кошелек успешно добавлен"
-               textBottom="Теперь вы можете совершать любые операции."
-        />}
+      {openModal && openModal && (
+        <Modal
+          setOpenModal={setOpenModal}
+          image={WalletsIcon}
+          textMain="Кошелек успешно добавлен"
+          textBottom="Теперь вы можете совершать любые операции."
+        />
+      )}
     </main>
   );
 };

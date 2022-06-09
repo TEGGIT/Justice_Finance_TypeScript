@@ -7,26 +7,23 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import {SelectChangeEvent} from "@mui/material";
 
-import {CurrencyType} from "../../PursePage/PursePage";
+import {CurrencyType} from "../../../types/currency";
 
 type ArrayType = {
   currency: CurrencyType;
 };
 
-
 interface TypeSelectMui {
-  /*
-  // TODO Добавить тип//
-*/
   selectValue?: CurrencyType;
   handleChangeSelect: (event: SelectChangeEvent<CurrencyType>) => void;
   minWidth: string;
   name: string;
   array: ArrayType[];
+  disabled?: boolean
 }
 
 const SelectMui: React.FC<TypeSelectMui> = (props) => {
-  const {selectValue, handleChangeSelect, minWidth, name, array} = props;
+  const {selectValue, handleChangeSelect, minWidth, name, array, disabled} = props;
   return (
     <Box sx={{minWidth}}>
       <FormControl fullWidth>
@@ -37,6 +34,7 @@ const SelectMui: React.FC<TypeSelectMui> = (props) => {
           value={selectValue}
           label="age"
           onChange={handleChangeSelect}
+          disabled={disabled}
         >
           {array &&
             array.map((country) => (

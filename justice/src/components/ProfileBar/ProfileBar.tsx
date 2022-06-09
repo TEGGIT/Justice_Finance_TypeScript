@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from "react";
 
-
 import {NavLink, useNavigate} from "react-router-dom";
+
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Wallet from "./WalletBar/Wallet";
+
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+import {useActions} from "../../hooks/useAction";
 
 import classes from "./ProfileBar.module.scss";
 import avatar from "../../assets/image/Avatar.svg";
@@ -12,8 +15,6 @@ import transactions from "../../assets/image/transaction.svg";
 import greenEllipse from "../../assets/image/GreenElipse.svg";
 import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
-import {useTypedSelector} from "../../hooks/useTypesSelector";
-import {useActions} from "../../hooks/useAction";
 
 const ProfileBar = () => {
   const navigate = useNavigate();
@@ -21,23 +22,24 @@ const ProfileBar = () => {
   const {users, loading} = useTypedSelector((state) => state.user);
   const {wallets} = useTypedSelector((state) => state.wallets);
 
-  const [x, setX] = useState(0);
+  const [x, setX] = useState<number>(0);
   const moveBlockLeft = () => {
-    setX(x + 20);
+    setX(x + 250);
     if (x === 0) setX(0);
   };
   const moveBlockRight = () => {
-    setX((x - 120) * wallets.length);
-    if (x === -80) setX(0);
+    setX(x - 250);
+    if (x === -250 * (wallets.length - 1)) setX(0);
   };
+
   const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
+
   useEffect(() => {
     FetchUser();
     FetchWallets();
   }, []);
-
 
   const transaction = users[0]?.transaction;
 
@@ -59,13 +61,15 @@ const ProfileBar = () => {
         <div className={classes.profile_wrapper__balance}>
           <div className={classes.profile_wrapper__balance_arrows}>
             <p>Мой баланс</p>
-            <div className={classes.profile_wrapper__balance_arrows_arrow}>
-              <img src={left} onClick={moveBlockLeft} alt="#"/>
-              <img src={right} onClick={moveBlockRight} alt="#"/>
-            </div>
+            {wallets?.length > 1 && (
+              <div className={classes.profile_wrapper__balance_arrows_arrow}>
+                <img src={left} onClick={moveBlockLeft} alt="#"/>
+                <img src={right} onClick={moveBlockRight} alt="#"/>
+              </div>
+            )}
           </div>
 
-          {wallets && wallets.length ? (
+          {wallets?.length ? (
             <div className={classes.slider}>
               <div
                 style={{
@@ -77,7 +81,7 @@ const ProfileBar = () => {
               >
                 {wallets?.map((wallet) => (
                   <Wallet
-                    pointer={{cursor: "pointer"}}
+                    pointer={true}
                     key={wallet.currency}
                     countryName={wallet.currency}
                     country={wallet.currency}

@@ -1,8 +1,10 @@
 import React from "react";
 
+import {NavLink} from "react-router-dom";
+
 import ButtonMui from "../../MUI/Button/ButtonMui";
+
 import styles from "./Header.module.scss";
-import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (

@@ -13,7 +13,6 @@ import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import Cookies from "js-cookie";
 
 const RegisterPage = () => {
   const [checked, setChecked] = React.useState<boolean>(false);
@@ -77,11 +76,6 @@ const RegisterPage = () => {
     });
   };
 
-  useEffect(() => {
-    if (!Cookies.get("TOKEN")) {
-      navigate('/', {replace: true})
-    }
-  }, [Cookies.get("TOKEN")])
 
   useEffect(() => {
     if (
