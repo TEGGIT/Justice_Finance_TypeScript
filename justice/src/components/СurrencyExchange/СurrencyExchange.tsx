@@ -28,6 +28,7 @@ const CurrencyExchange = () => {
   const [giveValue, setGiveValue] = useState<number>();
   const [getValue, setGetValue] = useState<number>();
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true)
   const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
 
   const {users} = useTypedSelector((state) => state.user);
@@ -41,6 +42,13 @@ const CurrencyExchange = () => {
   const giveWallets = wallets.filter(wallet => wallet.currency !== get)
 
   const getWallets = wallets.filter(wallet => wallet.currency !== give)
+
+
+  useEffect(() => {
+    giveWallets.length && getWallets.length ? setIsDisabledSelect(false) : setIsDisabledSelect(true)
+
+  }, [])
+
 
   useEffect(() => {
     if (get === give && get?.length && give?.length) {
@@ -157,13 +165,12 @@ const CurrencyExchange = () => {
             />
             {wallets ? (
               <Select
-                handleChangeSelect={(event) =>
-                  setGive(event.target.value as CurrencyType)
-                }
+                handleChangeSelect={(event) => setGive(event.target.value as CurrencyType)}
                 selectValue={give}
                 minWidth="21rem"
                 name="Выберите кошелек"
                 array={giveWallets}
+                disabled={isDisabledSelect}
               />
             ) : (
               <h1>LoAdInG...</h1>
@@ -187,6 +194,8 @@ const CurrencyExchange = () => {
                 minWidth="21rem"
                 name="Выберите кошелек"
                 array={getWallets}
+                disabled={isDisabledSelect}
+
               />
             ) : (
               <h1>LoAdInG...</h1>
