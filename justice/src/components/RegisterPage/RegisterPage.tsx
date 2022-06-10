@@ -27,6 +27,7 @@ interface InitialValues {
 }
 
 const RegisterPage = () => {
+
   const validationsSchema = yup.object().shape({
     name: yup.string()
       .typeError("Должно быть строкой")
@@ -49,6 +50,7 @@ const RegisterPage = () => {
   });
 
   const [checked, setChecked] = React.useState<boolean>(false);
+  const [isExistingUser, setIsExistingUser] = useState<boolean>(false)
 
   const navigate = useNavigate();
 
@@ -62,7 +64,7 @@ const RegisterPage = () => {
       navigate("/login-page", {replace: true});
 
     }).catch(function () {
-
+      setIsExistingUser(true)
     });
   };
   return (
@@ -136,6 +138,7 @@ const RegisterPage = () => {
                   password: "",
                   confirmPassword: "",
                 }}
+
                 onSubmit={(values) => {
                   delete values.confirmPassword
                   console.log(values);
@@ -167,15 +170,31 @@ const RegisterPage = () => {
                       {touched.email && errors.email && (
                         <p>{errors.email}</p>
                       )}
-                      <Input
-                        placeholder="E-mail"
-                        name={`email`}
-                        className={classes.input}
-                        type={`email`}
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
+                      {!isExistingUser ? (
+                        <Input
+                          placeholder="E-mail"
+                          name={`email`}
+                          className={classes.input}
+                          type={`email`}
+                          value={values.email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      ) : (
+                        <>
+                          <p>Пользователь с такии Email уже существует</p>
+                          <Input
+                            placeholder="E-mail"
+                            name={`email`}
+                            className={classes.input_error}
+                            type={`email`}
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                        </>
+                      )}
+
                     </div>
                     {touched.password && errors.password && (
                       <p>{errors.password}</p>
