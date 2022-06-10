@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import {NavLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-import { Formik } from "formik";
+import {Formik} from "formik";
 
 import * as yup from "yup";
 
@@ -18,36 +18,53 @@ import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
 
+
+interface InitialValues {
+  name: string,
+  email: string,
+  password: string,
+  confirmPassword?: string
+}
+
 const RegisterPage = () => {
   const validationsSchema = yup.object().shape({
-    name: yup.string().typeError("Должно быть строкой").required("Обязательно"),
+    name: yup.string()
+      .typeError("Должно быть строкой")
+      .matches(/[а-яА-я]/, 'Ошибка')
+      .min(6, "Символ")
+      .max(20, "Дохера")
+      .required("Обязательно"),
+
     password: yup
       .string()
       .typeError("Должно быть паролем")
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Это не пароль")
       .required("Обязательно"),
+
     confirmPassword: yup
       .string()
       .oneOf([yup.ref(`password`)], "Нет совпадений")
       .required("Обязательно"),
+    email: yup.string().typeError("Ошибка email").required("Обязательно").email(`Это не email`)
   });
 
   const [checked, setChecked] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  const registration = () => {
-    // axios.post("http://localhost:5000/api/auth/register-page", {
-    //   name: name,
-    //   email: email,
-    //   password: password,
-    // }).then(() => {
-    //   navigate("/login-page", {replace: true});
-    //
-    // }).catch(function () {
-    //   setEmailError(true)
-    // });
-  };
+  const registration = (name: string, email: string, password: string) => {
+    const submitValue = {name, email, password}
+    axios.post("http://localhost:5000/api/auth/register-page", {
+      name: submitValue.name,
+      email: submitValue.email,
+      password: submitValue.password,
+    }).then(() => {
+      navigate("/login-page", {replace: true});
 
+    }).catch(function () {
+
+    });
+  };
   return (
     <main className={classes.main}>
       <div className={classes.main__register}>
@@ -106,12 +123,13 @@ const RegisterPage = () => {
             </div>
             <div></div>
             <div className={classes.line_wrapper}>
-              <div className={classes.line} />
+              <div className={classes.line}/>
               <p className={classes.line__text}>Or</p>
-              <div className={classes.line} />
+              <div className={classes.line}/>
             </div>
             <div className={classes.input_wrapper}>
-              <Formik
+              <Formik<InitialValues>
+
                 initialValues={{
                   name: "",
                   email: "",
@@ -119,20 +137,21 @@ const RegisterPage = () => {
                   confirmPassword: "",
                 }}
                 onSubmit={(values) => {
+                  delete values.confirmPassword
                   console.log(values);
                 }}
                 validationSchema={validationsSchema}
               >
                 {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  isValid,
-                  handleSubmit,
-                  dirty,
-                }) => (
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    isValid,
+                    handleSubmit,
+                    dirty,
+                  }) => (
                   <>
                     <div className={classes.input_wrapper}>
                       {touched.name && errors.name && <p>{errors.name}</p>}
@@ -144,6 +163,18 @@ const RegisterPage = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.name}
+                      />
+                      {touched.email && errors.email && (
+                        <p>{errors.email}</p>
+                      )}
+                      <Input
+                        placeholder="E-mail"
+                        name={`email`}
+                        className={classes.input}
+                        type={`email`}
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </div>
                     {touched.password && errors.password && (
@@ -173,14 +204,24 @@ const RegisterPage = () => {
                         value={values.confirmPassword}
                       />
                     </div>
+                    <div className={classes.checkbox}>
+                      <CheckBox
+                        onChange={(e) => setChecked(e.target.checked)}
+                        checked={checked}
+                      />
+
+                      <p>
+                        i accept the Terms of Service and have read Privacy Policy
+                      </p>
+                    </div>
                     <div className={classes.desktop_button}>
                       <ButtonMui
                         text="Зарегистрироваться"
                         padding="12px 180px"
                         bc="#363636"
                         coloring="#FFFFFF"
-                        onClick={() => registration()}
-                        disabled={!isValid && !dirty}
+                        onClick={() => registration(values.name, values.email, values.password)}
+                        disabled={!isValid || !checked || !dirty}
                         fontWeight="600"
                         hb="#363636"
                         fontSize="16px"
@@ -194,7 +235,7 @@ const RegisterPage = () => {
                         coloring="#FFFFFF"
                         onClick={handleSubmit}
                         type={`submit`}
-                        disabled={!isValid && !dirty}
+                        disabled={!isValid || !checked || !dirty}
                         fontWeight="600"
                         hb="#363636"
                         fontSize="16px"
@@ -222,7 +263,7 @@ const RegisterPage = () => {
           <p className={classes.text_regular}>Finance</p>
         </NavLink>
         <div className={classes.main__image_wrapper}>
-          <img src={image} alt="Register" />
+          <img src={image} alt="Register"/>
         </div>
       </div>
     </main>
