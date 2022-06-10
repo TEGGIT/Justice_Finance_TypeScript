@@ -31,11 +31,10 @@ const RegisterPage = () => {
 
   const validationsSchema = yup.object().shape({
     name: yup.string()
-      .typeError("Должно быть строкой")
-      .matches(/[а-яА-я]/, 'Ошибка')
-      .min(6, "Символ")
-      .max(20, "Дохера")
-      .required("Обязательно"),
+      .required("Обязательно")
+      // .typeError("Должно быть строкой")
+      .matches(/^[а-яА-ЯЁё]+$/, 'Введено некорректное значение')    // .min(6, "Символ")
+      .max(20, "Дохера"),
 
     password: yup
       .string()
@@ -142,7 +141,6 @@ const RegisterPage = () => {
 
                 onSubmit={(values) => {
                   delete values.confirmPassword
-                  console.log(values);
                 }}
                 validationSchema={validationsSchema}
               >
@@ -159,10 +157,11 @@ const RegisterPage = () => {
                   <>
                     <div className={classes.input_wrapper}>
                       <div style={{position: "relative"}}>
-                        {touched.name && errors.name && <p style={{position: "absolute"}}>{errors.name}</p>}
+                        {touched.name && errors.name &&
+                          <p style={{position: "absolute", color: '#FF4D35'}}>{errors.name}</p>}
                       </div>
                       <Input
-                        className={classes.input}
+                        className={classes[`${touched.name && errors.name ? (`input_error`) : (`input`)}`]}
                         name={`name`}
                         placeholder="Имя, Фамилия"
                         type={`text`}
@@ -171,14 +170,15 @@ const RegisterPage = () => {
                         value={values.name}
                       />
                       <div style={{position: "relative"}}>
-                        {touched.email && errors.email && <p style={{position: "absolute"}}>{errors.email}</p>}
+                        {touched.email && errors.email &&
+                          <p style={{position: "absolute", color: '#FF4D35'}}>{errors.email}</p>}
                       </div>
 
                       {!isExistingUser ? (
                         <Input
                           placeholder="E-mail"
                           name={`email`}
-                          className={classes.input}
+                          className={classes[`${touched.email && errors.email ? (`input_error`) : (`input`)}`]}
                           type={`email`}
                           value={values.email}
                           onChange={handleChange}
@@ -187,7 +187,8 @@ const RegisterPage = () => {
                       ) : (
                         <>
                           <div style={{position: "relative"}}>
-                            <p style={{position: 'absolute'}}>Пользователь с таким Email уже существует</p>
+                            <p style={{position: 'absolute', color: '#FF4D35'}}>Пользователь с таким Email уже
+                              существует</p>
                           </div>
                           <Input
                             placeholder="E-mail"
@@ -204,11 +205,12 @@ const RegisterPage = () => {
 
                     </div>
                     <div style={{position: "relative"}}>
-                      {touched.password && errors.password && <p style={{position: "absolute"}}>{errors.password}</p>}
+                      {touched.password && errors.password &&
+                        <p style={{position: "absolute", color: '#FF4D35'}}>{errors.password}</p>}
                     </div>
                     <div className={classes.input_wrapper_password}>
                       <Input
-                        className={classes.input}
+                        className={classes[`${touched.password && errors.password ? (`input_error`) : (`input`)}`]}
                         name={`password`}
                         placeholder="Пароль"
                         type={`password`}
@@ -217,19 +219,25 @@ const RegisterPage = () => {
                         value={values.password}
                       />
                       <>
-                        {touched.confirmPassword && errors.confirmPassword && (
-                          <p>{errors.confirmPassword}</p>
-                        )}
 
-                        <Input
-                          className={classes.input}
-                          name={`confirmPassword`}
-                          placeholder="Подтвердите пароль"
-                          type={`password`}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.confirmPassword}
-                        />
+                        <div style={{position: 'relative'}}>
+                          {touched.confirmPassword && errors.confirmPassword && (
+                            <p style={{
+                              color: '#FF4D35',
+                              position: "absolute",
+                              top: "-20px"
+                            }}>{errors.confirmPassword}</p>
+                          )}
+                          <Input
+                            className={classes[`${touched.confirmPassword && errors.confirmPassword ? (`input_error`) : (`input`)}`]}
+                            name={`confirmPassword`}
+                            placeholder="Подтвердите пароль"
+                            type={`password`}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.confirmPassword}
+                          />
+                        </div>
                       </>
                     </div>
                     <div className={classes.checkbox}>

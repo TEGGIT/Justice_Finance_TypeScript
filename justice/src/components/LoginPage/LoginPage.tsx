@@ -53,7 +53,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const checkUser = (email: string, password: string) => {
+  const checkUser = ({email, password, isConfirm}: { email: string, password: string, isConfirm?: boolean }) => {
     axios.post("http://localhost:5000/api/auth/login-page", {
       email,
       password,
@@ -142,8 +142,7 @@ const LoginPage = () => {
                   password: "",
                 }}
 
-                onSubmit={(values) => {
-                  console.log(values);
+                onSubmit={() => {
                 }}
                 validationSchema={validationsSchema}
               >
@@ -163,12 +162,13 @@ const LoginPage = () => {
                       {!isNotExistingUser ? (
                         <>
                           <div style={{position: "relative"}}>
-                            {touched.email && errors.email && <p style={{position: "absolute"}}>{errors.email}</p>}
+                            {touched.email && errors.email &&
+                              <p style={{position: "absolute", color: "#FF4D35"}}>{errors.email}</p>}
                           </div>
                           <Input
                             placeholder="E-mail"
                             name={`email`}
-                            className={classes.input}
+                            className={classes[`${touched.email && errors.email ? (`input_error`) : (`input`)}`]}
                             type={`email`}
                             value={values.email}
                             onChange={handleChange}
@@ -176,10 +176,10 @@ const LoginPage = () => {
                           />
                           <div style={{position: "relative"}}>
                             {touched.password && errors.password &&
-                              <p style={{position: "absolute"}}>{errors.password}</p>}
+                              <p style={{position: "absolute", color: '#FF4D35'}}>{errors.password}</p>}
                           </div>
                           <Input
-                            className={classes.input}
+                            className={classes[`${touched.password && errors.password ? (`input_error`) : (`input`)}`]}
                             name={`password`}
                             placeholder="Пароль"
                             type={`password`}
@@ -229,7 +229,7 @@ const LoginPage = () => {
                         padding="12px 195px"
                         bc="#363636"
                         coloring="#FFFFFF"
-                        onClick={() => checkUser(values.email, values.password)}
+                        onClick={() => checkUser({email: values.email, password: values.password})}
                         disabled={!isValid || !dirty}
                         fontWeight="600"
                         hb="#363636"
@@ -242,7 +242,7 @@ const LoginPage = () => {
                         padding="12px 100px"
                         bc="#363636"
                         coloring="#FFFFFF"
-                        onClick={() => checkUser(values.email, values.password)}
+                        onClick={() => checkUser({email: values.email, password: values.password})}
                         type={`submit`}
                         disabled={!isValid || !dirty}
                         fontWeight="600"
