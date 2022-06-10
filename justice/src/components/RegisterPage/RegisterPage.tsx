@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
+
 
 import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
@@ -13,11 +14,11 @@ import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
 import ButtonMui from "../MUI/Button/ButtonMui";
 
+
 import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-
 
 interface InitialValues {
   name: string,
@@ -157,7 +158,9 @@ const RegisterPage = () => {
                   }) => (
                   <>
                     <div className={classes.input_wrapper}>
-                      {touched.name && errors.name && <p>{errors.name}</p>}
+                      <div style={{position: "relative"}}>
+                        {touched.name && errors.name && <p style={{position: "absolute"}}>{errors.name}</p>}
+                      </div>
                       <Input
                         className={classes.input}
                         name={`name`}
@@ -167,9 +170,10 @@ const RegisterPage = () => {
                         onBlur={handleBlur}
                         value={values.name}
                       />
-                      {touched.email && errors.email && (
-                        <p>{errors.email}</p>
-                      )}
+                      <div style={{position: "relative"}}>
+                        {touched.email && errors.email && <p style={{position: "absolute"}}>{errors.email}</p>}
+                      </div>
+
                       {!isExistingUser ? (
                         <Input
                           placeholder="E-mail"
@@ -182,7 +186,9 @@ const RegisterPage = () => {
                         />
                       ) : (
                         <>
-                          <p>Пользователь с такии Email уже существует</p>
+                          <div style={{position: "relative"}}>
+                            <p style={{position: 'absolute'}}>Пользователь с таким Email уже существует</p>
+                          </div>
                           <Input
                             placeholder="E-mail"
                             name={`email`}
@@ -192,13 +198,14 @@ const RegisterPage = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
+
                         </>
                       )}
 
                     </div>
-                    {touched.password && errors.password && (
-                      <p>{errors.password}</p>
-                    )}
+                    <div style={{position: "relative"}}>
+                      {touched.password && errors.password && <p style={{position: "absolute"}}>{errors.password}</p>}
+                    </div>
                     <div className={classes.input_wrapper_password}>
                       <Input
                         className={classes.input}
@@ -209,19 +216,21 @@ const RegisterPage = () => {
                         onBlur={handleBlur}
                         value={values.password}
                       />
-                      {touched.confirmPassword && errors.confirmPassword && (
-                        <p>{errors.confirmPassword}</p>
-                      )}
+                      <>
+                        {touched.confirmPassword && errors.confirmPassword && (
+                          <p>{errors.confirmPassword}</p>
+                        )}
 
-                      <Input
-                        className={classes.input}
-                        name={`confirmPassword`}
-                        placeholder="Подтвердите пароль"
-                        type={`password`}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.confirmPassword}
-                      />
+                        <Input
+                          className={classes.input}
+                          name={`confirmPassword`}
+                          placeholder="Подтвердите пароль"
+                          type={`password`}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.confirmPassword}
+                        />
+                      </>
                     </div>
                     <div className={classes.checkbox}>
                       <CheckBox
@@ -252,7 +261,7 @@ const RegisterPage = () => {
                         padding="12px 80px"
                         bc="#363636"
                         coloring="#FFFFFF"
-                        onClick={handleSubmit}
+                        onClick={() => registration(values.name, values.email, values.password)}
                         type={`submit`}
                         disabled={!isValid || !checked || !dirty}
                         fontWeight="600"

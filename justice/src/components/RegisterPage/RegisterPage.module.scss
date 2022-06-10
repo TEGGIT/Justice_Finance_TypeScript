@@ -157,6 +157,7 @@
   border: 1px solid #ECECEC;
   padding: 16px 10px 16px 16px;
   color: #363636;;
+  position: relative;
 
 
   &_error {
@@ -208,7 +209,7 @@
 .input_wrapper {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
   @media (max-width: 530px) {
     align-items: center;
   }
@@ -216,6 +217,7 @@
   &_password {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 36px;
     @media (max-width: 530px) {
       flex-direction: column;
