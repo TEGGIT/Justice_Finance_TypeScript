@@ -53,7 +53,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const checkUser = ({email, password, isConfirm}: { email: string, password: string, isConfirm?: boolean }) => {
+  const checkUser = ({email, password}: { email: string, password: string }) => {
     axios.post("http://localhost:5000/api/auth/login-page", {
       email,
       password,
