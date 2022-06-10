@@ -210,13 +210,10 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  @media (max-width: 530px) {
-    align-items: center;
-  }
+
 
   &_password {
     display: flex;
-    align-items: center;
     justify-content: center;
     gap: 36px;
     @media (max-width: 530px) {
@@ -296,4 +293,5 @@
 
   }
 }
+
 
