@@ -1,7 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
+
 
 import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
+
+import {Formik} from "formik";
+
+import * as yup from "yup";
 
 import axios from "axios";
 
@@ -9,94 +14,65 @@ import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
 import ButtonMui from "../MUI/Button/ButtonMui";
 
+
 import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
 
+interface InitialValues {
+  name: string,
+  email: string,
+  password: string,
+  confirmPassword?: string
+}
+
 const RegisterPage = () => {
+
+  const validationsSchema = yup.object().shape({
+    name: yup.string()
+      .typeError("Должно быть строкой")
+      .matches(/[а-яА-я]/, 'Ошибка')
+      .min(6, "Символ")
+      .max(20, "Дохера")
+      .required("Обязательно"),
+
+    password: yup
+      .string()
+      .typeError("Должно быть паролем")
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Это не пароль")
+      .required("Обязательно"),
+
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref(`password`)], "Нет совпадений")
+      .required("Обязательно"),
+    email: yup.string().typeError("Ошибка email").required("Обязательно").email(`Это не email`)
+  });
+
   const [checked, setChecked] = React.useState<boolean>(false);
-  const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
-  const [name, setName] = useState<string>("");
-  const [nameError, setNameError] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
-  const [repeatPassword, setRepeatPassword] = useState<string>("");
-  const [repeatPasswordError, setRepeatPasswordError] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [isExistingUser, setIsExistingUser] = useState<boolean>(false)
 
   const navigate = useNavigate();
 
-  const nameErrorChecker = () => {
-    const nameChecker = new RegExp(`^(?=.*[а-я])(?=.*[А-Я])(?=.{${2},})`);
-    if (!nameChecker.test(name)) {
-      setNameError(true);
-    } else {
-      setNameError(false);
-    }
-  };
-
-  const emailErrorChecker = () => {
-    const emailChecker = /^[-\w.]+@([A-z\d][-A-z\d]+\.)+[A-z]{2,4}$/;
-    if (!emailChecker.test(email)) {
-      setEmailError(true);
-    } else {
-      setEmailError(false);
-    }
-  };
-  const passwordErrorChecker = () => {
-    const passwordChecker = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])(?=.{8,})"
-    );
-    if (!passwordChecker.test(password)) {
-      setPasswordError(true);
-    } else {
-      setPasswordError(false);
-    }
-  };
-  const passwordRepeatChecker = () => {
-    if (password !== repeatPassword) {
-      setRepeatPasswordError(true);
-    } else {
-      setRepeatPasswordError(false);
-    }
-  };
-
-  const registration = () => {
+  const registration = (name: string, email: string, password: string) => {
+    const submitValue = {name, email, password}
     axios.post("http://localhost:5000/api/auth/register-page", {
-      name: name,
-      email: email,
-      password: password,
+      name: submitValue.name,
+      email: submitValue.email,
+      password: submitValue.password,
     }).then(() => {
       navigate("/login-page", {replace: true});
 
     }).catch(function () {
-      setEmailError(true)
+      setIsExistingUser(true)
     });
   };
-
-
-  useEffect(() => {
-    if (
-      !name ||
-      !email ||
-      !password ||
-      !repeatPassword ||
-      repeatPasswordError ||
-      !checked
-    ) {
-      setDisabledBtn(true);
-    } else {
-      setDisabledBtn(false);
-    }
-  }, [name, email, password, repeatPassword, repeatPasswordError, checked]);
-
   return (
     <main className={classes.main}>
       <div className={classes.main__register}>
         <div className={classes.main__register_wrapper}>
-          <form className={classes.main__register_wrapper__form}>
+          <div className={classes.main__register_wrapper__form}>
             <p className={classes.main__register_wrapper__form_text}>
               Регистрация
             </p>
@@ -155,138 +131,158 @@ const RegisterPage = () => {
               <div className={classes.line}/>
             </div>
             <div className={classes.input_wrapper}>
-              {nameError ? (
-                <>
-                  <Input
-                    placeholder="Имя, Фамилия"
-                    type="text"
-                    className={classes.input_error}
-                    onBlur={() => nameErrorChecker()}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </>
-              ) : (
-                <Input
-                  placeholder="Имя, Фамилия"
-                  type="text"
-                  className={classes.input}
-                  onBlur={() => nameErrorChecker()}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              )}
-              {emailError ? (
-                <>
-                  <Input
-                    placeholder="E-mail"
-                    className={classes.input_error}
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onBlur={emailErrorChecker}
-                  />
-                </>
-              ) : (
-                <Input
-                  placeholder="E-mail"
-                  className={classes.input}
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onBlur={emailErrorChecker}
-                />
-              )}
-              <div className={classes.input_wrapper_password}>
-                {passwordError ? (
-                  <>
-                    <Input
-                      placeholder="Пароль"
-                      className={classes.input_error}
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      onBlur={passwordErrorChecker}
-                    />
-                  </>
-                ) : (
-                  <Input
-                    placeholder="Пароль"
-                    className={classes.input}
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onBlur={passwordErrorChecker}
-                  />
-                )}
-                {repeatPasswordError ? (
-                  <Input
-                    placeholder="Подтвердите пароль"
-                    className={classes.input_error}
-                    onBlur={passwordRepeatChecker}
-                    type="password"
-                    onChange={(e) => setRepeatPassword(e.target.value)}
-                    value={repeatPassword}
-                  />
-                ) : (
-                  <Input
-                    placeholder="Подтвердите пароль"
-                    className={classes.input}
-                    onBlur={passwordRepeatChecker}
-                    type="password"
-                    onChange={(e) => setRepeatPassword(e.target.value)}
-                    value={repeatPassword}
-                  />
-                )}
-              </div>
-              <div className={classes.checkbox}>
-                <CheckBox
-                  onChange={(e) => setChecked(e.target.checked)}
-                  checked={checked}
-                />
+              <Formik<InitialValues>
 
+                initialValues={{
+                  name: "",
+                  email: "",
+                  password: "",
+                  confirmPassword: "",
+                }}
+
+                onSubmit={(values) => {
+                  delete values.confirmPassword
+                  console.log(values);
+                }}
+                validationSchema={validationsSchema}
+              >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    isValid,
+                    handleSubmit,
+                    dirty,
+                  }) => (
+                  <>
+                    <div className={classes.input_wrapper}>
+                      <div style={{position: "relative"}}>
+                        {touched.name && errors.name && <p style={{position: "absolute"}}>{errors.name}</p>}
+                      </div>
+                      <Input
+                        className={classes.input}
+                        name={`name`}
+                        placeholder="Имя, Фамилия"
+                        type={`text`}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.name}
+                      />
+                      <div style={{position: "relative"}}>
+                        {touched.email && errors.email && <p style={{position: "absolute"}}>{errors.email}</p>}
+                      </div>
+
+                      {!isExistingUser ? (
+                        <Input
+                          placeholder="E-mail"
+                          name={`email`}
+                          className={classes.input}
+                          type={`email`}
+                          value={values.email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      ) : (
+                        <>
+                          <div style={{position: "relative"}}>
+                            <p style={{position: 'absolute'}}>Пользователь с таким Email уже существует</p>
+                          </div>
+                          <Input
+                            placeholder="E-mail"
+                            name={`email`}
+                            className={classes.input_error}
+                            type={`email`}
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+
+                        </>
+                      )}
+
+                    </div>
+                    <div style={{position: "relative"}}>
+                      {touched.password && errors.password && <p style={{position: "absolute"}}>{errors.password}</p>}
+                    </div>
+                    <div className={classes.input_wrapper_password}>
+                      <Input
+                        className={classes.input}
+                        name={`password`}
+                        placeholder="Пароль"
+                        type={`password`}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
+                      />
+                      <>
+                        {touched.confirmPassword && errors.confirmPassword && (
+                          <p>{errors.confirmPassword}</p>
+                        )}
+
+                        <Input
+                          className={classes.input}
+                          name={`confirmPassword`}
+                          placeholder="Подтвердите пароль"
+                          type={`password`}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.confirmPassword}
+                        />
+                      </>
+                    </div>
+                    <div className={classes.checkbox}>
+                      <CheckBox
+                        onChange={(e) => setChecked(e.target.checked)}
+                        checked={checked}
+                      />
+
+                      <p>
+                        i accept the Terms of Service and have read Privacy Policy
+                      </p>
+                    </div>
+                    <div className={classes.desktop_button}>
+                      <ButtonMui
+                        text="Зарегистрироваться"
+                        padding="12px 180px"
+                        bc="#363636"
+                        coloring="#FFFFFF"
+                        onClick={() => registration(values.name, values.email, values.password)}
+                        disabled={!isValid || !checked || !dirty}
+                        fontWeight="600"
+                        hb="#363636"
+                        fontSize="16px"
+                      />
+                    </div>
+                    <div className={classes.mobile_button}>
+                      <ButtonMui
+                        text="Зарегистрироваться"
+                        padding="12px 80px"
+                        bc="#363636"
+                        coloring="#FFFFFF"
+                        onClick={() => registration(values.name, values.email, values.password)}
+                        type={`submit`}
+                        disabled={!isValid || !checked || !dirty}
+                        fontWeight="600"
+                        hb="#363636"
+                        fontSize="16px"
+                      />
+                    </div>
+                  </>
+                )}
+              </Formik>
+              <div className={classes.newPerson}>
                 <p>
-                  i accept the Terms of Service and have read Privacy Policy
+                  {" "}
+                  У вас уже есть учетная запись?{" "}
+                  <NavLink to="/login-page" className={classes.signup}>
+                    Авторизоваться
+                  </NavLink>
                 </p>
               </div>
             </div>
-            <div className={classes.desktop_button}>
-              <ButtonMui
-                text="Зарегистрироваться"
-                padding="12px 180px"
-                bc="#363636"
-                coloring="#FFFFFF"
-                onClick={() => registration()}
-                disabled={disabledBtn}
-                fontWeight="600"
-                hb="#363636"
-                fontSize="16px"
-              />
-            </div>
-            <div className={classes.mobile_button}>
-              <ButtonMui
-                text="Зарегистрироваться"
-                padding="12px 80px"
-                bc="#363636"
-                coloring="#FFFFFF"
-                onClick={() => registration()}
-                disabled={disabledBtn}
-                fontWeight="600"
-                hb="#363636"
-                fontSize="16px"
-              />
-            </div>
-
-            <div className={classes.newPerson}>
-              <p>
-                {" "}
-                У вас уже есть учетная запись?{" "}
-                <NavLink to="/login-page" className={classes.signup}>
-                  Авторизоваться
-                </NavLink>
-              </p>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
       <div className={classes.main__image}>

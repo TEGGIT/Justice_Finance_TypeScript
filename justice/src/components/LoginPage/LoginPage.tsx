@@ -1,11 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
+
 
 import {NavLink, useNavigate} from "react-router-dom";
 
 import {useActions} from "../../hooks/useAction";
 
+
 import Cookies from "js-cookie";
+
 import axios from "axios";
+
+import {Formik} from "formik";
+
+import * as yup from "yup";
 
 import ButtonMui from "../MUI/Button/ButtonMui";
 import Input from "../UI/Input/Input";
@@ -17,19 +24,36 @@ import image from "../../assets/image/IllustrationOne.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
 
+interface InitialValues {
+  email: string,
+  password: string,
+}
+
 const LoginPage = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [isEmailError, setIsEmailError] = useState<boolean>(false);
-  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
-  const [isDisabledBtn, setIsDisabledBtn] = useState<boolean>(true);
+
+  const validationsSchema = yup.object().shape({
+    password: yup
+      .string()
+      .typeError("Должно быть паролем")
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Это не пароль")
+      .required("Обязательно"),
+    email: yup
+      .string()
+      .typeError("Ошибка email")
+      .required("Обязательно")
+      .email(`Это не email`)
+  });
+
+
   const [checked, setChecked] = React.useState<boolean>(false);
+
+  const [isNotExistingUser, setNotIsExistingUser] = useState<boolean>(false)
 
   const {loginUser} = useActions();
 
   const navigate = useNavigate();
 
-  const checkUser = () => {
+  const checkUser = (email: string, password: string) => {
     axios.post("http://localhost:5000/api/auth/login-page", {
       email,
       password,
@@ -39,38 +63,11 @@ const LoginPage = () => {
       loginUser(true)
       navigate("/exchange-rates-page", {replace: true});
     }).catch(function (e) {
-      setIsEmailError(true)
-      setIsPasswordError(true)
+      setNotIsExistingUser(true)
     })
 
   };
-  const checkEmail = () => {
-    const emailChecker = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/;
-    if (!emailChecker.test(email)) {
-      setIsEmailError(true);
-    } else {
-      setIsEmailError(false);
-    }
-  };
 
-  const checkPassword = () => {
-    const passwordChecker = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-    );
-    if (!passwordChecker.test(password)) {
-      setIsPasswordError(true);
-    } else {
-      setIsPasswordError(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!email || !password || isEmailError || isPasswordError) {
-      setIsDisabledBtn(true);
-    } else {
-      setIsDisabledBtn(false);
-    }
-  }, [email, password, isEmailError, isPasswordError]);
 
   const handleChange = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
@@ -82,7 +79,7 @@ const LoginPage = () => {
     <main className={classes.main}>
       <div className={classes.main__login}>
         <div className={classes.main__login_wrapper}>
-          <form className={classes.main__login_wrapper__form}>
+          <div className={classes.main__login_wrapper__form}>
             <p className={classes.main__login_wrapper__form_text}>Вход</p>
             <div className={classes.main__login_wrapper__form__buttons}>
               <div className={classes.desktop_button}>
@@ -138,75 +135,125 @@ const LoginPage = () => {
               <div className={classes.line}/>
             </div>
             <div className={classes.input_wrapper}>
-              {isEmailError ? (
-                <Input
-                  placeholder="E-mail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={classes.input_error}
-                  type="email"
-                  onBlur={checkEmail}
-                />
-              ) : (
-                <Input
-                  placeholder="E-mail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={classes.input}
-                  type="email"
-                  onBlur={checkEmail}
-                />
-              )}
-              {isPasswordError ? (
-                <Input
-                  placeholder="Пароль"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={classes.input_error}
-                  type="password"
-                  onBlur={checkPassword}
-                />
-              ) : (
-                <Input
-                  placeholder="Пароль"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={classes.input}
-                  type="password"
-                  onBlur={checkPassword}
-                />
-              )}
+              <Formik<InitialValues>
 
-              <div className={classes.checkbox}>
-                <CheckBox onChange={handleChange} checked={checked}/>
-                <p>Запомнить меня</p>
-              </div>
-            </div>
-            <div className={classes.desktop_button}>
-              <ButtonMui
-                text="Войти"
-                fontSize="1rem"
-                padding="12px 195px"
-                bc="#363636"
-                coloring="#FFFFFF"
-                hb="#363636"
-                fontWeight="600"
-                onClick={checkUser}
-                disabled={isDisabledBtn}
-              />
-            </div>
-            <div className={classes.mobile_button}>
-              <ButtonMui
-                text="Войти"
-                fontSize="1rem"
-                padding="12px 100px"
-                bc="#363636"
-                coloring="#FFFFFF"
-                hb="#363636"
-                fontWeight="600"
-                onClick={checkUser}
-                disabled={isDisabledBtn}
-              />
+                initialValues={{
+                  email: "",
+                  password: "",
+                }}
+
+                onSubmit={(values) => {
+                  console.log(values);
+                }}
+                validationSchema={validationsSchema}
+              >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    isValid,
+                    dirty,
+                  }) => (
+                  <>
+                    <div className={classes.input_wrapper}>
+
+
+                      {!isNotExistingUser ? (
+                        <>
+                          <div style={{position: "relative"}}>
+                            {touched.email && errors.email && <p style={{position: "absolute"}}>{errors.email}</p>}
+                          </div>
+                          <Input
+                            placeholder="E-mail"
+                            name={`email`}
+                            className={classes.input}
+                            type={`email`}
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          <div style={{position: "relative"}}>
+                            {touched.password && errors.password &&
+                              <p style={{position: "absolute"}}>{errors.password}</p>}
+                          </div>
+                          <Input
+                            className={classes.input}
+                            name={`password`}
+                            placeholder="Пароль"
+                            type={`password`}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.password}
+                          />
+
+                        </>
+                      ) : (
+                        <>
+                          <div style={{position: "relative"}}>
+                            <p style={{position: 'absolute'}}>Введите действующий адрес электронной почты и
+                              пароль</p>
+                          </div>
+                          <Input
+                            placeholder="E-mail"
+                            name={`email`}
+                            className={classes.input_error}
+                            type={`email`}
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          <Input
+                            className={classes.input_error}
+                            name={`password`}
+                            placeholder="Пароль"
+                            type={`password`}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.password}
+                          />
+
+                        </>
+                      )}
+
+                    </div>
+
+                    <div className={classes.checkbox}>
+                      <CheckBox onChange={handleChange} checked={checked}/>
+                      <p>Запомнить меня</p>
+                    </div>
+                    <div className={classes.desktop_button}>
+                      <ButtonMui
+                        text="Войти"
+                        padding="12px 195px"
+                        bc="#363636"
+                        coloring="#FFFFFF"
+                        onClick={() => checkUser(values.email, values.password)}
+                        disabled={!isValid || !dirty}
+                        fontWeight="600"
+                        hb="#363636"
+                        fontSize="16px"
+                      />
+                    </div>
+                    <div className={classes.mobile_button}>
+                      <ButtonMui
+                        text="Войти"
+                        padding="12px 100px"
+                        bc="#363636"
+                        coloring="#FFFFFF"
+                        onClick={() => checkUser(values.email, values.password)}
+                        type={`submit`}
+                        disabled={!isValid || !dirty}
+                        fontWeight="600"
+                        hb="#363636"
+                        fontSize="16px"
+                      />
+                    </div>
+                  </>
+                )}
+              </Formik>
+
             </div>
             <div className={classes.newPerson}>
               <p>
@@ -216,7 +263,7 @@ const LoginPage = () => {
                 </NavLink>
               </p>
             </div>
-          </form>
+          </div>
         </div>
       </div>
       <div className={classes.main__image}>
