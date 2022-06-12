@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 
 import {useForm, SubmitHandler} from "react-hook-form";
@@ -18,36 +18,37 @@ import Cookies from "js-cookie";
 import classes from "./Profile.module.scss";
 
 type Inputs = {
-  name: string,
-  email: string,
+  name: string;
+  email: string;
+  city: string;
+  birthday: string;
+  phoneNumber: number;
+
 };
 
 const Profile = () => {
   const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
 
   const {users} = useTypedSelector((state) => state.user);
   const {FetchUser} = useActions();
-
-
   const changeProfile = () => {
-    // axios
-    //   .patch(
-    //     "http://localhost:5000/api/profile",
-    //     {
-    //       name,
-    //       email,
-    //       city,
-    //       birthday,
-    //       phoneNumber: number,
-    //     },
-    //     {
-    //       headers: {Authorization: `${Cookies.get("TOKEN")}`},
-    //     }
-    //   )
-    //   .then(() => {
-    //     FetchUser();
-    //   });
+    axios
+      .patch(
+        "http://localhost:5000/api/profile",
+        {
+          name: watch(`name`),
+          email: watch(`email`),
+          city: watch(`city`)
+          // birthday,
+          // phoneNumber: number,
+        },
+        {
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
+        }
+      )
+      .then(() => {
+        FetchUser();
+      });
   };
   const changePassword = () => {
     // axios.patch(
@@ -71,19 +72,20 @@ const Profile = () => {
       <section className={classes.main_wrapper}>
         <div className={classes.main_wrapper__title}>
           <h1 className={classes.main_wrapper__title_text}>Мой профиль</h1>
-          <div className={classes.main_wrapper__title_button}>
+          <form className={classes.main_wrapper__title_button} onSubmit={handleSubmit(changeProfile)}>
             <ButtonMui
-              type={'submit'}
               bc="#363636"
               coloring="#FFFFFF"
               text="Сохранить изменения"
               padding="12px 24px"
               fontWeight="600"
               // disabled={isDisabled}
+              type="submit"
+
               onClick={changeProfile}
               fontSize="16px"
             />
-          </div>
+          </form>
         </div>
         {/*{isSnackBar && (*/}
         {/*  <CustomizedSnackbars snack={true}/>*/}
@@ -93,30 +95,32 @@ const Profile = () => {
           <div className={classes.main_wrapper__content__title__info}>
             <p>Информация о вашей учетной записи</p>
           </div>
-          <form className={classes.main_wrapper__content__input} onSubmit={handleSubmit(onSubmit)}>
+          <form className={classes.main_wrapper__content__input} onSubmit={handleSubmit(changeProfile)}>
 
-            <Input
-              placeholder="Имя, Фамилия"
+            <input
+
+                {...register(`name`)}
+                placeholder="Имя, Фамилия"
               defaultValue={users[0]?.name}
-              {...register("name")}
-              // value={name}
-              // onChange={(e) => setName(e.target.value)}
               className={classes.main_wrapper__content__input_input}
             />
 
-            <Input
+            <input
               placeholder="Email"
               type="email"
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
+              {...register(`email`)}
+              defaultValue={users[0]?.email}
               className={classes.main_wrapper__content__input_input}
             />
 
-            <Input
+            <input
+
               placeholder="Город"
               className={classes.main_wrapper__content__input_input}
-              // value={city}
-              // onChange={(e) => setCity(e.target.value)}
+              {...register(`city`)}
+              defaultValue={users[0]?.city}
+
+
             />
 
             <Input
@@ -133,7 +137,6 @@ const Profile = () => {
               type="number"
               // onChange={(e) => setNumber(e.target.valueAsNumber)}
             />
-          </form>
           <div className={classes.main_wrapper__title_button_bottom}>
             <ButtonMui
               bc="#363636"
@@ -143,11 +146,14 @@ const Profile = () => {
               hb="#363636"
               fontWeight="600"
               // disabled={isDisabled}
+              type="submit"
               onClick={changeProfile}
               fontSize="12px"
             />
           </div>
-          <div className={classes.main_wrapper__content__title__password}>
+        </form>
+
+        <div className={classes.main_wrapper__content__title__password}>
             <p>Пароль</p>
           </div>
           <div className={classes.main_wrapper__content__input}>
