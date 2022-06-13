@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 import {useForm, SubmitHandler} from "react-hook-form";
@@ -18,195 +18,207 @@ import Cookies from "js-cookie";
 import classes from "./Profile.module.scss";
 
 type Inputs = {
-  name: string;
-  email: string;
-  city: string;
-  birthday: string;
-  phoneNumber: number;
+    name: string;
+    email: string;
+    city: string;
+    birthday: string;
+    phoneNumber: number;
 
 };
 
 const Profile = () => {
-  const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>();
-
-  const {users} = useTypedSelector((state) => state.user);
-  const {FetchUser} = useActions();
-  const changeProfile = () => {
-
-    axios
-      .patch(
-        "http://localhost:5000/api/profile",
-        {
-          // name: user,
-          // email:
-          // city: watch(`city`)
-          // birthday,
-          // phoneNumber: number,
-        },
-        {
-          headers: {Authorization: `${Cookies.get("TOKEN")}`},
-        }
-      )
-      .then(() => {
-        FetchUser();
-     });
-  };
-  const changePassword = () => {
-    // axios.patch(
-    //   "http://localhost:5000/api/profile/changePassword", {
-    //     password: oldPassword,
-    //     newPassword: password,
-    //   },
-    //   {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
-    // )
-    //   .then(() => {
-    //     FetchUser();
-    //     setIsPasswordError(false)
-    //   }).catch(function () {
-    //     setIsPasswordError(true)
-    //   }
-    // );
-  };
-
-  const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
-
-  return (
-    <main className={classes.main}>
-      <NavBar/>
-      <section className={classes.main_wrapper}>
-        <div className={classes.main_wrapper__title}>
-          <h1 className={classes.main_wrapper__title_text}>Мой профиль</h1>
-          <form className={classes.main_wrapper__title_button} onSubmit={handleSubmit(onSubmit)}>
-            <ButtonMui
-              bc="#363636"
-              coloring="#FFFFFF"
-              text="Сохранить изменения"
-              padding="12px 24px"
-              fontWeight="600"
-              // disabled={isDisabled}
-              type="submit"
-
-              onClick={changeProfile}
-              fontSize="16px"
-            />
-          </form>
-        </div>
-        {/*{isSnackBar && (*/}
-        {/*  <CustomizedSnackbars snack={true}/>*/}
-        {/*  )}*/}
-
-        <div className={classes.main_wrapper__content}>
-          <div className={classes.main_wrapper__content__title__info}>
-            <p>Информация о вашей учетной записи</p>
-          </div>
-          <form className={classes.main_wrapper__content__input} onSubmit={handleSubmit(changeProfile)}>
-
-            <input
-
-                {...register(`name`)}
-                placeholder="Имя, Фамилия"
-              defaultValue={users[0]?.name}
-              className={classes.main_wrapper__content__input_input}
-            />
-
-            <input
-                {...register(`email`)}
-
-                placeholder="Email"
-              type="email"
-              defaultValue={users[0]?.email}
-              className={classes.main_wrapper__content__input_input}
-            />
-
-            <input
-
-              placeholder="Город"
-              className={classes.main_wrapper__content__input_input}
-              {...register(`city`)}
-              defaultValue={users[0]?.city}
+    const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>();
+    const {users} = useTypedSelector((state) => state.user);
+    const {FetchUser} = useActions();
 
 
-            />
+    const changePassword = () => {
+        // axios.patch(
+        //   "http://localhost:5000/api/profile/changePassword", {
+        //     password: oldPassword,
+        //     newPassword: password,
+        //   },
+        //   {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
+        // )
+        //   .then(() => {
+        //     FetchUser();
+        //     setIsPasswordError(false)
+        //   }).catch(function () {
+        //     setIsPasswordError(true)
+        //   }
+        // );
+    };
+    console.log(errors)
+    return (
+        <main className={classes.main}>
+            <NavBar/>
+            <section className={classes.main_wrapper}>
+                <div className={classes.main_wrapper__title}>
+                    <h1 className={classes.main_wrapper__title_text}>Мой профиль</h1>
+                    <form className={classes.main_wrapper__title_button} onSubmit={handleSubmit((data) => {
+                        axios.patch("http://localhost:5000/api/profile", {
+                                name: !data.name.length ? users[0]?.name : data.name,
+                                email: !data.email.length ? users[0]?.email : data.email,
+                                city: !data.city.length ? users[0]?.city : data.city,
+                                birthday: !data.birthday ? users[0]?.birthday : data.birthday,
+                                phoneNumber: !data.phoneNumber ? users[0].phoneNumber : data.phoneNumber
+                            },
+                            {
+                                headers: {Authorization: `${Cookies.get("TOKEN")}`},
+                            }
+                        )
+                            .then(() => {
+                                FetchUser();
 
-            <Input
-              placeholder="Дата рождения"
-              className={classes.main_wrapper__content__input_input}
-              // value={birthday}
-              // onChange={(e) => setBirthday(e.target.value)}
-            />
+                            });
+                    })}>
+                        <ButtonMui
+                            bc="#363636"
+                            coloring="#FFFFFF"
+                            text="Сохранить изменения"
+                            padding="12px 24px"
+                            fontWeight="600"
+                            disabled=
+                                {
+                                    !watch(`name`)
+                                    &&
+                                    !watch(`email`)
+                                    &&
+                                    !watch(`city`)
+                                    &&
+                                    !watch(`birthday`)
+                                    &&
+                                    !watch(`phoneNumber`)
+                                    ||
+                                    Boolean(errors)
+                                }
+                            type="submit"
+                            fontSize="16px"
+                        />
+                    </form>
+                </div>
+                {/*{isSnackBar && (*/}
+                {/*  <CustomizedSnackbars snack={true}/>*/}
+                {/*  )}*/}
 
-            <Input
-              placeholder="Номер телефона"
-              className={classes.main_wrapper__content__input_input}
-              // value={number}
-              type="number"
-              // onChange={(e) => setNumber(e.target.valueAsNumber)}
-            />
-          <div className={classes.main_wrapper__title_button_bottom}>
-            <ButtonMui
-              bc="#363636"
-              coloring="#FFFFFF"
-              text="Сохранить изменения"
-              padding="12px 24px"
-              hb="#363636"
-              fontWeight="600"
-              // disabled={isDisabled}
-              type="submit"
-              onClick={changeProfile}
-              fontSize="12px"
-            />
-          </div>
-        </form>
+                <div className={classes.main_wrapper__content}>
+                    <div className={classes.main_wrapper__content__title__info}>
+                        <p>Информация о вашей учетной записи</p>
+                    </div>
+                    <form className={classes.main_wrapper__content__input}>
 
-        <div className={classes.main_wrapper__content__title__password}>
-            <p>Пароль</p>
-          </div>
-          <div className={classes.main_wrapper__content__input}>
+                        <input
 
-            <Input
-              placeholder="Введите старый пароль"
-              type="password"
-              className={classes.main_wrapper__content__input_input}
-              // onBlur={passwordChecker}
-              // value={oldPassword}
-              // onChange={(e) => setOldPassword(e.target.value)}
-            />
+                            placeholder="Имя, Фамилия"
+                            defaultValue={users[0]?.name}
+                            className={classes.main_wrapper__content__input_input}
+                            {...register(`name`, )}
 
-            <Input
-              placeholder="Повторите новый пароль"
-              type="password"
-              className={classes.main_wrapper__content__input_input}
-              // onBlur={repeatsPassword}
-              // value={repeatPassword}
-              // onChange={(e) => setRepeatPassword(e.target.value)}
-            />
+                        />
 
-            <Input
-              placeholder="Введите новый пароль"
-              type="password"
-              className={classes.main_wrapper__content__input_input}
-              // onBlur={newPassword}
-              // value={password}
-              // onChange={(e) => setPassword(e.target.value)}
-            />
+                        <input
+                            {...register(`email`)}
 
-            <ButtonMui
-              bc="#363636"
-              text="Изменить пароль"
-              coloring="white"
-              padding="15px 24px"
-              hb="#363636"
-              fontSize="16px"
-              // disabled={isDisabledPassword}
-              fontWeight="600"
-              onClick={changePassword}
-            />
-          </div>
-        </div>
-      </section>
-      <ProfileBar/>
-    </main>
-  );
+                            placeholder="Email"
+                            type="email"
+                            defaultValue={users[0]?.email}
+                            className={classes.main_wrapper__content__input_input}
+                        />
+
+                        <input
+
+                            placeholder="Город"
+                            className={classes.main_wrapper__content__input_input}
+                            {...register(`city`)}
+                            defaultValue={users[0]?.city}
+
+
+                        />
+
+                        <input
+                            placeholder="Дата рождения"
+                            {...register(`birthday`)}
+                            defaultValue={users[0]?.birthday}
+                            className={classes.main_wrapper__content__input_input}
+                        />
+
+                        <input
+                            placeholder="Номер телефона"
+                            className={classes.main_wrapper__content__input_input}
+                            {...register(`phoneNumber`,{minLength: {value:11, message:'Это не номер телефона'}})}
+                            defaultValue={users[0]?.phoneNumber}
+
+                            type="number"
+                        />
+                        {errors.phoneNumber && (
+                            <>
+                                <p>{errors.phoneNumber.message}</p>
+                            </>
+                        )}
+                        <div className={classes.main_wrapper__title_button_bottom}>
+                            <ButtonMui
+                                bc="#363636"
+                                coloring="#FFFFFF"
+                                text="Сохранить изменения"
+                                padding="12px 24px"
+                                hb="#363636"
+                                fontWeight="600"
+                                // disabled={isDisabled}
+                                type="submit"
+                                fontSize="12px"
+                            />
+                        </div>
+                    </form>
+
+                    <div className={classes.main_wrapper__content__title__password}>
+                        <p>Пароль</p>
+                    </div>
+                    <div className={classes.main_wrapper__content__input}>
+
+                        <Input
+                            placeholder="Введите старый пароль"
+                            type="password"
+                            className={classes.main_wrapper__content__input_input}
+                            // onBlur={passwordChecker}
+                            // value={oldPassword}
+                            // onChange={(e) => setOldPassword(e.target.value)}
+                        />
+
+                        <Input
+                            placeholder="Повторите новый пароль"
+                            type="password"
+                            className={classes.main_wrapper__content__input_input}
+                            // onBlur={repeatsPassword}
+                            // value={repeatPassword}
+                            // onChange={(e) => setRepeatPassword(e.target.value)}
+                        />
+
+                        <Input
+                            placeholder="Введите новый пароль"
+                            type="password"
+                            className={classes.main_wrapper__content__input_input}
+                            // onBlur={newPassword}
+                            // value={password}
+                            // onChange={(e) => setPassword(e.target.value)}
+                        />
+
+                        <ButtonMui
+                            bc="#363636"
+                            text="Изменить пароль"
+                            coloring="white"
+                            padding="15px 24px"
+                            hb="#363636"
+                            fontSize="16px"
+                            // disabled={isDisabledPassword}
+                            fontWeight="600"
+                            onClick={changePassword}
+                        />
+                    </div>
+                </div>
+            </section>
+            <ProfileBar/>
+        </main>
+    );
 };
 
 export default Profile;
