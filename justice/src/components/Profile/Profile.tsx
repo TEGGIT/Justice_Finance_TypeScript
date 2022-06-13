@@ -32,13 +32,14 @@ const Profile = () => {
   const {users} = useTypedSelector((state) => state.user);
   const {FetchUser} = useActions();
   const changeProfile = () => {
+
     axios
       .patch(
         "http://localhost:5000/api/profile",
         {
-          name: watch(`name`),
-          email: watch(`email`),
-          city: watch(`city`)
+          // name: user,
+          // email:
+          // city: watch(`city`)
           // birthday,
           // phoneNumber: number,
         },
@@ -48,7 +49,7 @@ const Profile = () => {
       )
       .then(() => {
         FetchUser();
-      });
+     });
   };
   const changePassword = () => {
     // axios.patch(
@@ -66,13 +67,16 @@ const Profile = () => {
     //   }
     // );
   };
+
+  const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
+
   return (
     <main className={classes.main}>
       <NavBar/>
       <section className={classes.main_wrapper}>
         <div className={classes.main_wrapper__title}>
           <h1 className={classes.main_wrapper__title_text}>Мой профиль</h1>
-          <form className={classes.main_wrapper__title_button} onSubmit={handleSubmit(changeProfile)}>
+          <form className={classes.main_wrapper__title_button} onSubmit={handleSubmit(onSubmit)}>
             <ButtonMui
               bc="#363636"
               coloring="#FFFFFF"
@@ -106,9 +110,10 @@ const Profile = () => {
             />
 
             <input
-              placeholder="Email"
+                {...register(`email`)}
+
+                placeholder="Email"
               type="email"
-              {...register(`email`)}
               defaultValue={users[0]?.email}
               className={classes.main_wrapper__content__input_input}
             />
