@@ -23,32 +23,19 @@ type Inputs = {
     city: string;
     birthday: string;
     phoneNumber: number;
+    oldPassword: string;
+    password:string;
 
 };
 
 const Profile = () => {
-    const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>();
+    const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
     const {users} = useTypedSelector((state) => state.user);
     const {FetchUser} = useActions();
 
-
     const changePassword = () => {
-        // axios.patch(
-        //   "http://localhost:5000/api/profile/changePassword", {
-        //     password: oldPassword,
-        //     newPassword: password,
-        //   },
-        //   {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
-        // )
-        //   .then(() => {
-        //     FetchUser();
-        //     setIsPasswordError(false)
-        //   }).catch(function () {
-        //     setIsPasswordError(true)
-        //   }
-        // );
+
     };
-    console.log(errors)
     return (
         <main className={classes.main}>
             <NavBar/>
@@ -89,8 +76,6 @@ const Profile = () => {
                                     !watch(`birthday`)
                                     &&
                                     !watch(`phoneNumber`)
-                                    ||
-                                    Boolean(errors)
                                 }
                             type="submit"
                             fontSize="16px"
@@ -106,16 +91,26 @@ const Profile = () => {
                         <p>Информация о вашей учетной записи</p>
                     </div>
                     <form className={classes.main_wrapper__content__input}>
-
                         <input
 
                             placeholder="Имя, Фамилия"
                             defaultValue={users[0]?.name}
                             className={classes.main_wrapper__content__input_input}
-                            {...register(`name`, )}
+                            {...register(`name`, {
+                                pattern: {
+                                    value: /^[а-яА-ЯЁ ё]+$/,
+                                    message: 'Введено некорректное значение'
+                                }, minLength: {
+                                    value: 5,
+                                    message: 'Введено некорректное значение'
+                                }
+                            })}
 
                         />
 
+                        {errors.name && (
+                            <><p>{errors.name.message}</p></>
+                        )}
                         <input
                             {...register(`email`)}
 
@@ -145,7 +140,7 @@ const Profile = () => {
                         <input
                             placeholder="Номер телефона"
                             className={classes.main_wrapper__content__input_input}
-                            {...register(`phoneNumber`,{minLength: {value:11, message:'Это не номер телефона'}})}
+                            {...register(`phoneNumber`, {minLength: {value: 11, message: 'Это не номер телефона'}})}
                             defaultValue={users[0]?.phoneNumber}
 
                             type="number"
@@ -173,11 +168,27 @@ const Profile = () => {
                     <div className={classes.main_wrapper__content__title__password}>
                         <p>Пароль</p>
                     </div>
-                    <div className={classes.main_wrapper__content__input}>
+                    <form className={classes.main_wrapper__content__input} onSubmit={handleSubmit((data) => {
+                        console.log(watch(`oldPassword`))
+
+                        axios.patch(
+                            "http://localhost:5000/api/profile/changePassword", {
+                                password: watch(`oldPassword`),
+                                newPassword: watch(`password`),
+                            },
+                            {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
+                        )
+                            .then(() => {
+                                FetchUser();
+                            }).catch(function () {
+                            }
+                        );
+                    })}>
 
                         <Input
                             placeholder="Введите старый пароль"
                             type="password"
+                            {...register(`oldPassword`)}
                             className={classes.main_wrapper__content__input_input}
                             // onBlur={passwordChecker}
                             // value={oldPassword}
@@ -196,6 +207,8 @@ const Profile = () => {
                         <Input
                             placeholder="Введите новый пароль"
                             type="password"
+                            {...register(`password`)}
+
                             className={classes.main_wrapper__content__input_input}
                             // onBlur={newPassword}
                             // value={password}
@@ -209,11 +222,12 @@ const Profile = () => {
                             padding="15px 24px"
                             hb="#363636"
                             fontSize="16px"
+                            type='submit'
                             // disabled={isDisabledPassword}
                             fontWeight="600"
                             onClick={changePassword}
                         />
-                    </div>
+                    </form>
                 </div>
             </section>
             <ProfileBar/>
