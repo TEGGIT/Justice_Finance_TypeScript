@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 
 import {useForm} from "react-hook-form";
@@ -14,6 +14,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import classes from "./Profile.module.scss";
+import Input from "../UI/Input/Input";
 
 type Inputs = {
   name: string;
@@ -24,11 +25,29 @@ type Inputs = {
   oldPassword: string;
   password: string;
   cPassword: string;
-
 };
 
+const patterns = {
+  birthday: {
+    pattern: {
+      value: /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/,
+      message: "Введено некорректное значение"
+    }
+  },
+  name: {
+    pattern: {
+      value: /^[а-яА-ЯЁ ё]+$/,
+      message: 'Введено некорректное значение'
+    },
+    minLength: {
+      value: 5,
+      message: 'Введено некорректное значение'
+    }
+  }
+}
+
 const Profile = () => {
-  const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
+  const {register, handleSubmit, reset, watch, formState: {errors}, getValues} = useForm<Inputs>({mode: "onChange"});
   const {users} = useTypedSelector((state) => state.user);
   const {FetchUser} = useActions();
 
@@ -36,8 +55,21 @@ const Profile = () => {
 
     reset({password: '', cPassword: '', oldPassword: ""})
   };
-
   const repeatPassword = watch(`cPassword`)
+
+
+  const isValid =
+    Boolean(repeatPassword !== watch(`password`)
+      ||
+      !repeatPassword?.length
+      ||
+      errors.password
+      ||
+      !watch(`oldPassword`)?.length
+      ||
+      errors.oldPassword
+    )
+
   return (
     <main className={classes.main}>
       <NavBar/>
@@ -100,15 +132,8 @@ const Profile = () => {
                 placeholder="Имя, Фамилия"
                 defaultValue={users[0]?.name}
                 className={classes[`${!errors.name ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-                {...register(`name`, {
-                  pattern: {
-                    value: /^[а-яА-ЯЁ ё]+$/,
-                    message: 'Введено некорректное значение'
-                  }, minLength: {
-                    value: 5,
-                    message: 'Введено некорректное значение'
-                  }
-                })}
+                {...register(`name`, {...patterns.name}
+                )}
               />
             </div>
             <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -140,7 +165,6 @@ const Profile = () => {
               </div>
 
               <input
-
                 placeholder="Город"
                 className={classes[`${!errors.city ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
                 {...register(`city`, {
@@ -159,17 +183,15 @@ const Profile = () => {
             <div style={{display: "flex", flexDirection: "column"}}>
               <div style={{position: 'relative', top: '-20px'}}>
                 {errors.birthday && (
-                  <><p style={{color: '#FF4D35', position: 'absolute'}}>{errors.birthday.message}</p></>
+                  <p style={{color: '#FF4D35', position: 'absolute'}}>
+                    {errors.birthday.message}
+                  </p>
                 )}
               </div>
               <input
                 placeholder="Дата рождения"
-                {...register(`birthday`, {
-                  pattern: {
-                    value: /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/,
-                    message: "Введено некорректное значение"
-                  }
-                })}
+                {...register(`birthday`, {...patterns.birthday}
+                )}
                 defaultValue={users[0]?.birthday}
                 className={classes[`${!errors.birthday ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
               />
@@ -187,7 +209,7 @@ const Profile = () => {
                 className={classes[`${!errors.phoneNumber ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
                 {...register(`phoneNumber`, {
                     pattern: {
-                      value: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+                      value: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{5})(?: *x(\d+))?\s*$/,
                       message: 'Введено некорректное значение'
                     }
                   }
@@ -243,9 +265,8 @@ const Profile = () => {
           })}>
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <div style={{position: 'relative', top: '-20px'}}>
-
                 {errors.oldPassword && (
-                  <><p style={{position: 'absolute', color: '#FF4D35'}}>{errors.oldPassword.message}</p></>
+                  <p style={{position: 'absolute', color: '#FF4D35'}}>{errors.oldPassword.message}</p>
                 )}
               </div>
 
@@ -255,7 +276,7 @@ const Profile = () => {
                 {...register(`oldPassword`, {
                   pattern: {
                     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
-                    message: 'Ошибка'
+                    message: 'Неправильный формат пароля'
                   }
                 })}
                 className={classes[`${!errors.oldPassword ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
@@ -274,7 +295,7 @@ const Profile = () => {
                 {...register(`password`, {
                   pattern: {
                     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
-                    message: 'Ошибка'
+                    message: 'Неправильный формат пароля'
                   }
                 })}
                 className={classes[`${!errors.password ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
@@ -292,12 +313,8 @@ const Profile = () => {
                 type="password"
                 {...register(`cPassword`)}
                 className={classes[`${repeatPassword === watch(`password`) ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-                // onBlur={repeatsPassword}
-                // value={repeatPassword}
-                // onChange={(e) => setRepeatPassword(e.target.value)}
               />
             </div>
-
 
             <ButtonMui
               bc="#363636"
@@ -307,17 +324,7 @@ const Profile = () => {
               hb="#363636"
               fontSize="16px"
               type='submit'
-              disabled={
-                Boolean(repeatPassword !== watch(`password`)
-                  ||
-                  !repeatPassword?.length
-                  ||
-                  errors.password
-                  ||
-                  !watch(`oldPassword`)?.length
-                  ||
-                  errors.oldPassword
-                )}
+              disabled={isValid}
               fontWeight="600"
               onClick={changePassword}
             />

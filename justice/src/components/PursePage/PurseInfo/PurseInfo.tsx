@@ -48,16 +48,13 @@ const PurseInfo = () => {
     const newWallets =
       currentWallet &&
       wallets.filter((wallet) => wallet.currency !== currentWallet.currency);
-    axios
-      .patch(
-        "http://localhost:5000/api/wallets/remove",
-        {
-          wallets: newWallets,
-        },
-        {
-          headers: {Authorization: `${Cookies.get("TOKEN")}`},
-        }
-      )
+    axios.patch("http://localhost:5000/api/wallets/remove", {
+        wallets: newWallets,
+      },
+      {
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      }
+    )
       .then(() => {
       });
     navigate("/purse-page", {replace: true});
@@ -127,103 +124,128 @@ const PurseInfo = () => {
               .then(() => {
               });
           })}>
-            {errors.sum && (
-              <>{errors.sum.message}</>
-            )}
-            <input
-              placeholder="Сумма"
-              type="number"
-              {...register(`sum`, {
-                maxLength: {
-                  value: 6,
-                  message: 'много'
-                },
-                required: {
-                  value: true,
-                  message: "Обязательно"
-                }
-              })}
-              className={classes.main_wrapper__replenishment_wrapper_input}
+            <div style={{display: "flex", flexDirection: 'column'}}>
+              <div style={{position: "relative", top: '-20px'}}>
+                {errors.sum && (
+                  <><p style={{position: 'absolute', color: '#FF4D35'}}>{errors.sum.message}</p></>
+                )}
+              </div>
 
-            />
-            <input
-              {...register(`cardNumber`, {
-                minLength: {
-                  value: 16,
-                  message: 'это не номер карты'
-                },
-                required: {
-                  value: true,
-                  message: "Обязательно"
-                }
-              })}
-              placeholder="Номер карты"
-              type="number"
-              className={classes.main_wrapper__replenishment_wrapper_input}
-            />
-            {errors.cardNumber && (
-              <>{errors.cardNumber.message}</>
-            )}
-            <input
-              {...register(`date`, {
-                pattern: {
-                  value: /^(0[1-9]|1[0-2])\/\d{2}$/,
-                  message: "Ошибка в вводе данных"
-                },
-                required: {
-                  value: true,
-                  message: "Обязательно"
-                }
-              })}
-              placeholder="Даты"
-              className={classes.main_wrapper__replenishment_wrapper_input}
+              <input
+                placeholder="Сумма"
+                type="number"
+                {...register(`sum`, {
+                  maxLength: {
+                    value: 6,
+                    message: 'Лимит пополнения суммы 100000'
+                  },
+                  required: {
+                    value: true,
+                    message: "Обязательно"
+                  }
+                })}
+                className={classes[`${!errors.sum ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+              />
+            </div>
 
-            />
-            {errors.date && (
-              <>{errors.date.message}</>
-            )}
-            <input
-              {...register('cvc', {
-                minLength: {
-                  value: 3,
-                  message: "Error"
-                },
-                maxLength: {
-                  value: 3,
-                  message: 'Error'
-                },
-                required: {
-                  value: true,
-                  message: "Обязательно"
-                }
-              })}
-              placeholder="CVC"
-              type="number"
-              className={classes.main_wrapper__replenishment_wrapper_input}
-            />
-            {errors.cvc && (
-              <>{errors.cvc.message}</>
-            )}
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: '-20px'}}>
+                {errors.cardNumber && (
+                  <><p style={{position: 'absolute', color: '#FF4D35'}}>{errors.cardNumber.message}</p></>
+                )}
+              </div>
+              <input
+                {...register(`cardNumber`, {
+                  minLength: {
+                    value: 16,
+                    message: 'Номер банковской карты введен некорректно'
+                  },
+                  required: {
+                    value: true,
+                    message: "Обязательно"
+                  }
+                })}
+                placeholder="Номер карты"
+                type="number"
+                className={classes[`${!errors.cardNumber ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+              />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: '-20px'}}>
+                {errors.date && (
+                  <p style={{position: 'absolute', color: "#FF4D35"}}>{errors.date.message}</p>
+                )}
+              </div>
 
+              <input
+                {...register(`date`, {
+                  pattern: {
+                    value: /^(0[1-9]|1[0-2])\/\d{2}$/,
+                    message: "Ошибка в вводе данных"
+                  },
+                  required: {
+                    value: true,
+                    message: "Обязательно"
+                  }
+                })}
+                placeholder="Даты"
+                className={classes[`${!errors.date ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
 
-            <input
-              {...register(`cardOrder`, {
-                pattern: {
-                  value: /(?<! )[a-zA-Z' ]{4,26}$/g,
-                  message: 'Ошибка в имени'
-                },
-                required: {
-                  value: true,
-                  message: "Обязательно"
-                }
-              })}
-              placeholder="Владелец карты"
-              type="text"
-              className={classes.main_wrapper__replenishment_wrapper_input}
-            />
-            {errors.cardOrder && (
-              <>{errors.cardOrder.message}</>
-            )}
+              />
+            </div>
+
+            <div style={{display: "flex", flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: "-20px"}}>
+                {errors.cvc && (
+                  <p style={{position: 'absolute', color: "#FF4D35"}}>{errors.cvc.message}</p>
+                )}
+              </div>
+
+              <input
+                {...register('cvc', {
+                  minLength: {
+                    value: 3,
+                    message: "Минимум 3 символа"
+                  },
+                  maxLength: {
+                    value: 3,
+                    message: 'Максимум 3 символа'
+                  },
+                  required: {
+                    value: true,
+                    message: "Обязательно"
+                  }
+                })}
+                placeholder="CVC"
+                type="number"
+                className={classes[`${!errors.cvc ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+              />
+            </div>
+
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: "relative", top: '-20px'}}>
+                {errors.cardOrder && (
+                  <p style={{position: "absolute", color: '#FF4D35'}}>{errors.cardOrder.message}</p>
+                )}
+              </div>
+
+              <input
+                {...register(`cardOrder`, {
+                  pattern: {
+                    value: /(?<! )[a-zA-Z' ]{4,26}$/g,
+                    message: 'Введено некорректное значение'
+                  },
+                  required: {
+                    value: true,
+                    message: "Обязательно"
+                  }
+                })}
+                placeholder="Владелец карты"
+                type="text"
+                className={classes[`${!errors.cardOrder ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+              />
+            </div>
+
             <ButtonMui
               text="Пополнить кошелек"
               padding="15px 24px"
