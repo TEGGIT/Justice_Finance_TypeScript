@@ -59,7 +59,6 @@ const LoginPage = () => {
       password,
     }).then(res => {
       Cookies.set("TOKEN", res.data.token);
-      console.log(res.data)
       loginUser(true)
       navigate("/exchange-rates-page", {replace: true});
     }).catch(function (e) {

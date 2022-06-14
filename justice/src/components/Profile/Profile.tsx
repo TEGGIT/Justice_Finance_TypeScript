@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 
 
-import {useForm, SubmitHandler} from "react-hook-form";
+import {useForm} from "react-hook-form";
 
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
@@ -25,6 +25,7 @@ type Inputs = {
   phoneNumber: number;
   oldPassword: string;
   password: string;
+  cPassword: string;
 
 };
 
@@ -36,6 +37,8 @@ const Profile = () => {
   const changePassword = () => {
 
   };
+
+  const repeatPassword = watch(`cPassword`)
   return (
     <main className={classes.main}>
       <NavBar/>
@@ -200,12 +203,11 @@ const Profile = () => {
             <p>Пароль</p>
           </div>
           <form className={classes.main_wrapper__content__input} onSubmit={handleSubmit((data) => {
-            console.log(watch(`oldPassword`))
 
             axios.patch(
               "http://localhost:5000/api/profile/changePassword", {
-                password: watch(`oldPassword`),
-                newPassword: watch(`password`),
+                password: data?.oldPassword,
+                newPassword: data?.password,
               },
               {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
             )
@@ -216,35 +218,49 @@ const Profile = () => {
             );
           })}>
 
-            <Input
+            <input
               placeholder="Введите старый пароль"
               type="password"
-              {...register(`oldPassword`)}
-              className={classes.main_wrapper__content__input_input}
-              // onBlur={passwordChecker}
-              // value={oldPassword}
-              // onChange={(e) => setOldPassword(e.target.value)}
-            />
+              {...register(`oldPassword`, {
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
+                  message: 'Ошибка'
+                }
+              })}
+              className={classes[`${!errors.oldPassword ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
 
-            <Input
+            />
+            {errors.oldPassword && (
+              <><p>{errors.oldPassword.message}</p></>
+            )}
+            
+            <input
+              placeholder="Введите новый пароль"
+              type="password"
+              {...register(`password`, {
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
+                  message: 'Ошибка'
+                }
+              })}
+              className={classes[`${!errors.password ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+            />
+            {errors.password && (
+              <><p>{errors.password.message}</p></>
+            )}
+            <input
               placeholder="Повторите новый пароль"
               type="password"
-              className={classes.main_wrapper__content__input_input}
+              {...register(`cPassword`)}
+              className={classes[`${repeatPassword === watch(`password`) ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
               // onBlur={repeatsPassword}
               // value={repeatPassword}
               // onChange={(e) => setRepeatPassword(e.target.value)}
             />
+            {repeatPassword !== watch(`password`) && (
+              <><p>Пароли не совпадают</p></>
+            )}
 
-            <Input
-              placeholder="Введите новый пароль"
-              type="password"
-              {...register(`password`)}
-
-              className={classes.main_wrapper__content__input_input}
-              // onBlur={newPassword}
-              // value={password}
-              // onChange={(e) => setPassword(e.target.value)}
-            />
 
             <ButtonMui
               bc="#363636"
@@ -254,7 +270,17 @@ const Profile = () => {
               hb="#363636"
               fontSize="16px"
               type='submit'
-              // disabled={isDisabledPassword}
+              disabled={
+                Boolean(repeatPassword !== watch(`password`)
+                  ||
+                  !repeatPassword?.length
+                  ||
+                  errors.password
+                  ||
+                  !watch(`oldPassword`)?.length
+                  ||
+                  errors.oldPassword
+                )}
               fontWeight="600"
               onClick={changePassword}
             />
