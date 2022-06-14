@@ -2,11 +2,12 @@ import React, {useState, useEffect} from "react";
 
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
 
+import {useForm} from "react-hook-form";
+
 import NavBar from "../../NavBar/NavBar";
 import ProfileBar from "../../ProfileBar/ProfileBar";
 import ButtonMui from "../../MUI/Button/ButtonMui";
 import Wallet from "../../ProfileBar/WalletBar/Wallet";
-import Input from "../../UI/Input/Input";
 
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -20,16 +21,21 @@ import {useTypedSelector} from "../../../hooks/useTypesSelector";
 import {WalletsType} from "../../../store/reducers/WalletsReducer";
 import Modal from "../../UI/Modal/Modal";
 
+type Inputs = {
+  sum: number | '';
+  cardNumber: number | '';
+  date: string;
+  cvc: number | '';
+  cardOrder: string;
+
+
+};
 const PurseInfo = () => {
+  const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
+
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const location = useLocation();
   const navigate = useNavigate();
-  const [sum, setSum] = useState<number>();
-  const [id, setId] = useState<string>("");
-  const [numberCard, setNumberCard] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [cvc, setCvc] = useState<string>("");
-  const [ownerCard, setOwnerCard] = useState<string>("");
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const {wallets} = useTypedSelector((state) => state.wallets);
@@ -47,7 +53,6 @@ const PurseInfo = () => {
         "http://localhost:5000/api/wallets/remove",
         {
           wallets: newWallets,
-          id,
         },
         {
           headers: {Authorization: `${Cookies.get("TOKEN")}`},
@@ -56,33 +61,6 @@ const PurseInfo = () => {
       .then(() => {
       });
     navigate("/purse-page", {replace: true});
-  };
-
-  const addSumWallet = () => {
-    const newWalletStorage = wallets?.map((wallet) => {
-      if (wallet.currency === currentWallet?.currency)
-        wallet.sum = +Number(currentWallet?.sum) + +Number(sum);
-      setOpenModal(true);
-      setSum(0);
-      setNumberCard("");
-      setDate("");
-      setCvc("");
-      setOwnerCard("");
-      return wallet;
-    });
-
-    axios
-      .patch(
-        "http://localhost:5000/api/wallets/update",
-        {
-          wallets: [...newWalletStorage],
-        },
-        {
-          headers: {Authorization: `${Cookies.get("TOKEN")}`},
-        }
-      )
-      .then(() => {
-      });
   };
 
 
@@ -127,52 +105,137 @@ const PurseInfo = () => {
         </div>
         <div className={classes.main_wrapper__replenishment}>
           <p className={classes.main_wrapper__replenishment_text}>Пополнение</p>
-          <form className={classes.main_wrapper__replenishment_wrapper}>
-            <Input
+          <form className={classes.main_wrapper__replenishment_wrapper} onSubmit={handleSubmit((data) => {
+            const newWalletStorage = wallets?.map((wallet) => {
+              if (wallet.currency === currentWallet?.currency)
+                wallet.sum = +Number(currentWallet?.sum) + +Number(data.sum);
+              setOpenModal(true);
+              reset({sum: '', cvc: '', cardNumber: '', cardOrder: '', date: ""})
+              return wallet;
+            });
+
+            axios
+              .patch(
+                "http://localhost:5000/api/wallets/update",
+                {
+                  wallets: [...newWalletStorage],
+                },
+                {
+                  headers: {Authorization: `${Cookies.get("TOKEN")}`},
+                }
+              )
+              .then(() => {
+              });
+          })}>
+            {errors.sum && (
+              <>{errors.sum.message}</>
+            )}
+            <input
               placeholder="Сумма"
               type="number"
+              {...register(`sum`, {
+                maxLength: {
+                  value: 6,
+                  message: 'много'
+                },
+                required: {
+                  value: true,
+                  message: "Обязательно"
+                }
+              })}
               className={classes.main_wrapper__replenishment_wrapper_input}
-              value={sum}
-              onChange={(e) => setSum(e.target.valueAsNumber)}
+
             />
-            <Input
+            <input
+              {...register(`cardNumber`, {
+                minLength: {
+                  value: 16,
+                  message: 'это не номер карты'
+                },
+                required: {
+                  value: true,
+                  message: "Обязательно"
+                }
+              })}
               placeholder="Номер карты"
               type="number"
               className={classes.main_wrapper__replenishment_wrapper_input}
-              value={numberCard}
-              onChange={(e) => setNumberCard(e.target.value)}
             />
-            <Input
+            {errors.cardNumber && (
+              <>{errors.cardNumber.message}</>
+            )}
+            <input
+              {...register(`date`, {
+                pattern: {
+                  value: /^(0[1-9]|1[0-2])\/\d{2}$/,
+                  message: "Ошибка в вводе данных"
+                },
+                required: {
+                  value: true,
+                  message: "Обязательно"
+                }
+              })}
               placeholder="Даты"
-              type="number"
               className={classes.main_wrapper__replenishment_wrapper_input}
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+
             />
-            <Input
+            {errors.date && (
+              <>{errors.date.message}</>
+            )}
+            <input
+              {...register('cvc', {
+                minLength: {
+                  value: 3,
+                  message: "Error"
+                },
+                maxLength: {
+                  value: 3,
+                  message: 'Error'
+                },
+                required: {
+                  value: true,
+                  message: "Обязательно"
+                }
+              })}
               placeholder="CVC"
               type="number"
               className={classes.main_wrapper__replenishment_wrapper_input}
-              value={cvc}
-              onChange={(e) => setCvc(e.target.value)}
             />
-            <Input
+            {errors.cvc && (
+              <>{errors.cvc.message}</>
+            )}
+
+
+            <input
+              {...register(`cardOrder`, {
+                pattern: {
+                  value: /(?<! )[a-zA-Z' ]{4,26}$/g,
+                  message: 'Ошибка в имени'
+                },
+                required: {
+                  value: true,
+                  message: "Обязательно"
+                }
+              })}
               placeholder="Владелец карты"
               type="text"
               className={classes.main_wrapper__replenishment_wrapper_input}
-              value={ownerCard}
-              onChange={(e) => setOwnerCard(e.target.value)}
             />
+            {errors.cardOrder && (
+              <>{errors.cardOrder.message}</>
+            )}
             <ButtonMui
               text="Пополнить кошелек"
               padding="15px 24px"
               bc="#363636"
-              disabled={isDisabled}
+              disabled={Boolean(errors.sum || errors.cvc || errors.date || errors.cardNumber || errors.cardOrder
+                ||
+                !watch(`sum`) || !watch(`cvc`) || !watch(`date`) || !watch(`cardNumber`) || !watch(`cardOrder`))}
               hb="#363636"
+              type='submit'
               coloring="#FFFFFF"
               fontSize="16px"
               fontWeight="600"
-              onClick={addSumWallet}
             />
           </form>
         </div>

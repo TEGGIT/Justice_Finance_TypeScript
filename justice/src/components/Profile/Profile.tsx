@@ -6,8 +6,6 @@ import {useForm} from "react-hook-form";
 import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
 import ButtonMui from "../MUI/Button/ButtonMui";
-import Input from "../UI/Input/Input";
-
 
 import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
@@ -16,7 +14,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import classes from "./Profile.module.scss";
-import {getValue} from "@testing-library/user-event/dist/utils";
 
 type Inputs = {
   name: string;
@@ -37,7 +34,7 @@ const Profile = () => {
 
   const changePassword = () => {
 
-    reset({...getValue, password: '', cPassword: '', oldPassword: ""})
+    reset({password: '', cPassword: '', oldPassword: ""})
   };
 
   const repeatPassword = watch(`cPassword`)
