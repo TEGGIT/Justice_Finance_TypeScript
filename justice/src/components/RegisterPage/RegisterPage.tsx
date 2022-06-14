@@ -35,19 +35,19 @@ const RegisterPage = () => {
       // .typeError("Должно быть строкой")
       .matches(/^[а-яА-ЯЁ ё]+$/, 'Введено некорректное значение')
       // .min(6, "Символ")
-      .max(20, "Дохера"),
+      .max(20, "Введено некорректное значение"),
 
     password: yup
       .string()
       .typeError("Должно быть паролем")
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Это не пароль")
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Введено некорректное значение")
       .required("Обязательно"),
 
     confirmPassword: yup
       .string()
       .oneOf([yup.ref(`password`)], "Нет совпадений")
       .required("Обязательно"),
-    email: yup.string().typeError("Ошибка email").required("Обязательно").email(`Это не email`)
+    email: yup.string().typeError("Введено некорректное значение").required("Обязательно").email(`Введено некорректное значение`)
   });
 
   const [checked, setChecked] = React.useState<boolean>(false);
@@ -124,7 +124,6 @@ const RegisterPage = () => {
                 />
               </div>
             </div>
-            <div></div>
             <div className={classes.line_wrapper}>
               <div className={classes.line}/>
               <p className={classes.line__text}>Or</p>

@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
 
-import {useForm} from "react-hook-form";
+import {SubmitHandler, useForm} from "react-hook-form";
 
 import NavBar from "../../NavBar/NavBar";
 import ProfileBar from "../../ProfileBar/ProfileBar";
@@ -32,12 +32,16 @@ type Inputs = {
 
 };
 const PurseInfo = () => {
+
   const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
 
-  const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const location = useLocation();
+
   const navigate = useNavigate();
+
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+    const onSubmit: SubmitHandler<Inputs> = data => (data);
 
   const {wallets} = useTypedSelector((state) => state.wallets);
 
@@ -60,8 +64,28 @@ const PurseInfo = () => {
       });
     navigate("/purse-page", {replace: true});
   };
+
+
+  const addSumWallet = () => {
+    const newWalletStorage = wallets?.map((wallet) => {
+      if (wallet.currency === currentWallet?.currency)
+        wallet.sum = +Number(currentWallet?.sum) + +Number(watch(`sum`));
+      setOpenModal(true);
+      reset({sum: '', cvc: '', cardNumber: '', cardOrder: '', date: ""})
+      return wallet;
+    });
+
+    axios.patch("http://localhost:5000/api/wallets/update", {
+              wallets: [...newWalletStorage],
+            },
+            {
+              headers: {Authorization: `${Cookies.get("TOKEN")}`},
+            }
+        )
+        .then(() => {});
+  }
   const isValue = Boolean(errors.sum || errors.cvc || errors.date || errors.cardNumber || errors.cardOrder
-    ||
+      ||
     !watch(`sum`) || !watch(`cvc`) || !watch(`date`) || !watch(`cardNumber`) || !watch(`cardOrder`))
 
   return (
@@ -101,36 +125,18 @@ const PurseInfo = () => {
               countryCounter={currentWallet?.currency}
             />
           )}
-          <img src={banner} alt="баннер"/>
+          <div className={classes.image}>
+            <img src={banner} alt="баннер"/>
+
+          </div>
         </div>
         <div className={classes.main_wrapper__replenishment}>
           <p className={classes.main_wrapper__replenishment_text}>Пополнение</p>
-          <form className={classes.main_wrapper__replenishment_wrapper} onSubmit={handleSubmit((data) => {
-            const newWalletStorage = wallets?.map((wallet) => {
-              if (wallet.currency === currentWallet?.currency)
-                wallet.sum = +Number(currentWallet?.sum) + +Number(data.sum);
-              setOpenModal(true);
-              reset({sum: '', cvc: '', cardNumber: '', cardOrder: '', date: ""})
-              return wallet;
-            });
-
-            axios
-              .patch(
-                "http://localhost:5000/api/wallets/update",
-                {
-                  wallets: [...newWalletStorage],
-                },
-                {
-                  headers: {Authorization: `${Cookies.get("TOKEN")}`},
-                }
-              )
-              .then(() => {
-              });
-          })}>
-            <div style={{display: "flex", flexDirection: 'column'}}>
-              <div style={{position: "relative", top: '-20px'}}>
+          <form className={classes.main_wrapper__replenishment_wrapper} onSubmit={handleSubmit(onSubmit)}>
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
                 {errors.sum && (
-                  <><p style={{position: 'absolute', color: '#FF4D35'}}>{errors.sum.message}</p></>
+                  <p className={classes.error}>{errors.sum.message}</p>
                 )}
               </div>
 
@@ -142,10 +148,10 @@ const PurseInfo = () => {
               />
             </div>
 
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              <div style={{position: 'relative', top: '-20px'}}>
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
                 {errors.cardNumber && (
-                  <><p style={{position: 'absolute', color: '#FF4D35'}}>{errors.cardNumber.message}</p></>
+                  <p className={classes.error}>{errors.cardNumber.message}</p>
                 )}
               </div>
               <input
@@ -155,10 +161,10 @@ const PurseInfo = () => {
                 className={classes[`${!errors.cardNumber ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
               />
             </div>
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              <div style={{position: 'relative', top: '-20px'}}>
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
                 {errors.date && (
-                  <p style={{position: 'absolute', color: "#FF4D35"}}>{errors.date.message}</p>
+                  <p className={classes.error}>{errors.date.message}</p>
                 )}
               </div>
 
@@ -170,10 +176,10 @@ const PurseInfo = () => {
               />
             </div>
 
-            <div style={{display: "flex", flexDirection: 'column'}}>
-              <div style={{position: 'relative', top: "-20px"}}>
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
                 {errors.cvc && (
-                  <p style={{position: 'absolute', color: "#FF4D35"}}>{errors.cvc.message}</p>
+                  <p className={classes.error}>{errors.cvc.message}</p>
                 )}
               </div>
 
@@ -185,10 +191,10 @@ const PurseInfo = () => {
               />
             </div>
 
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              <div style={{position: "relative", top: '-20px'}}>
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
                 {errors.cardOrder && (
-                  <p style={{position: "absolute", color: '#FF4D35'}}>{errors.cardOrder.message}</p>
+                  <p className={classes.error}>{errors.cardOrder.message}</p>
                 )}
               </div>
 
@@ -196,10 +202,9 @@ const PurseInfo = () => {
                 {...register(`cardOrder`, {...patterns.cardOrder})}
                 placeholder="Владелец карты"
                 type="text"
-                className={classes[`${!errors.cardOrder ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+                className={classes[`${!errors.cardOrder ? (`main_wrapper__replenishment_wrapper_input`)  : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
               />
             </div>
-
             <ButtonMui
               text="Пополнить кошелек"
               padding="15px 24px"
@@ -210,6 +215,7 @@ const PurseInfo = () => {
               coloring="#FFFFFF"
               fontSize="16px"
               fontWeight="600"
+              onClick={addSumWallet}
             />
           </form>
         </div>

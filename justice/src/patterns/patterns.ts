@@ -56,7 +56,7 @@ export const patterns = {
   cardNumber: {
     minLength: {
       value: 16,
-      message: 'Номер банковской карты введен некорректно'
+      message: 'Номер банковской карты введен неверно'
     },
     required: {
       value: true,
@@ -102,7 +102,7 @@ export const patterns = {
       message: "Обязательно"
     },
     maxLength: {
-      value: 10,
+      value : 25,
       message: 'Введено некорректное значение'
     },
   }

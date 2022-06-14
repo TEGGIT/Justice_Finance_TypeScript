@@ -58,7 +58,10 @@
         font-size: 16px;
         line-height: 24px;
         color: #848484;
-
+        @media (max-width: 600px) {
+          display: flex;
+          justify-content: center;
+        }
       }
 
       &__title__password {
@@ -69,6 +72,10 @@
         font-size: 16px;
         line-height: 24px;
         color: #848484;
+        @media (max-width: 600px) {
+          display: flex;
+          justify-content: center;
+        }
       }
 
       &__input {
@@ -79,23 +86,21 @@
         gap: 40px;
         padding-bottom: 56px;
         border-bottom: 1px solid #F3F3F3;;
-        width: 100%;
+        @media (max-width: 600px) {
+           justify-content: center;
+        }
 
         &_input {
-          display: flex;
-          width: 29.50rem;
           font-family: 'Inter', sans-serif;
           font-style: normal;
           font-weight: 400;
           font-size: 14px;
           line-height: 24px;
-
           border: 1px solid #ECECEC;
           padding: 18px 230px 18px 16px;
           color: #363636;
-          position: relative;
-          @media (max-width: 735px) {
-            padding: 18px 18px 18px 16px;
+          @media (max-width: 600px) {
+            padding: 18px 80px 18px 16px;
 
           }
         }
@@ -120,5 +125,18 @@
       }
     }
   }
+}
+
+.input_error_wrapper{
+  display: flex;
+  flex-direction: column;
+}
+.error_wrapper{
+  position: relative;
+  top: -20px;
+}
+.error{
+  position: absolute;
+  color:#FF4D35
 }
 
