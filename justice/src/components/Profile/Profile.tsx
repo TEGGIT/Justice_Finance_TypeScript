@@ -38,10 +38,9 @@ const Profile = () => {
 
     const {FetchUser} = useActions();
 
-    const changePassword = () => {
-        axios.patch("http://localhost:5000/api/profile/changePassword", {
+    const changePassword = () => {axios.patch("http://localhost:5000/api/profile/changePassword", {
             password: watch(`oldPassword`),
-                newPassword: watch(`password`),
+            newPassword: watch(`password`),
             },
             {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
         )

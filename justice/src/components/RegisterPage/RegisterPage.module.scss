@@ -269,5 +269,17 @@
 
   }
 }
+.error_wrapper{
+  position: relative;
+}
+.error{
+  color: #FF4D35;
+  position: absolute;
+}
+.error_cPassword{
+  color: #FF4D35;
+  position: absolute;
+  top: -20px;
+}
 
 

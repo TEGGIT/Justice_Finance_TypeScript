@@ -23,6 +23,7 @@ import classes from "./LoginPage.module.scss";
 import image from "../../assets/image/IllustrationOne.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
+import {validationSchemaLogin} from "../../patterns/patterns";
 
 interface InitialValues {
   email: string,
@@ -31,21 +32,7 @@ interface InitialValues {
 
 const LoginPage = () => {
 
-  const validationsSchema = yup.object().shape({
-    password: yup
-      .string()
-      .typeError("Должно быть паролем")
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Это не пароль")
-      .required("Обязательно"),
-    email: yup
-      .string()
-      .typeError("Ошибка email")
-      .required("Обязательно")
-      .email(`Это не email`)
-  });
-
-
-  const [checked, setChecked] = React.useState<boolean>(false);
+  const validationsSchema = yup.object().shape({...validationSchemaLogin});
 
   const [isNotExistingUser, setNotIsExistingUser] = useState<boolean>(false)
 
@@ -65,13 +52,6 @@ const LoginPage = () => {
       setNotIsExistingUser(true)
     })
 
-  };
-
-
-  const handleChange = (event: {
-    target: { checked: boolean | ((prevState: boolean) => boolean) };
-  }) => {
-    setChecked(event.target.checked);
   };
 
   return (
@@ -160,9 +140,9 @@ const LoginPage = () => {
 
                       {!isNotExistingUser ? (
                         <>
-                          <div style={{position: "relative"}}>
+                          <div className={classes.error_wrapper}>
                             {touched.email && errors.email &&
-                              <p style={{position: "absolute", color: "#FF4D35"}}>{errors.email}</p>}
+                              <p className={classes.error}>{errors.email}</p>}
                           </div>
                           <Input
                             placeholder="E-mail"
@@ -173,9 +153,9 @@ const LoginPage = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
-                          <div style={{position: "relative"}}>
+                          <div className={classes.error_wrapper}>
                             {touched.password && errors.password &&
-                              <p style={{position: "absolute", color: '#FF4D35'}}>{errors.password}</p>}
+                              <p className={classes.error}>{errors.password}</p>}
                           </div>
                           <Input
                             className={classes[`${touched.password && errors.password ? (`input_error`) : (`input`)}`]}
@@ -190,7 +170,7 @@ const LoginPage = () => {
                         </>
                       ) : (
                         <>
-                          <div style={{position: "relative"}}>
+                          <div className={classes.error_wrapper}>
                             <p style={{position: 'absolute', color: '#FF4D35'}}>Введите действующий адрес
                               электронной почты и
                               пароль</p>
@@ -220,7 +200,7 @@ const LoginPage = () => {
                     </div>
 
                     <div className={classes.checkbox}>
-                      <CheckBox onChange={handleChange} checked={checked}/>
+                      <CheckBox onChange={handleChange} checked={false}/>
                       <p>Запомнить меня</p>
                     </div>
                     <div className={classes.desktop_button}>

@@ -1,3 +1,5 @@
+import * as yup from "yup";
+
 export const patterns = {
   birthday: {
     pattern: {
@@ -107,4 +109,38 @@ export const patterns = {
     },
   }
 
+}
+
+export const validationSchemaLogin = {
+  password: yup
+      .string()
+      .typeError("Должно быть паролем")
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Введено некорректное значение")
+      .required("Обязательно"),
+  email: yup
+      .string()
+      .typeError("Ошибка email")
+      .required("Обязательно")
+      .email(`Введено некорректное значение`)
+}
+
+export const validationSchemaRegistration = {
+  name: yup.string()
+      .required("Обязательно")
+      // .typeError("Должно быть строкой")
+      .matches(/^[а-яА-ЯЁ ё]+$/, 'Введено некорректное значение')
+      // .min(6, "Символ")
+      .max(20, "Введено некорректное значение"),
+
+  password: yup
+      .string()
+      .typeError("Должно быть паролем")
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Введено некорректное значение")
+      .required("Обязательно"),
+
+  confirmPassword: yup
+      .string()
+      .oneOf([yup.ref(`password`)], "Нет совпадений")
+      .required("Обязательно"),
+  email: yup.string().typeError("Введено некорректное значение").required("Обязательно").email(`Введено некорректное значение`)
 }

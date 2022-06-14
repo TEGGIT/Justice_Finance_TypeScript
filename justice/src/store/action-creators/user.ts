@@ -24,7 +24,7 @@ export const FetchUser = () => {
         payload: "Произошла ошибка при загрузке данных",
       });
       Cookies.remove("TOKEN");
-      alert("Пройдите повторную авторизацию");
+      window.location.href = '/'
     }
   };
 };

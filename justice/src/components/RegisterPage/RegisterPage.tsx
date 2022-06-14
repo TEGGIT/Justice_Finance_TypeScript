@@ -19,6 +19,7 @@ import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
+import {validationSchemaRegistration} from "../../patterns/patterns";
 
 interface InitialValues {
   name: string,
@@ -29,26 +30,7 @@ interface InitialValues {
 
 const RegisterPage = () => {
 
-  const validationsSchema = yup.object().shape({
-    name: yup.string()
-      .required("Обязательно")
-      // .typeError("Должно быть строкой")
-      .matches(/^[а-яА-ЯЁ ё]+$/, 'Введено некорректное значение')
-      // .min(6, "Символ")
-      .max(20, "Введено некорректное значение"),
-
-    password: yup
-      .string()
-      .typeError("Должно быть паролем")
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Введено некорректное значение")
-      .required("Обязательно"),
-
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref(`password`)], "Нет совпадений")
-      .required("Обязательно"),
-    email: yup.string().typeError("Введено некорректное значение").required("Обязательно").email(`Введено некорректное значение`)
-  });
+  const validationsSchema = yup.object().shape({...validationSchemaRegistration});
 
   const [checked, setChecked] = React.useState<boolean>(false);
   const [isExistingUser, setIsExistingUser] = useState<boolean>(false)
@@ -151,14 +133,13 @@ const RegisterPage = () => {
                     handleChange,
                     handleBlur,
                     isValid,
-                    handleSubmit,
                     dirty,
                   }) => (
                   <>
                     <div className={classes.input_wrapper}>
-                      <div style={{position: "relative"}}>
+                      <div className={classes.error_wrapper}>
                         {touched.name && errors.name &&
-                          <p style={{position: "absolute", color: '#FF4D35'}}>{errors.name}</p>}
+                          <p className={classes.error}>{errors.name}</p>}
                       </div>
                       <Input
                         className={classes[`${touched.name && errors.name ? (`input_error`) : (`input`)}`]}
@@ -169,9 +150,9 @@ const RegisterPage = () => {
                         onBlur={handleBlur}
                         value={values.name}
                       />
-                      <div style={{position: "relative"}}>
+                      <div className={classes.error_wrapper}>
                         {touched.email && errors.email &&
-                          <p style={{position: "absolute", color: '#FF4D35'}}>{errors.email}</p>}
+                          <p className={classes.error}>{errors.email}</p>}
                       </div>
 
                       {!isExistingUser ? (
@@ -186,8 +167,8 @@ const RegisterPage = () => {
                         />
                       ) : (
                         <>
-                          <div style={{position: "relative"}}>
-                            <p style={{position: 'absolute', color: '#FF4D35'}}>Пользователь с таким Email уже
+                          <div className={classes.error_wrapper}>
+                            <p className={classes.error}>Пользователь с таким Email уже
                               существует</p>
                           </div>
                           <Input
@@ -204,9 +185,9 @@ const RegisterPage = () => {
                       )}
 
                     </div>
-                    <div style={{position: "relative"}}>
+                    <div className={classes.error_wrapper}>
                       {touched.password && errors.password &&
-                        <p style={{position: "absolute", color: '#FF4D35'}}>{errors.password}</p>}
+                        <p className={classes.error}>{errors.password}</p>}
                     </div>
                     <div className={classes.input_wrapper_password}>
                       <Input
@@ -220,13 +201,9 @@ const RegisterPage = () => {
                       />
                       <>
 
-                        <div style={{position: 'relative'}}>
+                        <div className={classes.error_wrapper}>
                           {touched.confirmPassword && errors.confirmPassword && (
-                            <p style={{
-                              color: '#FF4D35',
-                              position: "absolute",
-                              top: "-20px"
-                            }}>{errors.confirmPassword}</p>
+                            <p className={classes.error_cPassword}>{errors.confirmPassword}</p>
                           )}
                           <Input
                             className={classes[`${touched.confirmPassword && errors.confirmPassword ? (`input_error`) : (`input`)}`]}
