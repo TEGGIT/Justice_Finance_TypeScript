@@ -191,7 +191,8 @@ const LoginPage = () => {
                       ) : (
                         <>
                           <div style={{position: "relative"}}>
-                            <p style={{position: 'absolute'}}>Введите действующий адрес электронной почты и
+                            <p style={{position: 'absolute', color: '#FF4D35'}}>Введите действующий адрес
+                              электронной почты и
                               пароль</p>
                           </div>
                           <Input

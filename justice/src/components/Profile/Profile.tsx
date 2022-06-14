@@ -241,49 +241,62 @@ const Profile = () => {
               }
             );
           })}>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: '-20px'}}>
 
-            <input
-              placeholder="Введите старый пароль"
-              type="password"
-              {...register(`oldPassword`, {
-                pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
-                  message: 'Ошибка'
-                }
-              })}
-              className={classes[`${!errors.oldPassword ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+                {errors.oldPassword && (
+                  <><p style={{position: 'absolute', color: '#FF4D35'}}>{errors.oldPassword.message}</p></>
+                )}
+              </div>
 
-            />
-            {errors.oldPassword && (
-              <><p>{errors.oldPassword.message}</p></>
-            )}
+              <input
+                placeholder="Введите старый пароль"
+                type="password"
+                {...register(`oldPassword`, {
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
+                    message: 'Ошибка'
+                  }
+                })}
+                className={classes[`${!errors.oldPassword ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+              />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: '-20px'}}>
+                {errors.password && (
+                  <><p style={{position: 'absolute', color: '#FF4D35'}}>{errors.password.message}</p></>
+                )}
+              </div>
 
-            <input
-              placeholder="Введите новый пароль"
-              type="password"
-              {...register(`password`, {
-                pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
-                  message: 'Ошибка'
-                }
-              })}
-              className={classes[`${!errors.password ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-            />
-            {errors.password && (
-              <><p>{errors.password.message}</p></>
-            )}
-            <input
-              placeholder="Повторите новый пароль"
-              type="password"
-              {...register(`cPassword`)}
-              className={classes[`${repeatPassword === watch(`password`) ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-              // onBlur={repeatsPassword}
-              // value={repeatPassword}
-              // onChange={(e) => setRepeatPassword(e.target.value)}
-            />
-            {repeatPassword !== watch(`password`) && (
-              <><p>Пароли не совпадают</p></>
-            )}
+              <input
+                placeholder="Введите новый пароль"
+                type="password"
+                {...register(`password`, {
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
+                    message: 'Ошибка'
+                  }
+                })}
+                className={classes[`${!errors.password ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+              />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: '-20px'}}>
+                {repeatPassword !== watch(`password`) && (
+                  <><p style={{position: "absolute", color: '#FF4D35'}}>Пароли не совпадают</p></>
+                )}
+              </div>
+
+              <input
+                placeholder="Повторите новый пароль"
+                type="password"
+                {...register(`cPassword`)}
+                className={classes[`${repeatPassword === watch(`password`) ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+                // onBlur={repeatsPassword}
+                // value={repeatPassword}
+                // onChange={(e) => setRepeatPassword(e.target.value)}
+              />
+            </div>
 
 
             <ButtonMui
