@@ -20,13 +20,14 @@ import walletIconSum from "../../../assets/image/WalletsSum.svg";
 import {useTypedSelector} from "../../../hooks/useTypesSelector";
 import {WalletsType} from "../../../store/reducers/WalletsReducer";
 import Modal from "../../UI/Modal/Modal";
+import {patterns} from "../../../patterns/patterns";
 
 type Inputs = {
   sum: number | '';
   cardNumber: number | '';
   date: string;
   cvc: number | '';
-  cardOrder: string;
+  cardOrder: string | '';
 
 
 };
@@ -59,7 +60,9 @@ const PurseInfo = () => {
       });
     navigate("/purse-page", {replace: true});
   };
-
+  const isValue = Boolean(errors.sum || errors.cvc || errors.date || errors.cardNumber || errors.cardOrder
+    ||
+    !watch(`sum`) || !watch(`cvc`) || !watch(`date`) || !watch(`cardNumber`) || !watch(`cardOrder`))
 
   return (
     <main className={classes.main}>
@@ -134,16 +137,7 @@ const PurseInfo = () => {
               <input
                 placeholder="Сумма"
                 type="number"
-                {...register(`sum`, {
-                  maxLength: {
-                    value: 6,
-                    message: 'Лимит пополнения суммы 100000'
-                  },
-                  required: {
-                    value: true,
-                    message: "Обязательно"
-                  }
-                })}
+                {...register(`sum`, {...patterns.sum})}
                 className={classes[`${!errors.sum ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
               />
             </div>
@@ -155,16 +149,7 @@ const PurseInfo = () => {
                 )}
               </div>
               <input
-                {...register(`cardNumber`, {
-                  minLength: {
-                    value: 16,
-                    message: 'Номер банковской карты введен некорректно'
-                  },
-                  required: {
-                    value: true,
-                    message: "Обязательно"
-                  }
-                })}
+                {...register(`cardNumber`, {...patterns.cardNumber})}
                 placeholder="Номер карты"
                 type="number"
                 className={classes[`${!errors.cardNumber ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
@@ -178,16 +163,7 @@ const PurseInfo = () => {
               </div>
 
               <input
-                {...register(`date`, {
-                  pattern: {
-                    value: /^(0[1-9]|1[0-2])\/\d{2}$/,
-                    message: "Ошибка в вводе данных"
-                  },
-                  required: {
-                    value: true,
-                    message: "Обязательно"
-                  }
-                })}
+                {...register(`date`, {...patterns.date})}
                 placeholder="Даты"
                 className={classes[`${!errors.date ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
 
@@ -202,20 +178,7 @@ const PurseInfo = () => {
               </div>
 
               <input
-                {...register('cvc', {
-                  minLength: {
-                    value: 3,
-                    message: "Минимум 3 символа"
-                  },
-                  maxLength: {
-                    value: 3,
-                    message: 'Максимум 3 символа'
-                  },
-                  required: {
-                    value: true,
-                    message: "Обязательно"
-                  }
-                })}
+                {...register('cvc', {...patterns.cvc})}
                 placeholder="CVC"
                 type="number"
                 className={classes[`${!errors.cvc ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
@@ -230,16 +193,7 @@ const PurseInfo = () => {
               </div>
 
               <input
-                {...register(`cardOrder`, {
-                  pattern: {
-                    value: /(?<! )[a-zA-Z' ]{4,26}$/g,
-                    message: 'Введено некорректное значение'
-                  },
-                  required: {
-                    value: true,
-                    message: "Обязательно"
-                  }
-                })}
+                {...register(`cardOrder`, {...patterns.cardOrder})}
                 placeholder="Владелец карты"
                 type="text"
                 className={classes[`${!errors.cardOrder ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
@@ -250,9 +204,7 @@ const PurseInfo = () => {
               text="Пополнить кошелек"
               padding="15px 24px"
               bc="#363636"
-              disabled={Boolean(errors.sum || errors.cvc || errors.date || errors.cardNumber || errors.cardOrder
-                ||
-                !watch(`sum`) || !watch(`cvc`) || !watch(`date`) || !watch(`cardNumber`) || !watch(`cardOrder`))}
+              disabled={isValue}
               hb="#363636"
               type='submit'
               coloring="#FFFFFF"

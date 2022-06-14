@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 
 import {useForm} from "react-hook-form";
@@ -9,12 +9,12 @@ import ButtonMui from "../MUI/Button/ButtonMui";
 
 import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
+import {patterns} from "../../patterns/patterns";
 
 import axios from "axios";
 import Cookies from "js-cookie";
 
 import classes from "./Profile.module.scss";
-import Input from "../UI/Input/Input";
 
 type Inputs = {
   name: string;
@@ -27,27 +27,9 @@ type Inputs = {
   cPassword: string;
 };
 
-const patterns = {
-  birthday: {
-    pattern: {
-      value: /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/,
-      message: "Введено некорректное значение"
-    }
-  },
-  name: {
-    pattern: {
-      value: /^[а-яА-ЯЁ ё]+$/,
-      message: 'Введено некорректное значение'
-    },
-    minLength: {
-      value: 5,
-      message: 'Введено некорректное значение'
-    }
-  }
-}
 
 const Profile = () => {
-  const {register, handleSubmit, reset, watch, formState: {errors}, getValues} = useForm<Inputs>({mode: "onChange"});
+  const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
   const {users} = useTypedSelector((state) => state.user);
   const {FetchUser} = useActions();
 
@@ -144,12 +126,7 @@ const Profile = () => {
               </div>
 
               <input
-                {...register(`email`, {
-                  pattern: {
-                    value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                    message: "Введено некорректное значение"
-                  }
-                })}
+                {...register(`email`, {...patterns.email})}
                 placeholder="Email"
                 type="email"
                 defaultValue={users[0]?.email}
@@ -167,16 +144,7 @@ const Profile = () => {
               <input
                 placeholder="Город"
                 className={classes[`${!errors.city ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-                {...register(`city`, {
-                  pattern: {
-                    value: /^[а-яА-ЯЁ ё]+$/,
-                    message: "Введено некорректное значение"
-                  },
-                  minLength: {
-                    value: 3,
-                    message: "Введено некорректное значение"
-                  }
-                })}
+                {...register(`city`, {...patterns.city})}
                 defaultValue={users[0]?.city}
               />
             </div>
@@ -207,15 +175,8 @@ const Profile = () => {
               <input
                 placeholder="Номер телефона"
                 className={classes[`${!errors.phoneNumber ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-                {...register(`phoneNumber`, {
-                    pattern: {
-                      value: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{5})(?: *x(\d+))?\s*$/,
-                      message: 'Введено некорректное значение'
-                    }
-                  }
-                )}
+                {...register(`phoneNumber`, {...patterns.phoneNumber})}
                 defaultValue={users[0]?.phoneNumber}
-
                 type="number"
               />
             </div>
@@ -273,12 +234,7 @@ const Profile = () => {
               <input
                 placeholder="Введите старый пароль"
                 type="password"
-                {...register(`oldPassword`, {
-                  pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
-                    message: 'Неправильный формат пароля'
-                  }
-                })}
+                {...register(`oldPassword`, {...patterns.password})}
                 className={classes[`${!errors.oldPassword ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
               />
             </div>
