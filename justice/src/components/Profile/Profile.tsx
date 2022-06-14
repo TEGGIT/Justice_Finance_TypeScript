@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 
 import {useForm} from "react-hook-form";
@@ -67,26 +67,23 @@ const Profile = () => {
               text="Сохранить изменения"
               padding="12px 24px"
               fontWeight="600"
-              // disabled=
-              //   {
-              //     !watch(`name`)
-              //     &&
-              //     !watch(`email`)
-              //     &&
-              //     !watch(`city`)
-              //     &&
-              //     !watch(`birthday`)
-              //     &&
-              //     !watch(`phoneNumber`)
-              //   }
+              disabled=
+                {
+                  !watch(`name`)
+                  &&
+                  !watch(`email`)
+                  &&
+                  !watch(`city`)
+                  &&
+                  !watch(`birthday`)
+                  &&
+                  !watch(`phoneNumber`)
+                }
               type="submit"
               fontSize="16px"
             />
           </form>
         </div>
-        {/*{isSnackBar && (*/}
-        {/*  <CustomizedSnackbars snack={true}/>*/}
-        {/*  )}*/}
 
         <div className={classes.main_wrapper__content}>
           <div className={classes.main_wrapper__content__title__info}>
@@ -191,7 +188,18 @@ const Profile = () => {
                 padding="12px 24px"
                 hb="#363636"
                 fontWeight="600"
-                // disabled={isDisabled}
+                disabled=
+                  {
+                    !watch(`name`)
+                    &&
+                    !watch(`email`)
+                    &&
+                    !watch(`city`)
+                    &&
+                    !watch(`birthday`)
+                    &&
+                    !watch(`phoneNumber`)
+                  }
                 type="submit"
                 fontSize="12px"
               />
