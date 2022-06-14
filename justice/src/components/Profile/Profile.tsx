@@ -90,96 +90,113 @@ const Profile = () => {
             <p>Информация о вашей учетной записи</p>
           </div>
           <form className={classes.main_wrapper__content__input}>
-            <input
-
-              placeholder="Имя, Фамилия"
-              defaultValue={users[0]?.name}
-              className={classes[`${!errors.name ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-              {...register(`name`, {
-                pattern: {
-                  value: /^[а-яА-ЯЁ ё]+$/,
-                  message: 'Введено некорректное значение'
-                }, minLength: {
-                  value: 5,
-                  message: 'Введено некорректное значение'
-                }
-              })}
-
-            />
-
-            {errors.name && (
-              <><p>{errors.name.message}</p></>
-            )}
-            <input
-              {...register(`email`, {
-                pattern: {
-                  value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                  message: "Введено некорректное значение"
-                }
-              })}
-              placeholder="Email"
-              type="email"
-              defaultValue={users[0]?.email}
-              className={classes[`${!errors.email ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-            />
-            {errors.email && (
-              <><p>{errors.email.message}</p></>
-            )}
-
-            <input
-
-              placeholder="Город"
-              className={classes[`${!errors.city ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-              {...register(`city`, {
-                pattern: {
-                  value: /^[а-яА-ЯЁ ё]+$/,
-                  message: "Введено некорректное значение"
-                },
-                minLength: {
-                  value: 3,
-                  message: "Введено некорректное значение"
-                }
-              })}
-              defaultValue={users[0]?.city}
-            />
-            {errors.city && (
-              <><p>{errors.city.message}</p></>
-            )}
-
-            <input
-              placeholder="Дата рождения"
-              {...register(`birthday`, {
-                pattern: {
-                  value: /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/,
-                  message: "Введено некорректное значение"
-                }
-              })}
-              defaultValue={users[0]?.birthday}
-              className={classes[`${!errors.birthday ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-            />
-            {errors.birthday && (
-              <><p>{errors.birthday.message}</p></>
-            )}
-
-            <input
-              placeholder="Номер телефона"
-              className={classes[`${!errors.phoneNumber ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
-              {...register(`phoneNumber`, {
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: '-20px'}}>
+                {errors.name && (
+                  <><p style={{color: '#FF4D35', position: 'absolute'}}>{errors.name.message}</p></>
+                )}
+              </div>
+              <input
+                placeholder="Имя, Фамилия"
+                defaultValue={users[0]?.name}
+                className={classes[`${!errors.name ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+                {...register(`name`, {
                   pattern: {
-                    value: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+                    value: /^[а-яА-ЯЁ ё]+$/,
+                    message: 'Введено некорректное значение'
+                  }, minLength: {
+                    value: 5,
                     message: 'Введено некорректное значение'
                   }
-                }
-              )}
-              defaultValue={users[0]?.phoneNumber}
+                })}
+              />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: '-20px'}}>
+                {errors.email && (
+                  <><p style={{position: 'absolute', color: '#FF4D35'}}>{errors.email.message}</p></>
+                )}
+              </div>
 
-              type="number"
-            />
-            {errors.phoneNumber && (
-              <>
-                <p>{errors.phoneNumber.message}</p>
-              </>
-            )}
+              <input
+                {...register(`email`, {
+                  pattern: {
+                    value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                    message: "Введено некорректное значение"
+                  }
+                })}
+                placeholder="Email"
+                type="email"
+                defaultValue={users[0]?.email}
+                className={classes[`${!errors.email ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+              />
+            </div>
+
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: '-20px'}}>
+                {errors.city && (
+                  <><p style={{color: '#FF4D35', position: 'absolute'}}>{errors.city.message}</p></>
+                )}
+              </div>
+
+              <input
+
+                placeholder="Город"
+                className={classes[`${!errors.city ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+                {...register(`city`, {
+                  pattern: {
+                    value: /^[а-яА-ЯЁ ё]+$/,
+                    message: "Введено некорректное значение"
+                  },
+                  minLength: {
+                    value: 3,
+                    message: "Введено некорректное значение"
+                  }
+                })}
+                defaultValue={users[0]?.city}
+              />
+            </div>
+            <div style={{display: "flex", flexDirection: "column"}}>
+              <div style={{position: 'relative', top: '-20px'}}>
+                {errors.birthday && (
+                  <><p style={{color: '#FF4D35', position: 'absolute'}}>{errors.birthday.message}</p></>
+                )}
+              </div>
+              <input
+                placeholder="Дата рождения"
+                {...register(`birthday`, {
+                  pattern: {
+                    value: /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/,
+                    message: "Введено некорректное значение"
+                  }
+                })}
+                defaultValue={users[0]?.birthday}
+                className={classes[`${!errors.birthday ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+              />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{position: 'relative', top: '-20px'}}>
+                {errors.phoneNumber && (
+                  <>
+                    <p style={{position: "absolute", color: '#FF4D35',}}>{errors.phoneNumber.message}</p>
+                  </>
+                )}
+              </div>
+              <input
+                placeholder="Номер телефона"
+                className={classes[`${!errors.phoneNumber ? (`main_wrapper__content__input_input`) : (`main_wrapper__content__input_input_error`)}`]}
+                {...register(`phoneNumber`, {
+                    pattern: {
+                      value: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+                      message: 'Введено некорректное значение'
+                    }
+                  }
+                )}
+                defaultValue={users[0]?.phoneNumber}
+
+                type="number"
+              />
+            </div>
             <div className={classes.main_wrapper__title_button_bottom}>
               <ButtonMui
                 bc="#363636"

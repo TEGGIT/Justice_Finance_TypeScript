@@ -73,6 +73,7 @@
 
       &__input {
         padding-top: 40px;
+        position: relative;
         display: flex;
         flex-wrap: wrap;
         gap: 40px;
@@ -88,10 +89,11 @@
           font-weight: 400;
           font-size: 14px;
           line-height: 24px;
+
           border: 1px solid #ECECEC;
           padding: 18px 230px 18px 16px;
           color: #363636;
-
+          position: relative;
           @media (max-width: 735px) {
             padding: 18px 18px 18px 16px;
 
@@ -106,7 +108,7 @@
           font-weight: 400;
           font-size: 14px;
           line-height: 24px;
-          border: 1px solid red;
+          border: 1px solid #FF4D35;
           padding: 18px 230px 18px 16px;
           color: #363636;
 
