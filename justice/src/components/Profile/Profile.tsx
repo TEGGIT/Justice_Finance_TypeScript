@@ -16,6 +16,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import classes from "./Profile.module.scss";
+import {getValue} from "@testing-library/user-event/dist/utils";
 
 type Inputs = {
   name: string;
@@ -30,12 +31,13 @@ type Inputs = {
 };
 
 const Profile = () => {
-  const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
+  const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
   const {users} = useTypedSelector((state) => state.user);
   const {FetchUser} = useActions();
 
   const changePassword = () => {
 
+    reset({...getValue, password: '', cPassword: '', oldPassword: ""})
   };
 
   const repeatPassword = watch(`cPassword`)
@@ -233,7 +235,7 @@ const Profile = () => {
             {errors.oldPassword && (
               <><p>{errors.oldPassword.message}</p></>
             )}
-            
+
             <input
               placeholder="Введите новый пароль"
               type="password"

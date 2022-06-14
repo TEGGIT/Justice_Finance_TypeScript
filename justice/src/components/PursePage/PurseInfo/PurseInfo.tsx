@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 
 import NavBar from "../../NavBar/NavBar";
 import ProfileBar from "../../ProfileBar/ProfileBar";
@@ -16,8 +16,8 @@ import classes from "./PurseInfo.module.scss";
 import arrowBack from "../../../assets/image/Back.svg";
 import banner from "../../../assets/image/Banner.png";
 import walletIconSum from "../../../assets/image/WalletsSum.svg";
-import { useTypedSelector } from "../../../hooks/useTypesSelector";
-import { WalletsType } from "../../../store/reducers/WalletsReducer";
+import {useTypedSelector} from "../../../hooks/useTypesSelector";
+import {WalletsType} from "../../../store/reducers/WalletsReducer";
 import Modal from "../../UI/Modal/Modal";
 
 const PurseInfo = () => {
@@ -32,7 +32,7 @@ const PurseInfo = () => {
   const [ownerCard, setOwnerCard] = useState<string>("");
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const { wallets } = useTypedSelector((state) => state.wallets);
+  const {wallets} = useTypedSelector((state) => state.wallets);
 
   const currentWallet: WalletsType | undefined = wallets.find(
     (wallet) => `#${wallet.currency}` === location.hash
@@ -50,11 +50,12 @@ const PurseInfo = () => {
           id,
         },
         {
-          headers: { Authorization: `${Cookies.get("TOKEN")}` },
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
         }
       )
-      .then(() => {});
-    navigate("/purse-page", { replace: true });
+      .then(() => {
+      });
+    navigate("/purse-page", {replace: true});
   };
 
   const addSumWallet = () => {
@@ -77,27 +78,22 @@ const PurseInfo = () => {
           wallets: [...newWalletStorage],
         },
         {
-          headers: { Authorization: `${Cookies.get("TOKEN")}` },
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
         }
       )
-      .then(() => {});
+      .then(() => {
+      });
   };
 
-  useEffect(() => {
-    if (!sum || !numberCard || !date || !cvc || !ownerCard) {
-      setIsDisabled(true);
-    } else {
-      setIsDisabled(false);
-    }
-  }, [sum, isDisabled, numberCard, date, cvc, ownerCard]);
+
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main_wrapper}>
         <div className={classes.main_wrapper__title}>
           <div className={classes.main_wrapper__title_purse_id}>
             <NavLink to="/purse-page">
-              <img src={arrowBack} alt="Назад" />
+              <img src={arrowBack} alt="Назад"/>
             </NavLink>
             <h1 className={classes.main_wrapper__title_text}>
               {`${currentWallet?.currency}`}
@@ -127,11 +123,11 @@ const PurseInfo = () => {
               countryCounter={currentWallet?.currency}
             />
           )}
-          <img src={banner} alt="баннер" />
+          <img src={banner} alt="баннер"/>
         </div>
         <div className={classes.main_wrapper__replenishment}>
           <p className={classes.main_wrapper__replenishment_text}>Пополнение</p>
-          <div className={classes.main_wrapper__replenishment_wrapper}>
+          <form className={classes.main_wrapper__replenishment_wrapper}>
             <Input
               placeholder="Сумма"
               type="number"
@@ -178,10 +174,10 @@ const PurseInfo = () => {
               fontWeight="600"
               onClick={addSumWallet}
             />
-          </div>
+          </form>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
       {openModal && openModal && (
         <Modal
           setOpenModal={setOpenModal}
