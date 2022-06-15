@@ -1,13 +1,13 @@
 import React from "react";
 import classes from "../TransactionsPage.module.scss";
 import exchange from "../../../assets/image/ExchangeIcon.svg";
-import { CurrencyType } from "../../../types/currency";
+import {CurrencyType} from "../../../types/currency";
 
 interface transaction {
   exchangeValue: string;
   time: string;
   changeValue: string;
-  currency: CurrencyType;
+  currency: CurrencyType | string;
   plus: string;
   currencyPlus: string;
   status: string;
@@ -29,7 +29,7 @@ const TransactionStatus: React.FC<transaction> = (props) => {
   return (
     <div className={classes.main__wrapper__rows}>
       <div className={classes.main__wrapper__rows_info}>
-        <img src={exchange} alt="обмен" />
+        <img src={exchange} alt="обмен"/>
         <div className={classes.main__wrapper__rows_info_date_container}>
           <p className={classes.main__wrapper__rows_info_date_container_upper}>
             {exchangeValue}

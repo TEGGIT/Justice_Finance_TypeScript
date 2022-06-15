@@ -19,8 +19,9 @@ import {useActions} from "../../hooks/useAction";
 import {SelectChangeEvent} from "@mui/material";
 import {CurrencyType} from "../../types/currency";
 
-import classes from "./PursePage.module.scss";
 import {countryIcon} from "../../mockdata/countryIcon";
+
+import classes from "./PursePage.module.scss";
 
 import arrowRightSlide from '../../assets/image/ButtonRight.svg'
 import arrowLeftSlide from '../../assets/image/LeftButtonSlide.svg'
@@ -140,7 +141,6 @@ const PursePage = () => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
 
-
   return (
     <main className={classes.main}>
       <NavBar/>
@@ -159,10 +159,7 @@ const PursePage = () => {
                   transition: "0.5s",
                   gap: "17px",
                 }}>
-
-
                   {wallets.map((wallet, index) => (
-
                     <Wallet
                       pointer={true}
                       key={index}
@@ -172,19 +169,18 @@ const PursePage = () => {
                       countryCounter={wallet.currency}
                       onClick={() => walletLink(wallet)}
                     />
-
                   ))}
                 </div>
               </div>
               {wallets.length > 3 && (
                 <div className={classes.slider__button}>
-                  <img src={arrowLeftSlide} onClick={moveBlockRight}/>
-                  <img src={arrowRightSlide} onClick={moveBlockLeft}/>
+                  <img src={arrowLeftSlide} onClick={moveBlockRight} alt=''/>
+                  <img src={arrowRightSlide} onClick={moveBlockLeft} alt=''/>
                 </div>
               )}
             </div>
             <div className={classes.main__wrapper__wallet_container__wallets_mobile}>
-              <img src={arrowRightSlide} onClick={moveBlockLeftMobile}/>
+              <img src={arrowRightSlide} onClick={moveBlockLeftMobile} alt=''/>
 
               <div className={classes.slider_mobile}>
                 <div style={{
@@ -194,9 +190,7 @@ const PursePage = () => {
                   gap: "12px",
                 }}>
 
-
                   {wallets.map((wallet, index) => (
-
                     <Wallet
                       pointer={true}
                       key={index}
@@ -206,13 +200,11 @@ const PursePage = () => {
                       countryCounter={wallet.currency}
                       onClick={() => walletLink(wallet)}
                     />
-
                   ))}
                 </div>
               </div>
 
-              <img src={arrowLeftSlide} onClick={moveBlockRightMobile}/>
-
+              <img src={arrowLeftSlide} onClick={moveBlockRightMobile} alt=''/>
             </div>
           </>
         ) : (
@@ -224,7 +216,6 @@ const PursePage = () => {
           </div>
         )}
 
-
         <div className={classes.main__wrapper__wallet_container__add}>
           <div className={classes.main__wrapper__wallet_container__add_title}>
             <p className={classes.main__wrapper__wallet_container__add_title_text}>Добавление кошелька</p>
@@ -235,7 +226,6 @@ const PursePage = () => {
             )}
           </div>
           <div className={classes.main__wrapper__wallet_container__add__select}>
-
             <div className={classes.desktop_button}>
               <Select
                 handleChangeSelect={handleChange}

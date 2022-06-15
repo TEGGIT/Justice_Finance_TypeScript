@@ -41,7 +41,7 @@ const PurseInfo = () => {
 
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-    const onSubmit: SubmitHandler<Inputs> = data => (data);
+  const onSubmit: SubmitHandler<Inputs> = data => (data);
 
   const {wallets} = useTypedSelector((state) => state.wallets);
 
@@ -76,16 +76,17 @@ const PurseInfo = () => {
     });
 
     axios.patch("http://localhost:5000/api/wallets/update", {
-              wallets: [...newWalletStorage],
-            },
-            {
-              headers: {Authorization: `${Cookies.get("TOKEN")}`},
-            }
-        )
-        .then(() => {});
+        wallets: [...newWalletStorage],
+      },
+      {
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      }
+    )
+      .then(() => {
+      });
   }
   const isValue = Boolean(errors.sum || errors.cvc || errors.date || errors.cardNumber || errors.cardOrder
-      ||
+    ||
     !watch(`sum`) || !watch(`cvc`) || !watch(`date`) || !watch(`cardNumber`) || !watch(`cardOrder`))
 
   return (
@@ -127,7 +128,6 @@ const PurseInfo = () => {
           )}
           <div className={classes.image}>
             <img src={banner} alt="баннер"/>
-
           </div>
         </div>
         <div className={classes.main_wrapper__replenishment}>
@@ -172,7 +172,6 @@ const PurseInfo = () => {
                 {...register(`date`, {...patterns.date})}
                 placeholder="Даты"
                 className={classes[`${!errors.date ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
-
               />
             </div>
 
@@ -202,7 +201,7 @@ const PurseInfo = () => {
                 {...register(`cardOrder`, {...patterns.cardOrder})}
                 placeholder="Владелец карты"
                 type="text"
-                className={classes[`${!errors.cardOrder ? (`main_wrapper__replenishment_wrapper_input`)  : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+                className={classes[`${!errors.cardOrder ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
               />
             </div>
             <ButtonMui

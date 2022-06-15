@@ -30,7 +30,6 @@ const CurrencyExchange = () => {
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true)
   const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
-
   const {users} = useTypedSelector((state) => state.user);
   const {wallets} = useTypedSelector((state) => state.wallets);
   const {FetchWallets, FetchUser} = useActions();

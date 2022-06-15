@@ -12,23 +12,12 @@ import Input from "../UI/Input/Input";
 import ProfileBar from "../ProfileBar/ProfileBar";
 
 import {exchangeRates} from "../../types/exchangeRates";
-// import SlideButton from "../UI/SlideButton/SlideButton";
 import classes from "./ExchangeRatesPage.module.scss";
-// import arrowButtonLeft from "../../assets/image/ArrowButtonLeft.svg";
-// import arrowButtonRight from "../../assets/image/arrowButtonRight.svg";
 import arrowUpMin from "../../assets/image/ArrowUpMin.svg";
 
 const ExchangeRatesPage = () => {
-  // const [x, setX] = useState(0);
   const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
-  // const moveBlockLeft = () => {
-  //   // setX(x + 10)
-  //   // if (x === 0) setX(-30)
-  // };
-  // const moveBlockRight = () => {
-  //   // setX(x - 10)
-  //   // if (x === 10) setX(0)
-  // };
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/exchangeRates").then((res) => {
       setExchangeRates(res.data[0].exchangeRates);
@@ -49,7 +38,6 @@ const ExchangeRatesPage = () => {
           </div>
 
           <div className={classes.main_wrapper__slider}>
-            {/*<SlideButton img={arrowButtonLeft} onClick={moveBlockLeft}/>*/}
 
             {exchangeRates
               ?.map((slide, index) => (
@@ -61,7 +49,6 @@ const ExchangeRatesPage = () => {
               ))
               .splice(1, 4)}
 
-            {/*<SlideButton img={arrowButtonRight} onClick={moveBlockRight}/>*/}
           </div>
 
           <div className={classes.main_wrapper__chart__title}>
