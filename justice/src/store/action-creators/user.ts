@@ -3,8 +3,7 @@ import {Dispatch} from "redux";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export const FetchUser = (payload) => {
-  console.log(payload)
+export const  FetchUser = (payload) => {
   return async (dispatch: Dispatch<UserAction>) => {
     try {
       dispatch({
@@ -12,7 +11,7 @@ export const FetchUser = (payload) => {
       });
       dispatch({
         type: UsersActionTypes.FETCH_USERS_SUCCESS,
-        payload: payload,
+        payload
       });
     } catch (e) {
       dispatch({

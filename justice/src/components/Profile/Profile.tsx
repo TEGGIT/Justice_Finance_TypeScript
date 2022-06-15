@@ -46,7 +46,7 @@ const Profile = () => {
       {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
     )
       .then(() => {
-        FetchUser();
+        FetchUser(users);
       }).catch(function () {
       }
     );
@@ -66,7 +66,7 @@ const Profile = () => {
       }
     )
       .then(() => {
-        FetchUser();
+        FetchUser(users);
       });
   };
   const repeatPassword = watch(`cPassword`)

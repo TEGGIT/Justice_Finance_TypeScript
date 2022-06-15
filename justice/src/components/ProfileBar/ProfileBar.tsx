@@ -15,7 +15,6 @@ import transactions from "../../assets/image/transaction.svg";
 import greenEllipse from "../../assets/image/GreenElipse.svg";
 import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
-import {useSelector} from "react-redux";
 
 const ProfileBar = () => {
   const navigate = useNavigate();
@@ -37,14 +36,13 @@ const ProfileBar = () => {
   };
 
   useEffect(() => {
-    FetchUser();
-
     FetchWallets();
+
+    FetchUser(users);
+
   }, []);
 
-  useEffect(() => {
-    console.log(wallets)
-  }, [wallets])
+
   const transaction = users[0]?.transaction;
   return (
     <div className={classes.profile}>
