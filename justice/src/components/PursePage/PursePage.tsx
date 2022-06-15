@@ -141,7 +141,6 @@ const PursePage = () => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
 
-
   return (
     <main className={classes.main}>
       <NavBar/>
@@ -160,10 +159,7 @@ const PursePage = () => {
                   transition: "0.5s",
                   gap: "17px",
                 }}>
-
-
                   {wallets.map((wallet, index) => (
-
                     <Wallet
                       pointer={true}
                       key={index}
@@ -173,7 +169,6 @@ const PursePage = () => {
                       countryCounter={wallet.currency}
                       onClick={() => walletLink(wallet)}
                     />
-
                   ))}
                 </div>
               </div>
@@ -195,9 +190,7 @@ const PursePage = () => {
                   gap: "12px",
                 }}>
 
-
                   {wallets.map((wallet, index) => (
-
                     <Wallet
                       pointer={true}
                       key={index}
@@ -207,13 +200,11 @@ const PursePage = () => {
                       countryCounter={wallet.currency}
                       onClick={() => walletLink(wallet)}
                     />
-
                   ))}
                 </div>
               </div>
 
               <img src={arrowLeftSlide} onClick={moveBlockRightMobile} alt=''/>
-
             </div>
           </>
         ) : (
@@ -225,7 +216,6 @@ const PursePage = () => {
           </div>
         )}
 
-
         <div className={classes.main__wrapper__wallet_container__add}>
           <div className={classes.main__wrapper__wallet_container__add_title}>
             <p className={classes.main__wrapper__wallet_container__add_title_text}>Добавление кошелька</p>
@@ -236,7 +226,6 @@ const PursePage = () => {
             )}
           </div>
           <div className={classes.main__wrapper__wallet_container__add__select}>
-
             <div className={classes.desktop_button}>
               <Select
                 handleChangeSelect={handleChange}
