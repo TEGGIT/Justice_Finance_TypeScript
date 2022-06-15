@@ -19,8 +19,9 @@ import {useActions} from "../../hooks/useAction";
 import {SelectChangeEvent} from "@mui/material";
 import {CurrencyType} from "../../types/currency";
 
-import classes from "./PursePage.module.scss";
 import {countryIcon} from "../../mockdata/countryIcon";
+
+import classes from "./PursePage.module.scss";
 
 import arrowRightSlide from '../../assets/image/ButtonRight.svg'
 import arrowLeftSlide from '../../assets/image/LeftButtonSlide.svg'
@@ -178,13 +179,13 @@ const PursePage = () => {
               </div>
               {wallets.length > 3 && (
                 <div className={classes.slider__button}>
-                  <img src={arrowLeftSlide} onClick={moveBlockRight}/>
-                  <img src={arrowRightSlide} onClick={moveBlockLeft}/>
+                  <img src={arrowLeftSlide} onClick={moveBlockRight} alt=''/>
+                  <img src={arrowRightSlide} onClick={moveBlockLeft} alt=''/>
                 </div>
               )}
             </div>
             <div className={classes.main__wrapper__wallet_container__wallets_mobile}>
-              <img src={arrowRightSlide} onClick={moveBlockLeftMobile}/>
+              <img src={arrowRightSlide} onClick={moveBlockLeftMobile} alt=''/>
 
               <div className={classes.slider_mobile}>
                 <div style={{
@@ -211,7 +212,7 @@ const PursePage = () => {
                 </div>
               </div>
 
-              <img src={arrowLeftSlide} onClick={moveBlockRightMobile}/>
+              <img src={arrowLeftSlide} onClick={moveBlockRightMobile} alt=''/>
 
             </div>
           </>
