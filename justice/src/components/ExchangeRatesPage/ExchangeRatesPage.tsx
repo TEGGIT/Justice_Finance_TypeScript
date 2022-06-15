@@ -18,6 +18,7 @@ import arrowUpMin from "../../assets/image/ArrowUpMin.svg";
 const ExchangeRatesPage = () => {
   const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
 
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/exchangeRates").then((res) => {
       setExchangeRates(res.data[0].exchangeRates);
@@ -36,7 +37,6 @@ const ExchangeRatesPage = () => {
               placeholder="Поиск валюты"
             />
           </div>
-
           <div className={classes.main_wrapper__slider}>
 
             {exchangeRates

@@ -3,7 +3,7 @@ import USD from '../../src/assets/icon/USD.svg'
 import CHY from '../../src/assets/icon/CNY.svg'
 import EUR from '../../src/assets/icon/EUR.svg'
 import TRY from '../../src/assets/icon/TRY.svg'
-import {CurrencyType} from "../components/PursePage/PursePage";
+import {CurrencyType} from "../types/currency";
 
 type CountryIcon = {
   currency: CurrencyType,

@@ -1,4 +1,4 @@
-import { UserAction, UsersActionTypes, UserType } from "../../types/user";
+import {UserAction, UsersActionTypes, UserType} from "../../types/user";
 
 export interface UserState {
   users: UserType[];

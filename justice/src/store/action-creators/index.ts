@@ -6,4 +6,5 @@ export default {
   ...WalletsActionCreators,
   ...UserActionCreators,
   ...AuthActionCreators
+
 }
