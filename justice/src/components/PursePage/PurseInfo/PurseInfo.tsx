@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
+
+import {SubmitHandler, useForm} from "react-hook-form";
 
 import NavBar from "../../NavBar/NavBar";
 import ProfileBar from "../../ProfileBar/ProfileBar";
 import ButtonMui from "../../MUI/Button/ButtonMui";
 import Wallet from "../../ProfileBar/WalletBar/Wallet";
-import Input from "../../UI/Input/Input";
 
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -16,23 +17,33 @@ import classes from "./PurseInfo.module.scss";
 import arrowBack from "../../../assets/image/Back.svg";
 import banner from "../../../assets/image/Banner.png";
 import walletIconSum from "../../../assets/image/WalletsSum.svg";
-import { useTypedSelector } from "../../../hooks/useTypesSelector";
-import { WalletsType } from "../../../store/reducers/WalletsReducer";
+import {useTypedSelector} from "../../../hooks/useTypesSelector";
+import {WalletsType} from "../../../store/reducers/WalletsReducer";
 import Modal from "../../UI/Modal/Modal";
+import {patterns} from "../../../patterns/patterns";
 
+type Inputs = {
+  sum: number | '';
+  cardNumber: number | '';
+  date: string;
+  cvc: number | '';
+  cardOrder: string | '';
+
+
+};
 const PurseInfo = () => {
-  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+  const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
+
   const location = useLocation();
+
   const navigate = useNavigate();
-  const [sum, setSum] = useState<number>();
-  const [id, setId] = useState<string>("");
-  const [numberCard, setNumberCard] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [cvc, setCvc] = useState<string>("");
-  const [ownerCard, setOwnerCard] = useState<string>("");
+
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const { wallets } = useTypedSelector((state) => state.wallets);
+    const onSubmit: SubmitHandler<Inputs> = data => (data);
+
+  const {wallets} = useTypedSelector((state) => state.wallets);
 
   const currentWallet: WalletsType | undefined = wallets.find(
     (wallet) => `#${wallet.currency}` === location.hash
@@ -42,62 +53,49 @@ const PurseInfo = () => {
     const newWallets =
       currentWallet &&
       wallets.filter((wallet) => wallet.currency !== currentWallet.currency);
-    axios
-      .patch(
-        "http://localhost:5000/api/wallets/remove",
-        {
-          wallets: newWallets,
-          id,
-        },
-        {
-          headers: { Authorization: `${Cookies.get("TOKEN")}` },
-        }
-      )
-      .then(() => {});
-    navigate("/purse-page", { replace: true });
+    axios.patch("http://localhost:5000/api/wallets/remove", {
+        wallets: newWallets,
+      },
+      {
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      }
+    )
+      .then(() => {
+      });
+    navigate("/purse-page", {replace: true});
   };
+
 
   const addSumWallet = () => {
     const newWalletStorage = wallets?.map((wallet) => {
       if (wallet.currency === currentWallet?.currency)
-        wallet.sum = +Number(currentWallet?.sum) + +Number(sum);
+        wallet.sum = +Number(currentWallet?.sum) + +Number(watch(`sum`));
       setOpenModal(true);
-      setSum(0);
-      setNumberCard("");
-      setDate("");
-      setCvc("");
-      setOwnerCard("");
+      reset({sum: '', cvc: '', cardNumber: '', cardOrder: '', date: ""})
       return wallet;
     });
 
-    axios
-      .patch(
-        "http://localhost:5000/api/wallets/update",
-        {
-          wallets: [...newWalletStorage],
-        },
-        {
-          headers: { Authorization: `${Cookies.get("TOKEN")}` },
-        }
-      )
-      .then(() => {});
-  };
+    axios.patch("http://localhost:5000/api/wallets/update", {
+              wallets: [...newWalletStorage],
+            },
+            {
+              headers: {Authorization: `${Cookies.get("TOKEN")}`},
+            }
+        )
+        .then(() => {});
+  }
+  const isValue = Boolean(errors.sum || errors.cvc || errors.date || errors.cardNumber || errors.cardOrder
+      ||
+    !watch(`sum`) || !watch(`cvc`) || !watch(`date`) || !watch(`cardNumber`) || !watch(`cardOrder`))
 
-  useEffect(() => {
-    if (!sum || !numberCard || !date || !cvc || !ownerCard) {
-      setIsDisabled(true);
-    } else {
-      setIsDisabled(false);
-    }
-  }, [sum, isDisabled, numberCard, date, cvc, ownerCard]);
   return (
     <main className={classes.main}>
-      <NavBar />
+      <NavBar/>
       <section className={classes.main_wrapper}>
         <div className={classes.main_wrapper__title}>
           <div className={classes.main_wrapper__title_purse_id}>
             <NavLink to="/purse-page">
-              <img src={arrowBack} alt="Назад" />
+              <img src={arrowBack} alt="Назад"/>
             </NavLink>
             <h1 className={classes.main_wrapper__title_text}>
               {`${currentWallet?.currency}`}
@@ -127,61 +125,102 @@ const PurseInfo = () => {
               countryCounter={currentWallet?.currency}
             />
           )}
-          <img src={banner} alt="баннер" />
+          <div className={classes.image}>
+            <img src={banner} alt="баннер"/>
+
+          </div>
         </div>
         <div className={classes.main_wrapper__replenishment}>
           <p className={classes.main_wrapper__replenishment_text}>Пополнение</p>
-          <div className={classes.main_wrapper__replenishment_wrapper}>
-            <Input
-              placeholder="Сумма"
-              type="number"
-              className={classes.main_wrapper__replenishment_wrapper_input}
-              value={sum}
-              onChange={(e) => setSum(e.target.valueAsNumber)}
-            />
-            <Input
-              placeholder="Номер карты"
-              type="number"
-              className={classes.main_wrapper__replenishment_wrapper_input}
-              value={numberCard}
-              onChange={(e) => setNumberCard(e.target.value)}
-            />
-            <Input
-              placeholder="Даты"
-              type="number"
-              className={classes.main_wrapper__replenishment_wrapper_input}
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-            <Input
-              placeholder="CVC"
-              type="number"
-              className={classes.main_wrapper__replenishment_wrapper_input}
-              value={cvc}
-              onChange={(e) => setCvc(e.target.value)}
-            />
-            <Input
-              placeholder="Владелец карты"
-              type="text"
-              className={classes.main_wrapper__replenishment_wrapper_input}
-              value={ownerCard}
-              onChange={(e) => setOwnerCard(e.target.value)}
-            />
+          <form className={classes.main_wrapper__replenishment_wrapper} onSubmit={handleSubmit(onSubmit)}>
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
+                {errors.sum && (
+                  <p className={classes.error}>{errors.sum.message}</p>
+                )}
+              </div>
+
+              <input
+                placeholder="Сумма"
+                type="number"
+                {...register(`sum`, {...patterns.sum})}
+                className={classes[`${!errors.sum ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+              />
+            </div>
+
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
+                {errors.cardNumber && (
+                  <p className={classes.error}>{errors.cardNumber.message}</p>
+                )}
+              </div>
+              <input
+                {...register(`cardNumber`, {...patterns.cardNumber})}
+                placeholder="Номер карты"
+                type="number"
+                className={classes[`${!errors.cardNumber ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+              />
+            </div>
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
+                {errors.date && (
+                  <p className={classes.error}>{errors.date.message}</p>
+                )}
+              </div>
+
+              <input
+                {...register(`date`, {...patterns.date})}
+                placeholder="Даты"
+                className={classes[`${!errors.date ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+
+              />
+            </div>
+
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
+                {errors.cvc && (
+                  <p className={classes.error}>{errors.cvc.message}</p>
+                )}
+              </div>
+
+              <input
+                {...register('cvc', {...patterns.cvc})}
+                placeholder="CVC"
+                type="number"
+                className={classes[`${!errors.cvc ? (`main_wrapper__replenishment_wrapper_input`) : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+              />
+            </div>
+
+            <div className={classes.input_error_wrapper}>
+              <div className={classes.error_wrapper}>
+                {errors.cardOrder && (
+                  <p className={classes.error}>{errors.cardOrder.message}</p>
+                )}
+              </div>
+
+              <input
+                {...register(`cardOrder`, {...patterns.cardOrder})}
+                placeholder="Владелец карты"
+                type="text"
+                className={classes[`${!errors.cardOrder ? (`main_wrapper__replenishment_wrapper_input`)  : (`main_wrapper__replenishment_wrapper_input_error`)}`]}
+              />
+            </div>
             <ButtonMui
               text="Пополнить кошелек"
               padding="15px 24px"
               bc="#363636"
-              disabled={isDisabled}
+              disabled={isValue}
               hb="#363636"
+              type='submit'
               coloring="#FFFFFF"
               fontSize="16px"
               fontWeight="600"
               onClick={addSumWallet}
             />
-          </div>
+          </form>
         </div>
       </section>
-      <ProfileBar />
+      <ProfileBar/>
       {openModal && openModal && (
         <Modal
           setOpenModal={setOpenModal}
