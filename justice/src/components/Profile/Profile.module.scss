@@ -87,7 +87,7 @@
         padding-bottom: 56px;
         border-bottom: 1px solid #F3F3F3;;
         @media (max-width: 600px) {
-           justify-content: center;
+          justify-content: center;
         }
 
         &_input {
@@ -107,7 +107,6 @@
 
         &_input_error {
           display: flex;
-          width: 29.50rem;
           font-family: 'Inter', sans-serif;
           font-style: normal;
           font-weight: 400;
@@ -117,8 +116,8 @@
           padding: 18px 230px 18px 16px;
           color: #363636;
 
-          @media (max-width: 735px) {
-            padding: 18px 18px 18px 16px;
+          @media (max-width: 600px) {
+            padding: 18px 80px 18px 16px;
 
           }
         }
@@ -127,16 +126,18 @@
   }
 }
 
-.input_error_wrapper{
+.input_error_wrapper {
   display: flex;
   flex-direction: column;
 }
-.error_wrapper{
+
+.error_wrapper {
   position: relative;
   top: -20px;
 }
-.error{
+
+.error {
   position: absolute;
-  color:#FF4D35
+  color: #FF4D35
 }
 
