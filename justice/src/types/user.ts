@@ -1,9 +1,7 @@
 import {WalletsType} from "../store/reducers/WalletsReducer";
 
 export enum UsersActionTypes {
-  FETCH_USERS = "FETCH_USERS",
   FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS",
-  FETCH_USERS_ERROR = "FETCH_USERS_ERROR",
   SET_USERS_SUCCESS = "SET_USERS_SUCCESS"
 }
 

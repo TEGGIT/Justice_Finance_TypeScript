@@ -7,6 +7,26 @@ import {SetWallets} from "../action-creators/wallets";
 import {WalletsActionTypes} from "../../types/wallets";
 import {SetExchangeRates} from "../action-creators/exchangeRates";
 import {ExchangeRatesTypes} from "../../types/exchangeRates";
+import {RegistrationActionType} from "../../types/registration";
+
+
+export function* registrationWorker(name: string, email: string, password: string) {
+  try {
+    axios.post("http://localhost:5000/api/auth/register-page", {
+      name: name,
+      email: email,
+      password: password,
+    })
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+
+export function* registrationWatcher() {
+  // @ts-ignore
+  yield takeEvery(RegistrationActionType.CREATE_USER_SUCCESS, registrationWorker)
+}
 
 
 export function* exchangeRatesWorker() {
@@ -63,7 +83,7 @@ export function* userDataWatcher() {
 
 
 export default function* rootSaga() {
-  yield all([userDataWatcher(), walletsDataWatcher(), exchangeRatesWatcher()])
+  yield all([userDataWatcher(), walletsDataWatcher(), exchangeRatesWatcher(), registrationWatcher()])
 }
 
 

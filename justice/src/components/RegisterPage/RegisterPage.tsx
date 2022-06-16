@@ -39,16 +39,7 @@ const RegisterPage = () => {
 
   const registration = (name: string, email: string, password: string) => {
     const submitValue = {name, email, password}
-    axios.post("http://localhost:5000/api/auth/register-page", {
-      name: submitValue.name,
-      email: submitValue.email,
-      password: submitValue.password,
-    }).then(() => {
-      navigate("/login-page", {replace: true});
 
-    }).catch(function () {
-      setIsExistingUser(true)
-    });
   };
   return (
     <main className={classes.main}>
