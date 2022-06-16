@@ -1,4 +1,4 @@
-import { UserAction, UsersActionTypes, UserType } from "../../types/user";
+import {UserAction, UsersActionTypes, UserType} from "../../types/user";
 
 export interface UserState {
   users: UserType[];
@@ -17,27 +17,12 @@ export const userReducer = (
   action: UserAction
 ): UserState => {
   switch (action.type) {
-    case UsersActionTypes.FETCH_USERS:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-        users: [],
-      };
-    case UsersActionTypes.FETCH_USERS_SUCCESS:
+    case UsersActionTypes.SET_USERS_SUCCESS:
       return {
         ...state,
         loading: false,
         error: null,
         users: action.payload,
-      };
-
-    case UsersActionTypes.FETCH_USERS_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-        users: [],
       };
     default: {
       return state;

@@ -15,13 +15,13 @@ import transactions from "../../assets/image/transaction.svg";
 import greenEllipse from "../../assets/image/GreenElipse.svg";
 import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
+import {useDispatch} from "react-redux";
 
 const ProfileBar = () => {
   const navigate = useNavigate();
   const {FetchUser, FetchWallets} = useActions();
   const {users, loading} = useTypedSelector((state) => state.user);
   const {wallets} = useTypedSelector((state) => state.wallets);
-
   const [x, setX] = useState<number>(0);
   const moveBlockLeft = () => {
     setX(x + 250);
@@ -30,19 +30,22 @@ const ProfileBar = () => {
   const moveBlockRight = () => {
     setX(x - 250);
     if (x === -250 * (wallets.length - 1)) setX(0);
-  };
 
+  };
+  const dispatch = useDispatch()
   const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
 
   useEffect(() => {
-    FetchUser();
+
     FetchWallets();
+    FetchUser();
+
   }, []);
 
-  const transaction = users[0]?.transaction;
 
+  const transaction = users[0]?.transaction;
   return (
     <div className={classes.profile}>
       <div className={classes.profile_wrapper}>
@@ -85,7 +88,7 @@ const ProfileBar = () => {
                     key={wallet.currency}
                     countryName={wallet.currency}
                     country={wallet.currency}
-                    count={wallet.sum.toFixed(2)}
+                    count={wallet.sum?.toFixed(2)}
                     countryCounter={wallet.currency}
                     onClick={() => walletLink(wallet)}
                   />

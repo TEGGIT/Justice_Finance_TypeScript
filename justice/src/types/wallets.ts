@@ -1,13 +1,8 @@
 import {CurrencyType} from "./currency";
 
 export enum WalletsActionTypes {
-  FETCH_WALLETS = 'FETCH_WALLETS',
   FETCH_WALLETS_SUCCESS = 'FETCH_WALLETS_SUCCESS',
-  FETCH_WALLETS_ERROR = 'FETCH_WALLETS_ERROR'
-}
-
-interface FetchWalletsAction {
-  type: WalletsActionTypes.FETCH_WALLETS
+  SET_WALLETS_SUCCESS = 'SET_WALLETS_SUCCESS'
 }
 
 type WalletType = {
@@ -21,14 +16,12 @@ interface FetchWalletsSuccessAction {
   payload: WalletType[];
 }
 
-interface FetchWalletsErrorAction {
-  type: WalletsActionTypes.FETCH_WALLETS_ERROR
-  payload: string
+interface SetWalletsSuccessAction {
+  type: WalletsActionTypes.SET_WALLETS_SUCCESS
+  payload: WalletType[]
 }
 
 export type WalletsAction =
-  FetchWalletsAction
-  |
-  FetchWalletsErrorAction
-  |
   FetchWalletsSuccessAction
+  |
+  SetWalletsSuccessAction

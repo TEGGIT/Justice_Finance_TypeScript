@@ -1,30 +1,37 @@
-import { UserAction, UsersActionTypes } from "../../types/user";
-import { Dispatch } from "redux";
-import axios from "axios";
-import Cookies from "js-cookie";
+import {UsersActionTypes, UserType} from "../../types/user";
+
 
 export const FetchUser = () => {
-  return async (dispatch: Dispatch<UserAction>) => {
-    try {
-      dispatch({
-        type: UsersActionTypes.FETCH_USERS,
-      });
-      const response = await axios.get("http://localhost:5000/api/wallets", {
-        headers: {
-          Authorization: `${Cookies.get("TOKEN")}`,
-        },
-      });
-      dispatch({
-        type: UsersActionTypes.FETCH_USERS_SUCCESS,
-        payload: response.data,
-      });
-    } catch (e) {
-      dispatch({
-        type: UsersActionTypes.FETCH_USERS_ERROR,
-        payload: "Произошла ошибка при загрузке данных",
-      });
-      Cookies.remove("TOKEN");
-      window.location.href = '/'
-    }
-  };
+  return {
+    type: UsersActionTypes.FETCH_USERS_SUCCESS,
+  }
 };
+
+
+export const SetUsers = (payload: UserType[]) => {
+  return {
+    type: UsersActionTypes.SET_USERS_SUCCESS,
+    payload
+  }
+};
+
+
+// return async (dispatch: Dispatch<UserAction>) => {
+//   try {
+//     dispatch({
+//       type: UsersActionTypes.FETCH_USERS,
+//     });
+//     dispatch({
+//       type: UsersActionTypes.FETCH_USERS_SUCCESS,
+//       payload
+//     });
+//   } catch (e) {
+//     dispatch({
+//       type: UsersActionTypes.FETCH_USERS_ERROR,
+//       payload: "Произошла ошибка при загрузке данных",
+//     });
+//     Cookies.remove("TOKEN");
+//     window.location.href = '/'
+//   }
+// };
+
