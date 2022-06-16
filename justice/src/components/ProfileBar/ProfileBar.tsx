@@ -15,6 +15,7 @@ import transactions from "../../assets/image/transaction.svg";
 import greenEllipse from "../../assets/image/GreenElipse.svg";
 import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
+import {useDispatch} from "react-redux";
 
 const ProfileBar = () => {
   const navigate = useNavigate();
@@ -29,16 +30,17 @@ const ProfileBar = () => {
   const moveBlockRight = () => {
     setX(x - 250);
     if (x === -250 * (wallets.length - 1)) setX(0);
-  };
 
+  };
+  const dispatch = useDispatch()
   const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
 
   useEffect(() => {
-    FetchWallets();
 
-    FetchUser(users);
+    FetchWallets();
+    FetchUser();
 
   }, []);
 
@@ -86,7 +88,7 @@ const ProfileBar = () => {
                     key={wallet.currency}
                     countryName={wallet.currency}
                     country={wallet.currency}
-                    count={wallet.sum.toFixed(2)}
+                    count={wallet.sum?.toFixed(2)}
                     countryCounter={wallet.currency}
                     onClick={() => walletLink(wallet)}
                   />

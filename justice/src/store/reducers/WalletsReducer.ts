@@ -1,5 +1,5 @@
-import { WalletsAction, WalletsActionTypes } from "../../types/wallets";
-import { CurrencyType } from "../../types/currency";
+import {WalletsAction, WalletsActionTypes} from "../../types/wallets";
+import {CurrencyType} from "../../types/currency";
 
 export type WalletsType = {
   currency: CurrencyType;
@@ -24,19 +24,11 @@ export const walletsReducer = (
   action: WalletsAction
 ): WalletsState => {
   switch (action.type) {
-    case WalletsActionTypes.FETCH_WALLETS:
-      return { ...state, loading: true };
-    case WalletsActionTypes.FETCH_WALLETS_SUCCESS:
+    case WalletsActionTypes.SET_WALLETS_SUCCESS:
       return {
         ...state,
         loading: false,
         wallets: action.payload,
-      };
-    case WalletsActionTypes.FETCH_WALLETS_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
       };
     default:
       return state;
