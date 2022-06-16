@@ -5,6 +5,25 @@ import {SetUsers} from "../action-creators/user";
 import {UsersActionTypes} from "../../types/user";
 import {SetWallets} from "../action-creators/wallets";
 import {WalletsActionTypes} from "../../types/wallets";
+import {SetExchangeRates} from "../action-creators/exchangeRates";
+import {ExchangeRatesTypes} from "../../types/exchangeRates";
+
+
+export function* exchangeRatesWorker() {
+  try {
+    const {data} = yield call(axios.get, "http://localhost:5000/api/exchangeRates")
+    console.log(data[0].exchangeRates)
+    yield put(SetExchangeRates(data[0].exchangeRates))
+
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export function* exchangeRatesWatcher() {
+  yield takeEvery(ExchangeRatesTypes.EXCHANGE_RATES_GET, exchangeRatesWorker)
+
+}
 
 
 export function* walletsDataWorker() {
@@ -44,7 +63,7 @@ export function* userDataWatcher() {
 
 
 export default function* rootSaga() {
-  yield all([userDataWatcher(), walletsDataWatcher()])
+  yield all([userDataWatcher(), walletsDataWatcher(), exchangeRatesWatcher()])
 }
 
 

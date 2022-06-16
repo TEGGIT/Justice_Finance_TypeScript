@@ -15,7 +15,6 @@ import transactions from "../../assets/image/transaction.svg";
 import greenEllipse from "../../assets/image/GreenElipse.svg";
 import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
-import {useDispatch} from "react-redux";
 
 const ProfileBar = () => {
   const navigate = useNavigate();
@@ -32,7 +31,6 @@ const ProfileBar = () => {
     if (x === -250 * (wallets.length - 1)) setX(0);
 
   };
-  const dispatch = useDispatch()
   const walletLink = (wallet: { currency: string }) => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
