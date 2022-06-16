@@ -19,10 +19,8 @@ import arrowUpMin from "../../assets/image/ArrowUpMin.svg";
 const ExchangeRatesPage = () => {
   const {FetchExchangeRates} = useActions();
 
-
   const {exchangeRates} = useTypedSelector((state) => state.exchangeRates);
 
-  console.log(exchangeRates)
 
   useEffect(() => {
     FetchExchangeRates()
@@ -42,14 +40,13 @@ const ExchangeRatesPage = () => {
           </div>
           <div className={classes.main_wrapper__slider}>
 
-            {exchangeRates
-              ?.map((slide: { currencyName: string; rubleRatio: string; }, index: React.Key | null | undefined) => (
-                <SliderRate
-                  key={index}
-                  currency={slide.currencyName}
-                  rates={slide.rubleRatio}
-                />
-              ))
+            {exchangeRates?.map((slide: { currencyName: string; rubleRatio: string; }, index: React.Key | null | undefined) => (
+              <SliderRate
+                key={index}
+                currency={slide.currencyName}
+                rates={slide.rubleRatio}
+              />
+            ))
               .splice(1, 4)}
 
           </div>

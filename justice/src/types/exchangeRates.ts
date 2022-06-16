@@ -5,6 +5,7 @@ export enum ExchangeRatesTypes {
 
 interface ExchangeRatesAction {
   type: ExchangeRatesTypes;
+  // TODO исправить типы
   payload: any
 }
 
