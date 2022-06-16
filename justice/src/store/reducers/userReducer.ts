@@ -19,7 +19,6 @@ export const userReducer = (
   switch (action.type) {
     case UsersActionTypes.SET_USERS_SUCCESS:
       return {
-        ...state,
         loading: false,
         error: null,
         users: action.payload,

@@ -13,13 +13,13 @@ import axios from "axios";
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
 import ButtonMui from "../MUI/Button/ButtonMui";
-
+import {useActions} from "../../hooks/useAction";
+import {validationSchemaRegistration} from "../../patterns/patterns";
 
 import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import {validationSchemaRegistration} from "../../patterns/patterns";
 
 interface InitialValues {
   name: string,
@@ -31,7 +31,7 @@ interface InitialValues {
 const RegisterPage = () => {
 
   const validationsSchema = yup.object().shape({...validationSchemaRegistration});
-
+  const {CreateUser} = useActions()
   const [checked, setChecked] = React.useState<boolean>(false);
   const [isExistingUser, setIsExistingUser] = useState<boolean>(false)
 
@@ -40,6 +40,7 @@ const RegisterPage = () => {
   const registration = (name: string, email: string, password: string) => {
     const submitValue = {name, email, password}
 
+    CreateUser(submitValue)
   };
   return (
     <main className={classes.main}>

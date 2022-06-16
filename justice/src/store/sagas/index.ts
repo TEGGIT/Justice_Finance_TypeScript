@@ -10,13 +10,14 @@ import {ExchangeRatesTypes} from "../../types/exchangeRates";
 import {RegistrationActionType} from "../../types/registration";
 
 
-export function* registrationWorker(name: string, email: string, password: string) {
+export function* registrationWorker(user: {payload: {name: string, email: string, password: string}}) {
   try {
     axios.post("http://localhost:5000/api/auth/register-page", {
-      name: name,
-      email: email,
-      password: password,
-    })
+      name: user.payload.name,
+      email: user.payload.email,
+      password: user.payload.password,
+    }).then()
+    console.log(user.payload)
   } catch (e) {
     console.error(e)
   }
