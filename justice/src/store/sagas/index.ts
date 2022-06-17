@@ -11,7 +11,32 @@ import {RegistrationActionType} from "../../types/registration";
 import {CreateUserError} from "../action-creators/registration";
 import {LoginActionType} from "../../types/login";
 import {AuthUserError} from "../action-creators/login";
+import {ChangeProfileActionTypes} from "../../types/changeProfile";
+import {changeProfileSet} from "../action-creators/changeProfile";
 
+
+export function* changeProfileWorker(user: { payload: { name: string, email: string, city: string, birthday: string, phoneNumber: number } }) {
+  try {
+    yield call(axios.patch, ("http://localhost:5000/api/profile"), {
+        name: user.payload.name,
+        email: user.payload.email,
+        city: user.payload.city,
+        birthday: user.payload.birthday,
+        phoneNumber: user.payload.phoneNumber
+
+      },
+      {
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      }
+    )
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export function* changeProfileWatcher() {
+  yield takeEvery(ChangeProfileActionTypes.CHANGE_PROFILE_SET, changeProfileWorker)
+}
 
 export function* loginWorker(user: { payload: { password: string, email: string } }) {
   try {
@@ -113,7 +138,15 @@ export function* userDataWatcher() {
 
 
 export default function* rootSaga() {
-  yield all([userDataWatcher(), walletsDataWatcher(), exchangeRatesWatcher(), registrationWatcher(), loginWatcher()])
+  yield all(
+    [
+      userDataWatcher(),
+      walletsDataWatcher(),
+      exchangeRatesWatcher(),
+      registrationWatcher(),
+      loginWatcher(),
+      changeProfileWatcher(),
+    ])
 }
 
 

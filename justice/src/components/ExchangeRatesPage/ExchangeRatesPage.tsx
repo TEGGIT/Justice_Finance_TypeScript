@@ -20,7 +20,6 @@ import arrowUpMin from "../../assets/image/ArrowUpMin.svg";
 const ExchangeRatesPage = () => {
   const navigate = useNavigate();
   const {FetchExchangeRates} = useActions();
-  const {error} = useTypedSelector((state) => state.login);
   const {exchangeRates} = useTypedSelector((state) => state.exchangeRates);
 
   useEffect(() => {

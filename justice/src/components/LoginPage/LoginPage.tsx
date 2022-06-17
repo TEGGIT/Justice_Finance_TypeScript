@@ -35,15 +35,29 @@ const LoginPage = () => {
 
   const validationsSchema = yup.object().shape({...validationSchemaLogin});
   const {error} = useTypedSelector((state) => state.login);
+  const [test, setTest] = useState<boolean>(false)
   const {loginUser, AuthUser} = useActions();
 
   const navigate = useNavigate();
 
+
   const checkUser = ({email, password}: { email: string, password: string }) => {
+
     AuthUser({email, password})
-    Cookies.get('TOKEN') &&
-    loginUser(true) && navigate("/exchange-rates-page", {replace: true})
+
   };
+
+  useEffect(() => {
+    if (error === false) {
+      setTest(true)
+    }
+
+    if (test) {
+      loginUser(true)
+      navigate("/exchange-rates-page", {replace: true})
+    }
+  }, [error, test])
+
 
   return (
     <main className={classes.main}>

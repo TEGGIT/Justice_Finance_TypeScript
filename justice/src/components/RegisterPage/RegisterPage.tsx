@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 import {NavLink} from "react-router-dom";
@@ -34,6 +34,8 @@ const RegisterPage = () => {
   const {CreateUser} = useActions()
   const {error} = useTypedSelector((state) => state.registration);
 
+  const [test, setTest] = useState<boolean>(false)
+
   const [checked, setChecked] = React.useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -42,9 +44,17 @@ const RegisterPage = () => {
 
     CreateUser(submitValue)
 
-    navigate("/login-page", {replace: true});
-
   };
+
+  useEffect(() => {
+    if (error === false) {
+      setTest(true)
+    }
+
+    if (test) {
+      navigate("/login-page", {replace: true});
+    }
+  }, [error, test])
   return (
     <main className={classes.main}>
       <div className={classes.main__register}>

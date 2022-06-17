@@ -4,6 +4,7 @@ import * as AuthActionCreators from '../action-creators/auth'
 import * as ExchangeRatesActionCreators from '../action-creators/exchangeRates'
 import * as RegistrationActionCreators from '../action-creators/registration'
 import * as LoginActionCreators from '../action-creators/login'
+import * as ChangeProfileCreators from '../action-creators/changeProfile'
 
 export default {
   ...WalletsActionCreators,
@@ -11,6 +12,7 @@ export default {
   ...AuthActionCreators,
   ...ExchangeRatesActionCreators,
   ...RegistrationActionCreators,
-  ...LoginActionCreators
+  ...LoginActionCreators,
+  ...ChangeProfileCreators
 
 }

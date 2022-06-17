@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 
 import {useForm, SubmitHandler} from "react-hook-form";
@@ -31,12 +31,11 @@ type Inputs = {
 const Profile = () => {
 
   const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
-
   const onSubmit: SubmitHandler<Inputs> = data => (data);
 
   const {users} = useTypedSelector((state) => state.user);
 
-  const {FetchUser} = useActions();
+  const {FetchUser, changeProfileFetch, changeProfileSet} = useActions();
 
   const changePassword = () => {
     axios.patch("http://localhost:5000/api/profile/changePassword", {
@@ -53,22 +52,21 @@ const Profile = () => {
     reset({password: '', cPassword: '', oldPassword: ""})
   };
 
+  const userData = {
+    name: !watch(`name`) ? users[0]?.name : watch(`name`),
+    email: !watch(`email`) ? users[0]?.email : watch(`email`),
+    city: !watch(`city`) ? users[0]?.city : watch(`city`),
+    birthday: !watch(`birthday`) ? users[0]?.birthday : watch(`birthday`),
+    phoneNumber: !watch(`phoneNumber`) ? users[0]?.phoneNumber : watch(`phoneNumber`)
+  }
+
   const changeProfile = () => {
-    axios.patch("http://localhost:5000/api/profile", {
-        name: !watch(`name`) ? users[0]?.name : watch(`name`),
-        email: !watch(`email`) ? users[0]?.email : watch(`email`),
-        city: !watch(`city`) ? users[0]?.city : watch(`city`),
-        birthday: !watch(`birthday`) ? users[0]?.birthday : watch(`birthday`),
-        phoneNumber: !watch(`phoneNumber`) ? users[0].phoneNumber : watch(`phoneNumber`)
-      },
-      {
-        headers: {Authorization: `${Cookies.get("TOKEN")}`},
-      }
-    )
-      .then(() => {
-        FetchUser();
-      });
+    changeProfileSet(userData)
+    setTimeout(() => {
+      FetchUser()
+    }, 100)
   };
+
   const repeatPassword = watch(`cPassword`)
 
 
