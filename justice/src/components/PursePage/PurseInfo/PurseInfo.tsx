@@ -65,11 +65,11 @@ const PurseInfo = () => {
     navigate("/purse-page", {replace: true});
   };
 
-
+  const sumWallet = Number(watch(`sum`))
   const addSumWallet = () => {
     const newWalletStorage = wallets?.map((wallet) => {
       if (wallet.currency === currentWallet?.currency)
-        wallet.sum = +Number(currentWallet?.sum) + +Number(watch(`sum`));
+        wallet.sum = +Number(currentWallet?.sum) + +sumWallet;
       setOpenModal(true);
       reset({sum: '', cvc: '', cardNumber: '', cardOrder: '', date: ""})
       return wallet;

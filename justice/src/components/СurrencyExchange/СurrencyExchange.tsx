@@ -29,7 +29,8 @@ const CurrencyExchange = () => {
   const [getValue, setGetValue] = useState<number>();
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true)
-  const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
+  const {FetchExchangeRates} = useActions();
+  const {exchangeRates} = useTypedSelector((state) => state.exchangeRates);
   const {users} = useTypedSelector((state) => state.user);
   const {wallets} = useTypedSelector((state) => state.wallets);
   const {FetchWallets, FetchUser} = useActions();
@@ -110,9 +111,7 @@ const CurrencyExchange = () => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/exchangeRates").then((res) => {
-      setExchangeRates(res.data[0].exchangeRates);
-    });
+    FetchExchangeRates()
   }, []);
 
   useEffect(() => {
@@ -126,10 +125,10 @@ const CurrencyExchange = () => {
     Boolean(!giveValue)
       ? setIsDisabled(true)
       : setIsDisabled(false));
-    exchangeRates?.map((input) => {
+    exchangeRates?.map((input: { currencyName: string; rubleRatio: any; }) => {
       walletGive.length &&
       walletGive[0].currency === input.currencyName &&
-      exchangeRates?.map((output) => {
+      exchangeRates?.map((output: { currencyName: string | undefined; rubleRatio: any; }) => {
         get === output.currencyName &&
         setGetValue(
           Number(

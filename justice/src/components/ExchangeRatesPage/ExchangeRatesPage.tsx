@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect} from "react";
 
 import {NavLink} from "react-router-dom";
 
-import axios from "axios";
 
 import Charts from "./Chart/Chart";
 import SliderRate from "./SliderRate/SliderRate";
@@ -11,18 +10,20 @@ import NavBar from "../NavBar/NavBar";
 import Input from "../UI/Input/Input";
 import ProfileBar from "../ProfileBar/ProfileBar";
 
-import {exchangeRates} from "../../types/exchangeRates";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+import {useActions} from "../../hooks/useAction";
+
 import classes from "./ExchangeRatesPage.module.scss";
 import arrowUpMin from "../../assets/image/ArrowUpMin.svg";
 
 const ExchangeRatesPage = () => {
-  const [exchangeRates, setExchangeRates] = useState<exchangeRates>();
+  const {FetchExchangeRates} = useActions();
+
+  const {exchangeRates} = useTypedSelector((state) => state.exchangeRates);
 
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/exchangeRates").then((res) => {
-      setExchangeRates(res.data[0].exchangeRates);
-    });
+    FetchExchangeRates()
   }, []);
 
   return (
@@ -39,14 +40,13 @@ const ExchangeRatesPage = () => {
           </div>
           <div className={classes.main_wrapper__slider}>
 
-            {exchangeRates
-              ?.map((slide, index) => (
-                <SliderRate
-                  key={index}
-                  currency={slide.currencyName}
-                  rates={slide.rubleRatio}
-                />
-              ))
+            {exchangeRates?.map((slide: { currencyName: string; rubleRatio: string; }, index: React.Key | null | undefined) => (
+              <SliderRate
+                key={index}
+                currency={slide.currencyName}
+                rates={slide.rubleRatio}
+              />
+            ))
               .splice(1, 4)}
 
           </div>

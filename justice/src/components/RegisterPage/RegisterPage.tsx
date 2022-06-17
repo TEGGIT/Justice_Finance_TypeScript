@@ -8,18 +8,18 @@ import {Formik} from "formik";
 
 import * as yup from "yup";
 
-import axios from "axios";
 
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
 import ButtonMui from "../MUI/Button/ButtonMui";
-
+import {useActions} from "../../hooks/useAction";
+import {validationSchemaRegistration} from "../../patterns/patterns";
 
 import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import {validationSchemaRegistration} from "../../patterns/patterns";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 interface InitialValues {
   name: string,
@@ -31,24 +31,19 @@ interface InitialValues {
 const RegisterPage = () => {
 
   const validationsSchema = yup.object().shape({...validationSchemaRegistration});
+  const {CreateUser} = useActions()
+  const {error} = useTypedSelector((state) => state.registration);
 
   const [checked, setChecked] = React.useState<boolean>(false);
-  const [isExistingUser, setIsExistingUser] = useState<boolean>(false)
-
   const navigate = useNavigate();
 
   const registration = (name: string, email: string, password: string) => {
     const submitValue = {name, email, password}
-    axios.post("http://localhost:5000/api/auth/register-page", {
-      name: submitValue.name,
-      email: submitValue.email,
-      password: submitValue.password,
-    }).then(() => {
-      navigate("/login-page", {replace: true});
+    CreateUser(submitValue)
+    error
+    &&
+    navigate("/login-page", {replace: true});
 
-    }).catch(function () {
-      setIsExistingUser(true)
-    });
   };
   return (
     <main className={classes.main}>
@@ -155,7 +150,7 @@ const RegisterPage = () => {
                           <p className={classes.error}>{errors.email}</p>}
                       </div>
 
-                      {!isExistingUser ? (
+                      {!error ? (
                         <Input
                           placeholder="E-mail"
                           name={`email`}
