@@ -35,20 +35,17 @@ const Profile = () => {
 
   const {users} = useTypedSelector((state) => state.user);
 
-  const {FetchUser, changeProfileFetch, changeProfileSet} = useActions();
-
+  const {FetchUser, changeProfileSet, changeProfilePasswordSet} = useActions();
+  const userDataPassword = {
+    password: watch(`oldPassword`),
+    newPassword: watch(`password`),
+  }
   const changePassword = () => {
-    axios.patch("http://localhost:5000/api/profile/changePassword", {
-        password: watch(`oldPassword`),
-        newPassword: watch(`password`),
-      },
-      {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
-    )
-      .then(() => {
-        FetchUser();
-      }).catch(function () {
-      }
-    );
+
+    changeProfilePasswordSet(userDataPassword)
+    setTimeout(() => {
+      FetchUser()
+    }, 100)
     reset({password: '', cPassword: '', oldPassword: ""})
   };
 

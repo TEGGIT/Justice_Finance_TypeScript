@@ -6,6 +6,7 @@ import {exchangeRatesReducer} from './exchangeRates';
 import {registrationReducer} from './registration'
 import {loginReducer} from './login'
 import {changeProfileReducer} from "./changeProfile";
+import {changeProfilePasswordReducer} from "./changeProfilePassword";
 
 export const rootReducer = combineReducers({
 
@@ -15,7 +16,8 @@ export const rootReducer = combineReducers({
   exchangeRates: exchangeRatesReducer,
   registration: registrationReducer,
   login: loginReducer,
-  changeProfile: changeProfileReducer
+  changeProfile: changeProfileReducer,
+  changePassword: changeProfilePasswordReducer,
 
 })
 

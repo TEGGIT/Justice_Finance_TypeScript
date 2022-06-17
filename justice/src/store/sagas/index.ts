@@ -13,7 +13,27 @@ import {LoginActionType} from "../../types/login";
 import {AuthUserError} from "../action-creators/login";
 import {ChangeProfileActionTypes} from "../../types/changeProfile";
 import {Change} from "../action-creators/changeProfile";
+import {ChangeProfilePasswordActionTypes} from "../../types/changeProfilePassword";
+import {ChangePassword} from "../action-creators/changeProfilePassword";
 
+
+export function* changeProfilePasswordWorker(user: { payload: ChangePassword }) {
+  try {
+    yield call(axios.patch, ("http://localhost:5000/api/profile/changePassword"), {
+      password: user.payload.password,
+      newPassword: user.payload.newPassword
+    }, {
+      headers: {Authorization: `${Cookies.get("TOKEN")}`},
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export function* changeProfilePasswordWatcher() {
+  yield takeEvery(ChangeProfilePasswordActionTypes.CHANGE_PROFILE_PASSWORD_SET, changeProfilePasswordWorker)
+
+}
 
 export function* changeProfileWorker(user: { payload: Change }) {
   try {
@@ -53,7 +73,6 @@ export function* loginWorker(user: { payload: { password: string, email: string 
 
   }
 
-
 }
 
 export function* loginWatcher() {
@@ -89,7 +108,6 @@ export function* registrationWatcher() {
 export function* exchangeRatesWorker() {
   try {
     const {data} = yield call(axios.get, "http://localhost:5000/api/exchangeRates")
-    console.log(data[0].exchangeRates)
     yield put(SetExchangeRates(data[0].exchangeRates))
 
   } catch (e) {
@@ -148,6 +166,7 @@ export default function* rootSaga() {
       registrationWatcher(),
       loginWatcher(),
       changeProfileWatcher(),
+      changeProfilePasswordWatcher(),
     ])
 }
 

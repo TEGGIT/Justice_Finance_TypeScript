@@ -9,12 +9,6 @@ export interface Change {
   email: string
 }
 
-export const changeProfileFetch = () => {
-  return {
-    type: ChangeProfileActionTypes.CHANGE_PROFILE_FETCH,
-  }
-};
-
 
 export const changeProfileSet = (payload: Change) => {
   return {
