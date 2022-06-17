@@ -17,7 +17,25 @@ import {ChangeProfilePasswordActionTypes} from "../../types/changeProfilePasswor
 import {ChangePassword} from "../action-creators/changeProfilePassword";
 import {WalletActionTypes} from "../../types/createWallet";
 import {WalletsType} from "../reducers/WalletsReducer";
+import {TransactionActionTypes} from "../../types/transaction";
 
+
+// TODO пофиксить
+export function* transactionWorker(transaction) {
+  try {
+    yield call(axios.patch, ("http://localhost:5000/api/transaction"), {
+        transaction: transaction.payload
+      },
+      {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
+    )
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export function* transactionWatcher() {
+  yield takeEvery(TransactionActionTypes.CREATE_TRANSACTION, transactionWorker)
+}
 
 export function* createWalletWorker(wallet: { payload: WalletsType }) {
   try {
@@ -196,6 +214,7 @@ export default function* rootSaga() {
       changeProfileWatcher(),
       changeProfilePasswordWatcher(),
       createWalletWatcher(),
+      transactionWatcher(),
 
     ])
 }

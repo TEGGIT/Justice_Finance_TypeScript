@@ -7,6 +7,7 @@ import * as LoginActionCreators from '../action-creators/login'
 import * as ChangeProfileCreators from '../action-creators/changeProfile'
 import * as ChangeProfilePasswordCreators from '../action-creators/changeProfilePassword'
 import * as CreateWalletCreators from '../action-creators/createWallet'
+import * as TransactionCreators from '../action-creators/transaction'
 
 export default {
   ...WalletsActionCreators,
@@ -17,6 +18,8 @@ export default {
   ...LoginActionCreators,
   ...ChangeProfileCreators,
   ...ChangeProfilePasswordCreators,
-  ...CreateWalletCreators
+  ...CreateWalletCreators,
+  ...TransactionCreators,
+
 
 }

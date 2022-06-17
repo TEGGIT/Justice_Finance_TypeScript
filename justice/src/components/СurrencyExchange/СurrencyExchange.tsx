@@ -33,7 +33,7 @@ const CurrencyExchange = () => {
   const {exchangeRates} = useTypedSelector((state) => state.exchangeRates);
   const {users} = useTypedSelector((state) => state.user);
   const {wallets} = useTypedSelector((state) => state.wallets);
-  const {FetchWallets, FetchUser} = useActions();
+  const {FetchWallets, FetchUser, transactionUser} = useActions();
   const Data = new Date();
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
@@ -88,25 +88,22 @@ const CurrencyExchange = () => {
       .then(() => {
         FetchWallets();
       });
-
-    axios.patch("http://localhost:5000/api/transaction", {
-        transaction: [
-          ...users[0].transaction,
-          {
-            get,
-            Hour,
-            Minutes,
-            give,
-            giveValue,
-            getValue,
-          },
-        ],
+    const newTransaction = [
+      ...users[0].transaction,
+      {
+        get,
+        Hour,
+        Minutes,
+        give,
+        giveValue,
+        getValue,
       },
-      {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
-    )
-      .then(() => {
-        FetchUser();
-      });
+    ]
+    //TODO пофиксить
+    transactionUser(newTransaction)
+    setTimeout(() => {
+      FetchUser()
+    }, 100)
     setGiveValue(0);
   };
 
@@ -125,6 +122,7 @@ const CurrencyExchange = () => {
     Boolean(!giveValue)
       ? setIsDisabled(true)
       : setIsDisabled(false));
+    //TODO ПОФИКСИТЬ
     exchangeRates?.map((input: { currencyName: string; rubleRatio: any; }) => {
       walletGive.length &&
       walletGive[0].currency === input.currencyName &&
