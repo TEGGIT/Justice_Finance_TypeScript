@@ -12,10 +12,10 @@ import {CreateUserError} from "../action-creators/registration";
 import {LoginActionType} from "../../types/login";
 import {AuthUserError} from "../action-creators/login";
 import {ChangeProfileActionTypes} from "../../types/changeProfile";
-import {changeProfileSet} from "../action-creators/changeProfile";
+import {Change} from "../action-creators/changeProfile";
 
 
-export function* changeProfileWorker(user: { payload: { name: string, email: string, city: string, birthday: string, phoneNumber: number } }) {
+export function* changeProfileWorker(user: { payload: Change }) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/profile"), {
         name: user.payload.name,
@@ -35,6 +35,8 @@ export function* changeProfileWorker(user: { payload: { name: string, email: str
 }
 
 export function* changeProfileWatcher() {
+  // @ts-ignore
+  // TODO пофиксить
   yield takeEvery(ChangeProfileActionTypes.CHANGE_PROFILE_SET, changeProfileWorker)
 }
 

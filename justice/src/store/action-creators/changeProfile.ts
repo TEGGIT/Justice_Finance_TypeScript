@@ -1,5 +1,13 @@
-import {changeDataUserType, ChangeProfileActionTypes} from "../../types/changeProfile";
+import {ChangeProfileActionTypes} from "../../types/changeProfile";
 
+
+export interface Change {
+  birthday: string;
+  phoneNumber: number;
+  city: string;
+  name: string;
+  email: string
+}
 
 export const changeProfileFetch = () => {
   return {
@@ -8,7 +16,7 @@ export const changeProfileFetch = () => {
 };
 
 
-export const changeProfileSet = (payload: changeDataUserType[]) => {
+export const changeProfileSet = (payload: Change) => {
   return {
     type: ChangeProfileActionTypes.CHANGE_PROFILE_SET,
     payload
