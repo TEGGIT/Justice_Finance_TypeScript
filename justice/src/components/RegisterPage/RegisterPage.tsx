@@ -39,9 +39,9 @@ const RegisterPage = () => {
 
   const registration = (name: string, email: string, password: string) => {
     const submitValue = {name, email, password}
+
     CreateUser(submitValue)
-    error
-    &&
+
     navigate("/login-page", {replace: true});
 
   };

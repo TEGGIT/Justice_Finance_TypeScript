@@ -9,6 +9,31 @@ import {SetExchangeRates} from "../action-creators/exchangeRates";
 import {ExchangeRatesTypes} from "../../types/exchangeRates";
 import {RegistrationActionType} from "../../types/registration";
 import {CreateUserError} from "../action-creators/registration";
+import {LoginActionType} from "../../types/login";
+import {AuthUserError} from "../action-creators/login";
+
+
+export function* loginWorker(user: { payload: { password: string, email: string } }) {
+  try {
+    const {data} = yield call(axios.post, ("http://localhost:5000/api/auth/login-page"), {
+      email: user.payload.email,
+      password: user.payload.password
+    })
+    Cookies.set("TOKEN", data.token)
+    yield put(AuthUserError(false))
+  } catch (e) {
+    yield put(AuthUserError(true))
+
+  }
+
+
+}
+
+export function* loginWatcher() {
+  // TODO пофиксить
+  // @ts-ignore
+  yield takeEvery(LoginActionType.LOGIN_USER_SUCCESS, loginWorker)
+}
 
 
 export function* registrationWorker(user: { payload: { name: string, email: string, password: string } }) {
@@ -22,12 +47,13 @@ export function* registrationWorker(user: { payload: { name: string, email: stri
 
   } catch (e) {
     yield put(CreateUserError(true))
+
   }
 }
 
 
 export function* registrationWatcher() {
-
+  // TODO пофиксить
   // @ts-ignore
   yield takeEvery(RegistrationActionType.CREATE_USER_SUCCESS, registrationWorker)
 }
@@ -87,7 +113,7 @@ export function* userDataWatcher() {
 
 
 export default function* rootSaga() {
-  yield all([userDataWatcher(), walletsDataWatcher(), exchangeRatesWatcher(), registrationWatcher()])
+  yield all([userDataWatcher(), walletsDataWatcher(), exchangeRatesWatcher(), registrationWatcher(), loginWatcher()])
 }
 
 

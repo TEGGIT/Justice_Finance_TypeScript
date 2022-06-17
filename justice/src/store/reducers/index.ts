@@ -4,6 +4,7 @@ import {walletsReducer} from "./WalletsReducer";
 import {authReducer} from './authReducer'
 import {exchangeRatesReducer} from './exchangeRates';
 import {registrationReducer} from './registration'
+import {loginReducer} from './login'
 
 export const rootReducer = combineReducers({
 
@@ -11,7 +12,8 @@ export const rootReducer = combineReducers({
   wallets: walletsReducer,
   auth: authReducer,
   exchangeRates: exchangeRatesReducer,
-  registration: registrationReducer
+  registration: registrationReducer,
+  login: loginReducer
 
 })
 

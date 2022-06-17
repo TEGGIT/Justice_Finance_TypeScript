@@ -13,7 +13,7 @@ export const registrationReducer = (state = initialState, action: RegistrationAc
     case RegistrationActionType.CREATE_USER_SUCCESS:
       return {
         ...state,
-        user: action.payload
+        payload: action.payload
       }
     case RegistrationActionType.CREATE_USER_ERROR:
       return {
