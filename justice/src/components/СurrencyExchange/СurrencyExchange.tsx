@@ -13,7 +13,7 @@ import ButtonMui from "../MUI/Button/ButtonMui";
 import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 
-import {exchangeRates} from "../../types/exchangeRates";
+// import {exchangeRates} from "../../types/exchangeRates";
 import {CurrencyType} from "../../types/currency";
 
 import classes from "./СurrencyExchange.module.scss";
@@ -33,7 +33,7 @@ const CurrencyExchange = () => {
   const {exchangeRates} = useTypedSelector((state) => state.exchangeRates);
   const {users} = useTypedSelector((state) => state.user);
   const {wallets} = useTypedSelector((state) => state.wallets);
-  const {FetchWallets, FetchUser, transactionUser} = useActions();
+  const {FetchWallets, FetchUser, transactionUser, updateWalletUser} = useActions();
   const Data = new Date();
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
@@ -74,20 +74,11 @@ const CurrencyExchange = () => {
     setOpenModal(true);
 
     setIsDisabled(true);
-
-    axios
-      .patch(
-        "http://localhost:5000/api/wallets/update",
-        {
-          wallets: [...refreshWalletSum],
-        },
-        {
-          headers: {Authorization: `${Cookies.get("TOKEN")}`},
-        }
-      )
-      .then(() => {
-        FetchWallets();
-      });
+    // TODO пофиксить
+    updateWalletUser([...refreshWalletSum])
+    setTimeout(() => {
+      FetchWallets()
+    }, 100)
     const newTransaction = [
       ...users[0].transaction,
       {

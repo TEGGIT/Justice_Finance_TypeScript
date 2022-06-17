@@ -21,6 +21,7 @@ import {useTypedSelector} from "../../../hooks/useTypesSelector";
 import {WalletsType} from "../../../store/reducers/WalletsReducer";
 import Modal from "../../UI/Modal/Modal";
 import {patterns} from "../../../patterns/patterns";
+import {useActions} from "../../../hooks/useAction";
 
 type Inputs = {
   sum: number | '';
@@ -38,6 +39,7 @@ const PurseInfo = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
+  const {updateWalletUser, removeWalletUser} = useActions();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -53,15 +55,9 @@ const PurseInfo = () => {
     const newWallets =
       currentWallet &&
       wallets.filter((wallet) => wallet.currency !== currentWallet.currency);
-    axios.patch("http://localhost:5000/api/wallets/remove", {
-        wallets: newWallets,
-      },
-      {
-        headers: {Authorization: `${Cookies.get("TOKEN")}`},
-      }
-    )
-      .then(() => {
-      });
+    //TODO пофиксить
+    removeWalletUser(newWallets)
+
     navigate("/purse-page", {replace: true});
   };
 
@@ -74,16 +70,8 @@ const PurseInfo = () => {
       reset({sum: '', cvc: '', cardNumber: '', cardOrder: '', date: ""})
       return wallet;
     });
-
-    axios.patch("http://localhost:5000/api/wallets/update", {
-        wallets: [...newWalletStorage],
-      },
-      {
-        headers: {Authorization: `${Cookies.get("TOKEN")}`},
-      }
-    )
-      .then(() => {
-      });
+    //TODO пофиксить
+    updateWalletUser([...newWalletStorage])
   }
   const isValue = Boolean(errors.sum || errors.cvc || errors.date || errors.cardNumber || errors.cardOrder
     ||

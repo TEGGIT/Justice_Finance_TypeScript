@@ -18,7 +18,50 @@ import {ChangePassword} from "../action-creators/changeProfilePassword";
 import {WalletActionTypes} from "../../types/createWallet";
 import {WalletsType} from "../reducers/WalletsReducer";
 import {TransactionActionTypes} from "../../types/transaction";
+import {UpdateWalletActionTypes} from "../../types/updateWallet";
+import {RemoveWalletActionTypes} from "../../types/removeWallet";
 
+
+//TODO пофиксить
+export function* removeWalletWorker(removeWallet) {
+  try {
+    yield call(axios.patch, ("http://localhost:5000/api/wallets/remove"), {
+        wallets: removeWallet.payload,
+      },
+      {
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      }
+    )
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export function* removeWalletWatcher() {
+  yield takeEvery(RemoveWalletActionTypes.REMOVE_WALLETS, removeWalletWorker)
+
+}
+
+
+// TODO пофиксить
+export function* updateWalletWorker(updateWallet) {
+  try {
+    yield call(axios.patch, ("http://localhost:5000/api/wallets/update"), {
+        wallets: updateWallet.payload,
+      },
+      {
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      }
+    )
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export function* updateWalletWatcher() {
+  yield takeEvery(UpdateWalletActionTypes.UPDATE_WALLETS, updateWalletWorker)
+
+}
 
 // TODO пофиксить
 export function* transactionWorker(transaction) {
@@ -215,6 +258,8 @@ export default function* rootSaga() {
       changeProfilePasswordWatcher(),
       createWalletWatcher(),
       transactionWatcher(),
+      updateWalletWatcher(),
+      removeWalletWatcher()
 
     ])
 }

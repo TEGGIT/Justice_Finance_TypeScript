@@ -8,6 +8,8 @@ import * as ChangeProfileCreators from '../action-creators/changeProfile'
 import * as ChangeProfilePasswordCreators from '../action-creators/changeProfilePassword'
 import * as CreateWalletCreators from '../action-creators/createWallet'
 import * as TransactionCreators from '../action-creators/transaction'
+import * as UpdateWalletCreators from '../action-creators/updateWallet'
+import * as RemoveWalletCreators from '../action-creators/removeWallet'
 
 export default {
   ...WalletsActionCreators,
@@ -20,6 +22,8 @@ export default {
   ...ChangeProfilePasswordCreators,
   ...CreateWalletCreators,
   ...TransactionCreators,
+  ...UpdateWalletCreators,
+  ...RemoveWalletCreators
 
 
 }

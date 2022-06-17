@@ -9,6 +9,8 @@ import {changeProfileReducer} from "./changeProfile";
 import {changeProfilePasswordReducer} from "./changeProfilePassword";
 import {createWalletReducer} from "./createWallet";
 import {transactionReducer} from "./transaction";
+import {updateWalletReducer} from "./updateWallet";
+import {removeWalletReducer} from "./removeWallet";
 
 export const rootReducer = combineReducers({
 
@@ -22,6 +24,8 @@ export const rootReducer = combineReducers({
   changePassword: changeProfilePasswordReducer,
   createWallet: createWalletReducer,
   transaction: transactionReducer,
+  updateWallet: updateWalletReducer,
+  removeWallet: removeWalletReducer,
 
 })
 
