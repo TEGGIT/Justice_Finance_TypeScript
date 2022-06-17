@@ -15,7 +15,33 @@ import {ChangeProfileActionTypes} from "../../types/changeProfile";
 import {Change} from "../action-creators/changeProfile";
 import {ChangeProfilePasswordActionTypes} from "../../types/changeProfilePassword";
 import {ChangePassword} from "../action-creators/changeProfilePassword";
+import {WalletActionTypes} from "../../types/createWallet";
+import {WalletsType} from "../reducers/WalletsReducer";
 
+
+export function* createWalletWorker(wallet: { payload: WalletsType }) {
+  try {
+    yield call(axios.patch, ("http://localhost:5000/api/wallets/create"), {
+        wallets: wallet.payload
+      },
+      {
+        headers: {
+          Authorization: `${Cookies.get("TOKEN")}`,
+        },
+      }
+    )
+    console.log(wallet)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export function* createWalletWatcher() {
+  // @ts-ignore
+  // TODO пофиксить
+  yield takeEvery(WalletActionTypes.CREATE_NEW_WALLET, createWalletWorker)
+
+}
 
 export function* changeProfilePasswordWorker(user: { payload: ChangePassword }) {
   try {
@@ -31,6 +57,8 @@ export function* changeProfilePasswordWorker(user: { payload: ChangePassword }) 
 }
 
 export function* changeProfilePasswordWatcher() {
+  // @ts-ignore
+  // TODO пофиксить
   yield takeEvery(ChangeProfilePasswordActionTypes.CHANGE_PROFILE_PASSWORD_SET, changeProfilePasswordWorker)
 
 }
@@ -167,6 +195,8 @@ export default function* rootSaga() {
       loginWatcher(),
       changeProfileWatcher(),
       changeProfilePasswordWatcher(),
+      createWalletWatcher(),
+
     ])
 }
 

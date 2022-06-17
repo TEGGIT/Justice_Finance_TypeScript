@@ -65,7 +65,7 @@ const PursePage = () => {
 
   const {wallets} = useTypedSelector((state) => state.wallets) ?? {};
 
-  const {FetchWallets} = useActions();
+  const {FetchWallets, createWalletUser} = useActions();
 
 
   const newArrayCountry = countryIcon.filter(country => !wallets.find(wal => wal.currency === country?.currency))
@@ -94,26 +94,20 @@ const PursePage = () => {
       setModalErrorIsOpen(true);
     } else {
       setOpenModal(true);
-
-      axios.patch("http://localhost:5000/api/wallets/create", {
-          wallets: [
-            ...wallets,
-            {
-              currency,
-              purseNumber: numberPurse,
-              sum: 0,
-            },
-          ],
-        },
+      const newWallet = [
+        ...wallets,
         {
-          headers: {
-            Authorization: `${Cookies.get("TOKEN")}`,
-          },
-        }
-      )
-        .then(() => {
-          FetchWallets();
-        });
+          currency,
+          purseNumber: numberPurse,
+          sum: 0,
+        },
+      ]
+      createWalletUser(newWallet)
+      setTimeout(() => {
+        FetchWallets()
+      }, 100)
+
+
       setNumberPurse(0)
     }
   };
