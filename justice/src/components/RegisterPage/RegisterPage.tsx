@@ -8,7 +8,6 @@ import {Formik} from "formik";
 
 import * as yup from "yup";
 
-import axios from "axios";
 
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
@@ -20,6 +19,7 @@ import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 interface InitialValues {
   name: string,
@@ -32,15 +32,18 @@ const RegisterPage = () => {
 
   const validationsSchema = yup.object().shape({...validationSchemaRegistration});
   const {CreateUser} = useActions()
-  const [checked, setChecked] = React.useState<boolean>(false);
-  const [isExistingUser, setIsExistingUser] = useState<boolean>(false)
+  const {error} = useTypedSelector((state) => state.registration);
 
+  const [checked, setChecked] = React.useState<boolean>(false);
   const navigate = useNavigate();
 
   const registration = (name: string, email: string, password: string) => {
     const submitValue = {name, email, password}
-
     CreateUser(submitValue)
+    error
+    &&
+    navigate("/login-page", {replace: true});
+
   };
   return (
     <main className={classes.main}>
@@ -147,7 +150,7 @@ const RegisterPage = () => {
                           <p className={classes.error}>{errors.email}</p>}
                       </div>
 
-                      {!isExistingUser ? (
+                      {!error ? (
                         <Input
                           placeholder="E-mail"
                           name={`email`}

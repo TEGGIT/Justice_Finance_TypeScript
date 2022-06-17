@@ -3,7 +3,8 @@ import {RegistrationAction, RegistrationActionType} from '../../types/registrati
 const initialState = {
   name: null,
   email: null,
-  password: null
+  password: null,
+  error: null
 }
 
 export const registrationReducer = (state = initialState, action: RegistrationAction) => {
@@ -12,7 +13,12 @@ export const registrationReducer = (state = initialState, action: RegistrationAc
     case RegistrationActionType.CREATE_USER_SUCCESS:
       return {
         ...state,
-        exchangeRates: action.payload
+        user: action.payload
+      }
+    case RegistrationActionType.CREATE_USER_ERROR:
+      return {
+        ...state,
+        error: action.payload
       }
 
     default: {

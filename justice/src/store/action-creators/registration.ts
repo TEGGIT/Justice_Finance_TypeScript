@@ -7,3 +7,10 @@ export const CreateUser = (payload: RegistrationAction) => {
     payload
   }
 }
+
+export const CreateUserError = (payload: boolean) => {
+  return {
+    type: RegistrationActionType.CREATE_USER_ERROR,
+    payload
+  }
+}

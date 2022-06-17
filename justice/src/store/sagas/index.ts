@@ -8,23 +8,26 @@ import {WalletsActionTypes} from "../../types/wallets";
 import {SetExchangeRates} from "../action-creators/exchangeRates";
 import {ExchangeRatesTypes} from "../../types/exchangeRates";
 import {RegistrationActionType} from "../../types/registration";
+import {CreateUserError} from "../action-creators/registration";
 
 
-export function* registrationWorker(user: {payload: {name: string, email: string, password: string}}) {
+export function* registrationWorker(user: { payload: { name: string, email: string, password: string } }) {
   try {
-    axios.post("http://localhost:5000/api/auth/register-page", {
+    yield call(axios.post, ("http://localhost:5000/api/auth/register-page"), {
       name: user.payload.name,
       email: user.payload.email,
       password: user.payload.password,
-    }).then()
-    console.log(user.payload)
+    })
+    yield put(CreateUserError(false))
+
   } catch (e) {
-    console.error(e)
+    yield put(CreateUserError(true))
   }
 }
 
 
 export function* registrationWatcher() {
+
   // @ts-ignore
   yield takeEvery(RegistrationActionType.CREATE_USER_SUCCESS, registrationWorker)
 }
