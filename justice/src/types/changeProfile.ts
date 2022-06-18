@@ -4,6 +4,7 @@ export enum ChangeProfileActionTypes {
 }
 
 export type changeDataUserType = {
+
   email: string;
   password: string;
   name: string;
@@ -15,12 +16,12 @@ export type changeDataUserType = {
 
 interface ChangeProfileAction {
   type: ChangeProfileActionTypes.CHANGE_PROFILE_FETCH;
-  payload: changeDataUserType[];
+  payload: changeDataUserType;
 }
 
 interface ChangeProfileSetAction {
   type: ChangeProfileActionTypes.CHANGE_PROFILE_SET;
-  payload: changeDataUserType[];
+  payload: changeDataUserType;
 }
 
 export type ChangeProfileType =

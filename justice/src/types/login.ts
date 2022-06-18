@@ -5,7 +5,7 @@ export enum LoginActionType {
 
 interface LoginActionTypeActionInterface {
   payload?: { password: null; email: null };
-  type?: LoginActionType
+  type: LoginActionType
   email: string,
   error?: boolean
   password: string

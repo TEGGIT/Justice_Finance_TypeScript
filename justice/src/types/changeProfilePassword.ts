@@ -4,14 +4,14 @@ export enum ChangeProfilePasswordActionTypes {
 
 export type changeDataUserPasswordType = {
   password: string;
+  newPassword: string
   oldPassword: string
 
 }
 
-
 interface ChangeProfileSetAction {
   type: ChangeProfilePasswordActionTypes.CHANGE_PROFILE_PASSWORD_SET;
-  payload: changeDataUserPasswordType[];
+  payload: changeDataUserPasswordType;
 }
 
 export type ChangeProfilePasswordType =

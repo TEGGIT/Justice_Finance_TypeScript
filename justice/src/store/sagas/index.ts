@@ -4,29 +4,25 @@ import Cookies from "js-cookie";
 import {SetUsers} from "../action-creators/user";
 import {UsersActionTypes} from "../../types/user";
 import {SetWallets} from "../action-creators/wallets";
-import {WalletsActionTypes} from "../../types/wallets";
+import {WalletsAction, WalletsActionTypes} from "../../types/wallets";
 import {SetExchangeRates} from "../action-creators/exchangeRates";
 import {ExchangeRatesTypes} from "../../types/exchangeRates";
-import {RegistrationActionType} from "../../types/registration";
+import {RegistrationAction, RegistrationActionType} from "../../types/registration";
 import {CreateUserError} from "../action-creators/registration";
-import {LoginActionType} from "../../types/login";
+import {LoginAction, LoginActionType} from "../../types/login";
 import {AuthUserError} from "../action-creators/login";
-import {ChangeProfileActionTypes} from "../../types/changeProfile";
-import {Change} from "../action-creators/changeProfile";
-import {ChangeProfilePasswordActionTypes} from "../../types/changeProfilePassword";
-import {ChangePassword} from "../action-creators/changeProfilePassword";
+import {ChangeProfileActionTypes, ChangeProfileType} from "../../types/changeProfile";
+import {ChangeProfilePasswordActionTypes, ChangeProfilePasswordType} from "../../types/changeProfilePassword";
 import {WalletActionTypes} from "../../types/createWallet";
-import {WalletsType} from "../reducers/WalletsReducer";
-import {TransactionActionTypes} from "../../types/transaction";
-import {UpdateWalletActionTypes} from "../../types/updateWallet";
-import {RemoveWalletActionTypes} from "../../types/removeWallet";
+import {TransactionAction, TransactionActionTypes} from "../../types/transaction";
+import {UpdateWalletActionTypes, UpdateWalletType} from "../../types/updateWallet";
+import {RemoveWalletActionTypes, RemoveWalletType} from "../../types/removeWallet";
 
 
-//TODO пофиксить
-export function* removeWalletWorker(removeWallet) {
+export function* removeWalletWorker(removeWallet: RemoveWalletType) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/wallets/remove"), {
-        wallets: removeWallet.payload,
+        wallets: removeWallet?.payload,
       },
       {
         headers: {Authorization: `${Cookies.get("TOKEN")}`},
@@ -39,15 +35,12 @@ export function* removeWalletWorker(removeWallet) {
 
 export function* removeWalletWatcher() {
   yield takeEvery(RemoveWalletActionTypes.REMOVE_WALLETS, removeWalletWorker)
-
 }
 
-
-// TODO пофиксить
-export function* updateWalletWorker(updateWallet) {
+export function* updateWalletWorker(updateWallet: UpdateWalletType) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/wallets/update"), {
-        wallets: updateWallet.payload,
+        wallets: updateWallet?.payload,
       },
       {
         headers: {Authorization: `${Cookies.get("TOKEN")}`},
@@ -63,11 +56,10 @@ export function* updateWalletWatcher() {
 
 }
 
-// TODO пофиксить
-export function* transactionWorker(transaction) {
+export function* transactionWorker(transaction: TransactionAction) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/transaction"), {
-        transaction: transaction.payload
+        transaction: transaction?.payload
       },
       {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
     )
@@ -79,11 +71,10 @@ export function* transactionWorker(transaction) {
 export function* transactionWatcher() {
   yield takeEvery(TransactionActionTypes.CREATE_TRANSACTION, transactionWorker)
 }
-
-export function* createWalletWorker(wallet: { payload: WalletsType }) {
+export function* createWalletWorker(wallet:WalletsAction) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/wallets/create"), {
-        wallets: wallet.payload
+        wallets: wallet?.payload
       },
       {
         headers: {
@@ -98,17 +89,14 @@ export function* createWalletWorker(wallet: { payload: WalletsType }) {
 }
 
 export function* createWalletWatcher() {
-  // @ts-ignore
-  // TODO пофиксить
   yield takeEvery(WalletActionTypes.CREATE_NEW_WALLET, createWalletWorker)
-
 }
 
-export function* changeProfilePasswordWorker(user: { payload: ChangePassword }) {
+export function* changeProfilePasswordWorker(user:ChangeProfilePasswordType) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/profile/changePassword"), {
-      password: user.payload.password,
-      newPassword: user.payload.newPassword
+      password: user.payload?.password,
+      newPassword: user.payload?.newPassword
     }, {
       headers: {Authorization: `${Cookies.get("TOKEN")}`},
     })
@@ -118,20 +106,18 @@ export function* changeProfilePasswordWorker(user: { payload: ChangePassword }) 
 }
 
 export function* changeProfilePasswordWatcher() {
-  // @ts-ignore
-  // TODO пофиксить
   yield takeEvery(ChangeProfilePasswordActionTypes.CHANGE_PROFILE_PASSWORD_SET, changeProfilePasswordWorker)
 
 }
 
-export function* changeProfileWorker(user: { payload: Change }) {
+export function* changeProfileWorker(user:ChangeProfileType) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/profile"), {
-        name: user.payload.name,
-        email: user.payload.email,
-        city: user.payload.city,
-        birthday: user.payload.birthday,
-        phoneNumber: user.payload.phoneNumber
+        name: user.payload?.name,
+        email: user.payload?.email,
+        city: user.payload?.city,
+        birthday: user.payload?.birthday,
+        phoneNumber: user.payload?.phoneNumber
 
       },
       {
@@ -144,16 +130,15 @@ export function* changeProfileWorker(user: { payload: Change }) {
 }
 
 export function* changeProfileWatcher() {
-  // @ts-ignore
-  // TODO пофиксить
+
   yield takeEvery(ChangeProfileActionTypes.CHANGE_PROFILE_SET, changeProfileWorker)
 }
 
-export function* loginWorker(user: { payload: { password: string, email: string } }) {
+export function* loginWorker(user: LoginAction) {
   try {
     const {data} = yield call(axios.post, ("http://localhost:5000/api/auth/login-page"), {
-      email: user.payload.email,
-      password: user.payload.password
+      email: user.payload?.email,
+      password: user.payload?.password
     })
     Cookies.set("TOKEN", data.token)
     yield put(AuthUserError(false))
@@ -165,18 +150,15 @@ export function* loginWorker(user: { payload: { password: string, email: string 
 }
 
 export function* loginWatcher() {
-  // TODO пофиксить
-  // @ts-ignore
   yield takeEvery(LoginActionType.LOGIN_USER_SUCCESS, loginWorker)
 }
 
-
-export function* registrationWorker(user: { payload: { name: string, email: string, password: string } }) {
+export function* registrationWorker(user:RegistrationAction ) {
   try {
     yield call(axios.post, ("http://localhost:5000/api/auth/register-page"), {
-      name: user.payload.name,
-      email: user.payload.email,
-      password: user.payload.password,
+      name: user.payload?.name,
+      email: user.payload?.email,
+      password: user.payload?.password,
     })
     yield put(CreateUserError(false))
 
@@ -186,13 +168,9 @@ export function* registrationWorker(user: { payload: { name: string, email: stri
   }
 }
 
-
 export function* registrationWatcher() {
-  // TODO пофиксить
-  // @ts-ignore
   yield takeEvery(RegistrationActionType.CREATE_USER_SUCCESS, registrationWorker)
 }
-
 
 export function* exchangeRatesWorker() {
   try {
