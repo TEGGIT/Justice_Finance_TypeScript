@@ -215,7 +215,8 @@ export function* userDataWorker() {
     })
     yield put(SetUsers(data))
   } catch (e) {
-    console.error(e)
+    alert('Пройдите повторную авторизацию')
+    window.location.href = '/login-page'
   }
 }
 
