@@ -1,20 +1,21 @@
-import {ExchangeAction, ExchangeRatesTypes} from "../../types/exchangeRates";
+import {ExchangeAction, exchangeRates, ExchangeRatesTypes} from "../../types/exchangeRates";
 
-const initialState = {
-  exchangeRates: []
-}
-
-export const exchangeRatesReducer = (state = initialState, action: ExchangeAction) => {
-
-  switch (action.type) {
-    case ExchangeRatesTypes.EXCHANGE_RATES_SET:
-      return {
-        ...state,
-        exchangeRates: action.payload
-      }
-
-    default: {
-      return state
+const initialState: exchangeRates = [
+    {
+        currencyName: null,
+        rubleRatio: null,
     }
-  }
+]
+
+export const exchangeRatesReducer = (state: exchangeRates = initialState, action: ExchangeAction) => {
+    switch (action.type) {
+        case ExchangeRatesTypes.EXCHANGE_RATES_SET:
+            return [
+                ...action.payload
+            ]
+
+        default: {
+            return state
+        }
+    }
 }

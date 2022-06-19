@@ -10,9 +10,6 @@ import NavBar from "../NavBar/NavBar";
 import ProfileBar from "../ProfileBar/ProfileBar";
 import Modal from "../UI/Modal/Modal";
 
-import axios from "axios";
-import Cookies from "js-cookie";
-
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {useActions} from "../../hooks/useAction";
 
@@ -27,6 +24,8 @@ import arrowRightSlide from '../../assets/image/ButtonRight.svg'
 import arrowLeftSlide from '../../assets/image/LeftButtonSlide.svg'
 import wallet from "../../assets/image/wallet.svg";
 import WalletsIcon from "../../assets/image/WalletIcon.svg";
+import {WalletsType} from "../../store/reducers/WalletsReducer";
+import {CreateWalletType} from "../../types/createWallet";
 
 const PursePage = () => {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
@@ -65,7 +64,7 @@ const PursePage = () => {
 
   const {wallets} = useTypedSelector((state) => state.wallets) ?? {};
 
-  const {FetchWallets} = useActions();
+  const {FetchWallets, createWalletUser} = useActions();
 
 
   const newArrayCountry = countryIcon.filter(country => !wallets.find(wal => wal.currency === country?.currency))
@@ -94,26 +93,20 @@ const PursePage = () => {
       setModalErrorIsOpen(true);
     } else {
       setOpenModal(true);
-
-      axios.patch("http://localhost:5000/api/wallets/create", {
-          wallets: [
-            ...wallets,
-            {
-              currency,
-              purseNumber: numberPurse,
-              sum: 0,
-            },
-          ],
-        },
+      const newWallet: CreateWalletType[] = [
+        ...wallets,
         {
-          headers: {
-            Authorization: `${Cookies.get("TOKEN")}`,
-          },
-        }
-      )
-        .then(() => {
-          FetchWallets();
-        });
+          currency,
+          purseNumber: numberPurse,
+          sum: 0,
+        },
+      ]
+      createWalletUser(newWallet)
+      setTimeout(() => {
+        FetchWallets()
+      }, 100)
+
+
       setNumberPurse(0)
     }
   };
@@ -137,7 +130,7 @@ const PursePage = () => {
     setCurrency(event.target.value as CurrencyType);
   };
 
-  const walletLink = (wallet: { currency: string }) => {
+  const walletLink = (wallet: WalletsType) => {
     navigate(`/purse-info-page/#${wallet.currency}`, {replace: true});
   };
 
@@ -165,7 +158,7 @@ const PursePage = () => {
                       key={index}
                       countryName={wallet.currency}
                       country={wallet.currency}
-                      count={wallet.sum.toFixed(2)}
+                      count={wallet.sum?.toFixed(2)}
                       countryCounter={wallet.currency}
                       onClick={() => walletLink(wallet)}
                     />
@@ -196,7 +189,7 @@ const PursePage = () => {
                       key={index}
                       countryName={wallet.currency}
                       country={wallet.currency}
-                      count={wallet.sum.toFixed(2)}
+                      count={wallet.sum?.toFixed(2)}
                       countryCounter={wallet.currency}
                       onClick={() => walletLink(wallet)}
                     />

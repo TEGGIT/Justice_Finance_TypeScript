@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
 
-import axios from "axios";
-import Cookies from "js-cookie";
 
 import Modal from "../UI/Modal/Modal";
 import NavBar from "../NavBar/NavBar";
@@ -13,13 +11,14 @@ import ButtonMui from "../MUI/Button/ButtonMui";
 import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 
-import {exchangeRates} from "../../types/exchangeRates";
 import {CurrencyType} from "../../types/currency";
 
 import classes from "./СurrencyExchange.module.scss";
 
 import exchange from "../../assets/image/exchange.svg";
 import exchangeRatesIcon from "../../assets/image/ExchangeIcon.svg";
+import {TransactionType} from "../../types/transaction";
+import {exchangeRates} from "../../types/exchangeRates";
 
 const CurrencyExchange = () => {
   const [give, setGive] = useState<CurrencyType>();
@@ -30,10 +29,10 @@ const CurrencyExchange = () => {
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true)
   const {FetchExchangeRates} = useActions();
-  const {exchangeRates} = useTypedSelector((state) => state.exchangeRates);
+  const exchangeRates: exchangeRates = useTypedSelector((state) => state.exchangeRates);
   const {users} = useTypedSelector((state) => state.user);
   const {wallets} = useTypedSelector((state) => state.wallets);
-  const {FetchWallets, FetchUser} = useActions();
+  const {FetchWallets, FetchUser, transactionUser, updateWalletUser} = useActions();
   const Data = new Date();
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
@@ -74,39 +73,25 @@ const CurrencyExchange = () => {
     setOpenModal(true);
 
     setIsDisabled(true);
-
-    axios
-      .patch(
-        "http://localhost:5000/api/wallets/update",
-        {
-          wallets: [...refreshWalletSum],
-        },
-        {
-          headers: {Authorization: `${Cookies.get("TOKEN")}`},
-        }
-      )
-      .then(() => {
-        FetchWallets();
-      });
-
-    axios.patch("http://localhost:5000/api/transaction", {
-        transaction: [
-          ...users[0].transaction,
-          {
-            get,
-            Hour,
-            Minutes,
-            give,
-            giveValue,
-            getValue,
-          },
-        ],
+    updateWalletUser([...refreshWalletSum])
+    setTimeout(() => {
+      FetchWallets()
+    }, 100)
+    const newTransaction:  TransactionType[] = [
+      ...users[0].transaction,
+      {
+        get,
+        Hour,
+        Minutes,
+        give,
+        giveValue,
+        getValue,
       },
-      {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
-    )
-      .then(() => {
-        FetchUser();
-      });
+    ]
+    transactionUser(newTransaction)
+    setTimeout(() => {
+      FetchUser()
+    }, 100)
     setGiveValue(0);
   };
 
@@ -125,10 +110,11 @@ const CurrencyExchange = () => {
     Boolean(!giveValue)
       ? setIsDisabled(true)
       : setIsDisabled(false));
-    exchangeRates?.map((input: { currencyName: string; rubleRatio: any; }) => {
+    //TODO ПОФИКСИТЬ
+    exchangeRates.map((input: { currencyName: CurrencyType; rubleRatio: string | null; }) => {
       walletGive.length &&
       walletGive[0].currency === input.currencyName &&
-      exchangeRates?.map((output: { currencyName: string | undefined; rubleRatio: any; }) => {
+      exchangeRates?.map((output: { currencyName: CurrencyType; rubleRatio: string | null; }) => {
         get === output.currencyName &&
         setGetValue(
           Number(

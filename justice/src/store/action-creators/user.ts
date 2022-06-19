@@ -15,23 +15,3 @@ export const SetUsers = (payload: UserType[]) => {
   }
 };
 
-
-// return async (dispatch: Dispatch<UserAction>) => {
-//   try {
-//     dispatch({
-//       type: UsersActionTypes.FETCH_USERS,
-//     });
-//     dispatch({
-//       type: UsersActionTypes.FETCH_USERS_SUCCESS,
-//       payload
-//     });
-//   } catch (e) {
-//     dispatch({
-//       type: UsersActionTypes.FETCH_USERS_ERROR,
-//       payload: "Произошла ошибка при загрузке данных",
-//     });
-//     Cookies.remove("TOKEN");
-//     window.location.href = '/'
-//   }
-// };
-

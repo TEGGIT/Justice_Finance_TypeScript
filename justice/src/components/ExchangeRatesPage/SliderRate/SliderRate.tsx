@@ -4,8 +4,8 @@ import arrowUp from "../../../assets/image/ArrowUp.svg";
 import {CurrencyType} from "../../../types/currency";
 
 interface currencyExchange {
-  currency: CurrencyType | string;
-  rates: string;
+  currency: CurrencyType
+  rates: string | null;
 }
 
 const SliderRate: React.FC<currencyExchange> = (props) => {

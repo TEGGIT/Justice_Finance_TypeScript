@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 import {NavLink, useNavigate} from "react-router-dom";
@@ -24,6 +24,7 @@ import image from "../../assets/image/IllustrationOne.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
 import {validationSchemaLogin} from "../../patterns/patterns";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 interface InitialValues {
   email: string,
@@ -33,26 +34,30 @@ interface InitialValues {
 const LoginPage = () => {
 
   const validationsSchema = yup.object().shape({...validationSchemaLogin});
-
-  const [isNotExistingUser, setNotIsExistingUser] = useState<boolean>(false)
-
-  const {loginUser} = useActions();
+  const {error} = useTypedSelector((state) => state.login);
+  const [test, setTest] = useState<boolean>(false)
+  const {loginUser, AuthUser} = useActions();
 
   const navigate = useNavigate();
 
+
   const checkUser = ({email, password}: { email: string, password: string }) => {
-    axios.post("http://localhost:5000/api/auth/login-page", {
-      email,
-      password,
-    }).then(res => {
-      Cookies.set("TOKEN", res.data.token);
-      loginUser(true)
-      navigate("/exchange-rates-page", {replace: true});
-    }).catch(function (e) {
-      setNotIsExistingUser(true)
-    })
+
+    AuthUser({email, password})
 
   };
+
+  useEffect(() => {
+    if (error === false) {
+      setTest(true)
+    }
+
+    if (test) {
+      loginUser(true)
+      navigate("/exchange-rates-page", {replace: true})
+    }
+  }, [error, test])
+
 
   return (
     <main className={classes.main}>
@@ -138,7 +143,7 @@ const LoginPage = () => {
                     <div className={classes.input_wrapper}>
 
 
-                      {!isNotExistingUser ? (
+                      {!error ? (
                         <>
                           <div className={classes.error_wrapper}>
                             {touched.email && errors.email &&

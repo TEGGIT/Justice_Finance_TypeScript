@@ -11,9 +11,6 @@ import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {patterns} from "../../patterns/patterns";
 
-import axios from "axios";
-import Cookies from "js-cookie";
-
 import classes from "./Profile.module.scss";
 
 type Inputs = {
@@ -31,44 +28,39 @@ type Inputs = {
 const Profile = () => {
 
   const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
-
   const onSubmit: SubmitHandler<Inputs> = data => (data);
 
   const {users} = useTypedSelector((state) => state.user);
 
-  const {FetchUser} = useActions();
-
+  const {FetchUser, changeProfileSet, changeProfilePasswordSet} = useActions();
+  const userDataPassword = {
+    password: watch(`oldPassword`),
+    newPassword: watch(`password`),
+  }
   const changePassword = () => {
-    axios.patch("http://localhost:5000/api/profile/changePassword", {
-        password: watch(`oldPassword`),
-        newPassword: watch(`password`),
-      },
-      {headers: {Authorization: `${Cookies.get("TOKEN")}`}}
-    )
-      .then(() => {
-        FetchUser();
-      }).catch(function () {
-      }
-    );
+
+    changeProfilePasswordSet(userDataPassword)
+    setTimeout(() => {
+      FetchUser()
+    }, 100)
     reset({password: '', cPassword: '', oldPassword: ""})
   };
 
+  const userData = {
+    name: !watch(`name`) ? users[0]?.name : watch(`name`),
+    email: !watch(`email`) ? users[0]?.email : watch(`email`),
+    city: !watch(`city`) ? users[0]?.city : watch(`city`),
+    birthday: !watch(`birthday`) ? users[0]?.birthday : watch(`birthday`),
+    phoneNumber: !watch(`phoneNumber`) ? users[0]?.phoneNumber : watch(`phoneNumber`)
+  }
+
   const changeProfile = () => {
-    axios.patch("http://localhost:5000/api/profile", {
-        name: !watch(`name`) ? users[0]?.name : watch(`name`),
-        email: !watch(`email`) ? users[0]?.email : watch(`email`),
-        city: !watch(`city`) ? users[0]?.city : watch(`city`),
-        birthday: !watch(`birthday`) ? users[0]?.birthday : watch(`birthday`),
-        phoneNumber: !watch(`phoneNumber`) ? users[0].phoneNumber : watch(`phoneNumber`)
-      },
-      {
-        headers: {Authorization: `${Cookies.get("TOKEN")}`},
-      }
-    )
-      .then(() => {
-        FetchUser();
-      });
+    changeProfileSet(userData)
+    setTimeout(() => {
+      FetchUser()
+    }, 100)
   };
+
   const repeatPassword = watch(`cPassword`)
 
 

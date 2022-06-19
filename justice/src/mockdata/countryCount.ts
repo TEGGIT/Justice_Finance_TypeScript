@@ -1,16 +1,8 @@
-interface InterfaceCountry {
-  RUB: string
-  USD: string
-  CNY: string
-  EUR: string
-  TRY: string
 
-}
-
-export const countryCount: InterfaceCountry = {
+export const countryCount: { [keys: string]: string } = {
   RUB: '₽',
   USD: '$',
   CNY: '¥',
   EUR: '€',
-  TRY: '₺'
+  TRY: '₺',
 }

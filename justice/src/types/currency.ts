@@ -1,1 +1,1 @@
-export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB";
+export type CurrencyType = "USD" | "TRY" | "EUR" | "CNY" | "RUB" | null;

@@ -1,15 +1,20 @@
+
 export enum RegistrationActionType {
   CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS',
   CREATE_USER_ERROR = 'CREATE_USER_ERROR'
 }
-
-interface RegistrationActionInterface {
-  payload?: { password: null; name: null; email: null };
-  type?: RegistrationActionType
-  name: string,
-  email: string,
+export type RegistrationType = {
+  password: string;
+  name: string;
+  email: string
+}
+interface RegistrationActionInterface  {
+  payload: { password: string; name: string; email: string };
+  type: RegistrationActionType
+  name: RegistrationType,
+  email: RegistrationType,
   error?: boolean
-  password: string
+  password: RegistrationType
 }
 
 export type RegistrationAction = RegistrationActionInterface
