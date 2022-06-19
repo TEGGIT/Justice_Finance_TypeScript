@@ -40,7 +40,7 @@ const ExchangeRatesPage = () => {
           </div>
           <div className={classes.main_wrapper__slider}>
 
-            {exchangeRates?.map((slide: { currencyName: string; rubleRatio: string; }, index: React.Key | null | undefined) => (
+            {exchangeRates?.map((slide: { currencyName: string; rubleRatio: string; }, index: React.Key | null | undefined ) => (
               <SliderRate
                 key={index}
                 currency={slide.currencyName}

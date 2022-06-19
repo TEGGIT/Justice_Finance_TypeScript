@@ -3,12 +3,19 @@ export enum LoginActionType {
   LOGIN_USER_ERROR = 'LOGIN_USER_ERROR'
 }
 
+export type LoginType = {
+  email: string,
+  password: string
+
+}
+
+
 interface LoginActionTypeActionInterface {
   payload?: { password: null; email: null };
   type: LoginActionType
-  email: string,
   error?: boolean
-  password: string
+  email:LoginType
+  password:LoginType
 }
 
 export type LoginAction = LoginActionTypeActionInterface

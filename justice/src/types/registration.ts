@@ -1,17 +1,20 @@
-import {TakeableChannel} from "redux-saga";
 
 export enum RegistrationActionType {
   CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS',
   CREATE_USER_ERROR = 'CREATE_USER_ERROR'
 }
-
+export type RegistrationType = {
+  password: string;
+  name: string;
+  email: string
+}
 interface RegistrationActionInterface  {
-  payload?: { password: null; name: null; email: null };
+  payload: { password: string; name: string; email: string };
   type: RegistrationActionType
-  name: string,
-  email: string,
+  name: RegistrationType,
+  email: RegistrationType,
   error?: boolean
-  password: string
+  password: RegistrationType
 }
 
 export type RegistrationAction = RegistrationActionInterface

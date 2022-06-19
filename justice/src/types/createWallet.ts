@@ -5,7 +5,7 @@ export enum WalletActionTypes {
   CREATE_NEW_WALLET = "CREATE_NEW_WALLET",
 }
 
-type CreateWalletType = {
+export type CreateWalletType = {
   currency: CurrencyType;
   purseNumber: number;
   sum: number;

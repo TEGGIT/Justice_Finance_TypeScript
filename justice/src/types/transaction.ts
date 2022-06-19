@@ -1,15 +1,29 @@
+import {CurrencyType} from "./currency";
+
 export enum TransactionActionTypes {
   CREATE_TRANSACTION = "CREATE_TRANSACTION",
 }
+
+
+export type TransactionType = {
+    get: CurrencyType,
+    Hour: string,
+    Minutes: string,
+    give: CurrencyType,
+    giveValue: string,
+    getValue: string,
+}
+
+
 
 interface TransactionUserAction {
   type: TransactionActionTypes.CREATE_TRANSACTION;
   payload: [
     {
-      get: string,
+      get: CurrencyType,
       Hour: string,
       Minutes: string,
-      give: string,
+      give: CurrencyType,
       giveValue: string,
       getValue: string,
     }

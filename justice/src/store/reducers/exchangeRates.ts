@@ -9,7 +9,7 @@ export const exchangeRatesReducer = (state = initialState, action: ExchangeActio
     case ExchangeRatesTypes.EXCHANGE_RATES_SET:
       return {
         ...state,
-        exchangeRates: action.payload
+        payload: action.payload
       }
 
     default: {

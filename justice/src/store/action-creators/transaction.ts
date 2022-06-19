@@ -1,7 +1,7 @@
-import {TransactionActionTypes, TransactionAction} from "../../types/transaction";
+import {TransactionActionTypes, TransactionType} from "../../types/transaction";
 
 
-export const transactionUser = (payload: TransactionAction) => {
+export const transactionUser = (payload: TransactionType[]) => {
   return {
     type: TransactionActionTypes.CREATE_TRANSACTION,
     payload: payload

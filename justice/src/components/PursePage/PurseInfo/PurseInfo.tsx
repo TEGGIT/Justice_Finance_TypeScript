@@ -9,8 +9,6 @@ import ProfileBar from "../../ProfileBar/ProfileBar";
 import ButtonMui from "../../MUI/Button/ButtonMui";
 import Wallet from "../../ProfileBar/WalletBar/Wallet";
 
-import axios from "axios";
-import Cookies from "js-cookie";
 
 import classes from "./PurseInfo.module.scss";
 

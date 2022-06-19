@@ -1,6 +1,8 @@
-import {RegistrationAction, RegistrationActionType} from "../../types/registration";
+import {RegistrationActionType, RegistrationType} from "../../types/registration";
 
-export const CreateUser = (payload: RegistrationAction) => {
+
+
+export const CreateUser = (payload: RegistrationType) => {
   return {
     type: RegistrationActionType.CREATE_USER_SUCCESS,
     payload

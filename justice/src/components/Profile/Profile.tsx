@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 
 
 import {useForm, SubmitHandler} from "react-hook-form";
@@ -10,9 +10,6 @@ import ButtonMui from "../MUI/Button/ButtonMui";
 import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {patterns} from "../../patterns/patterns";
-
-import axios from "axios";
-import Cookies from "js-cookie";
 
 import classes from "./Profile.module.scss";
 
