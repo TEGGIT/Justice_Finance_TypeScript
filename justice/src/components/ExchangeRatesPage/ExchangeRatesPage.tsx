@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 
 import Charts from "./Chart/Chart";
@@ -16,16 +16,16 @@ import {useActions} from "../../hooks/useAction";
 
 import classes from "./ExchangeRatesPage.module.scss";
 import arrowUpMin from "../../assets/image/ArrowUpMin.svg";
+import {exchangeRates} from "../../types/exchangeRates";
 
 const ExchangeRatesPage = () => {
-  const navigate = useNavigate();
   const {FetchExchangeRates} = useActions();
-  const {exchangeRates} = useTypedSelector((state) => state.exchangeRates);
+  const exchangeRates: exchangeRates = useTypedSelector((state) => state.exchangeRates);
 
   useEffect(() => {
     FetchExchangeRates()
   }, []);
-
+  console.log(exchangeRates)
   return (
     <>
       <div className={classes.wrapper}>
@@ -40,7 +40,7 @@ const ExchangeRatesPage = () => {
           </div>
           <div className={classes.main_wrapper__slider}>
 
-            {exchangeRates?.map((slide: { currencyName: string; rubleRatio: string; }, index: React.Key | null | undefined ) => (
+            {exchangeRates.map((slide, index: number ) => (
               <SliderRate
                 key={index}
                 currency={slide.currencyName}

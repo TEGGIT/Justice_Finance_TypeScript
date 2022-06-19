@@ -1,15 +1,10 @@
-import {WalletsType} from "../store/reducers/WalletsReducer";
 import {CurrencyType} from "./currency";
 
 export enum WalletActionTypes {
   CREATE_NEW_WALLET = "CREATE_NEW_WALLET",
 }
 
-export type CreateWalletType = {
-  currency: CurrencyType;
-  purseNumber: number;
-  sum: number;
-}
+export type CreateWalletType = { currency: CurrencyType | undefined; purseNumber: number | undefined; sum: number }
 
 interface CreateWalletAction {
   type: WalletActionTypes.CREATE_NEW_WALLET;

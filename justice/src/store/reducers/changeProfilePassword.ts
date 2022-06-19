@@ -5,12 +5,12 @@ import {
 } from "../../types/changeProfilePassword";
 
 export interface ChangePasswordState {
-  password: changeDataUserPasswordType[];
+  password: changeDataUserPasswordType | null;
 
 }
 
 const initialState: ChangePasswordState = {
-  password: [],
+  password: null,
 };
 
 export const changeProfilePasswordReducer = (

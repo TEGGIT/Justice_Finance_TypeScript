@@ -5,14 +5,7 @@ export enum TransactionActionTypes {
 }
 
 
-export type TransactionType = {
-    get: CurrencyType,
-    Hour: string,
-    Minutes: string,
-    give: CurrencyType,
-    giveValue: string,
-    getValue: string,
-}
+export type TransactionType = { get: CurrencyType | undefined; Hour: number; Minutes: number; give: CurrencyType | undefined; giveValue: number | undefined; getValue: number | undefined; }
 
 
 

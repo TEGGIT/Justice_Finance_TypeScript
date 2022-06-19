@@ -1,4 +1,5 @@
 import {WalletsType} from "../store/reducers/WalletsReducer";
+import {TransactionType} from "./transaction";
 
 export enum UsersActionTypes {
   FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS",
@@ -29,16 +30,7 @@ export type UserType = {
   password: string;
   name: string;
   wallets: WalletsType[];
-  transaction: [
-    {
-      get: string;
-      Hour: number;
-      Minutes: number;
-      give: string;
-      giveValue: number;
-      getValue: number;
-    }
-  ];
+  transaction: TransactionType[];
   birthday: string;
   city: string;
   phoneNumber: number;

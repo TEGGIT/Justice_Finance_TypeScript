@@ -53,7 +53,6 @@ const PurseInfo = () => {
     const newWallets =
       currentWallet &&
       wallets.filter((wallet) => wallet.currency !== currentWallet.currency);
-    //TODO пофиксить
     removeWalletUser(newWallets)
 
     navigate("/purse-page", {replace: true});
@@ -68,7 +67,6 @@ const PurseInfo = () => {
       reset({sum: '', cvc: '', cardNumber: '', cardOrder: '', date: ""})
       return wallet;
     });
-    //TODO пофиксить
     updateWalletUser([...newWalletStorage])
   }
   const isValue = Boolean(errors.sum || errors.cvc || errors.date || errors.cardNumber || errors.cardOrder
@@ -108,7 +106,7 @@ const PurseInfo = () => {
             <Wallet
               countryName={currentWallet.currency}
               country={currentWallet?.currency}
-              count={currentWallet?.sum.toFixed(2)}
+              count={currentWallet.sum?.toFixed(2)}
               countryCounter={currentWallet?.currency}
             />
           )}

@@ -1,10 +1,10 @@
-import {UpdateWalletActionTypes, UpdateWalletType} from "../../types/updateWallet";
+import {UpdateWalletActionTypes} from "../../types/updateWallet";
+import {WalletsType} from "../reducers/WalletsReducer";
 
 
-//TODO пофиксить
 
 
-export const updateWalletUser = (payload: UpdateWalletType) => {
+export const updateWalletUser = (payload: WalletsType[]) => {
   return {
     type: UpdateWalletActionTypes.UPDATE_WALLETS,
     payload

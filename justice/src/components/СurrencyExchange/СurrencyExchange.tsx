@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
 
-import axios from "axios";
-import Cookies from "js-cookie";
 
 import Modal from "../UI/Modal/Modal";
 import NavBar from "../NavBar/NavBar";
@@ -13,13 +11,14 @@ import ButtonMui from "../MUI/Button/ButtonMui";
 import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 
-// import {exchangeRates} from "../../types/exchangeRates";
 import {CurrencyType} from "../../types/currency";
 
 import classes from "./СurrencyExchange.module.scss";
 
 import exchange from "../../assets/image/exchange.svg";
 import exchangeRatesIcon from "../../assets/image/ExchangeIcon.svg";
+import {TransactionType} from "../../types/transaction";
+import {exchangeRates} from "../../types/exchangeRates";
 
 const CurrencyExchange = () => {
   const [give, setGive] = useState<CurrencyType>();
@@ -30,7 +29,7 @@ const CurrencyExchange = () => {
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true)
   const {FetchExchangeRates} = useActions();
-  const {exchangeRates} = useTypedSelector((state) => state.exchangeRates);
+  const exchangeRates: exchangeRates = useTypedSelector((state) => state.exchangeRates);
   const {users} = useTypedSelector((state) => state.user);
   const {wallets} = useTypedSelector((state) => state.wallets);
   const {FetchWallets, FetchUser, transactionUser, updateWalletUser} = useActions();
@@ -74,12 +73,11 @@ const CurrencyExchange = () => {
     setOpenModal(true);
 
     setIsDisabled(true);
-    // TODO пофиксить
     updateWalletUser([...refreshWalletSum])
     setTimeout(() => {
       FetchWallets()
     }, 100)
-    const newTransaction = [
+    const newTransaction:  TransactionType[] = [
       ...users[0].transaction,
       {
         get,
@@ -90,7 +88,6 @@ const CurrencyExchange = () => {
         getValue,
       },
     ]
-    //TODO пофиксить
     transactionUser(newTransaction)
     setTimeout(() => {
       FetchUser()
@@ -114,10 +111,10 @@ const CurrencyExchange = () => {
       ? setIsDisabled(true)
       : setIsDisabled(false));
     //TODO ПОФИКСИТЬ
-    exchangeRates?.map((input: { currencyName: string; rubleRatio: any; }) => {
+    exchangeRates.map((input: { currencyName: CurrencyType; rubleRatio: string | null; }) => {
       walletGive.length &&
       walletGive[0].currency === input.currencyName &&
-      exchangeRates?.map((output: { currencyName: string | undefined; rubleRatio: any; }) => {
+      exchangeRates?.map((output: { currencyName: CurrencyType; rubleRatio: string | null; }) => {
         get === output.currencyName &&
         setGetValue(
           Number(

@@ -1,8 +1,8 @@
-import {RemoveWalletActionTypes, RemoveWalletType} from "../../types/removeWallet";
+import {RemoveWalletActionTypes} from "../../types/removeWallet";
+import {WalletsType} from "../reducers/WalletsReducer";
 
 
-//TODO пофиксить
-export const removeWalletUser = (payload: RemoveWalletType) => {
+export const removeWalletUser = (payload: WalletsType[] | undefined) => {
   return {
     type: RemoveWalletActionTypes.REMOVE_WALLETS,
     payload

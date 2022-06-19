@@ -1,3 +1,5 @@
+import {CurrencyType} from "./currency";
+
 export enum ExchangeRatesTypes {
   EXCHANGE_RATES_GET = "EXCHANGE_RATES_GET",
   EXCHANGE_RATES_SET = 'EXCHANGE_RATES_SET'
@@ -10,8 +12,8 @@ interface ExchangeRatesAction {
 
 export type exchangeRates = [
   {
-    rubleRatio: string;
-    currencyName: string;
+    rubleRatio: string | null;
+    currencyName: CurrencyType;
   }
 ];
 
