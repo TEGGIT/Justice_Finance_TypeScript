@@ -71,7 +71,8 @@ export function* transactionWorker(transaction: TransactionAction) {
 export function* transactionWatcher() {
   yield takeEvery(TransactionActionTypes.CREATE_TRANSACTION, transactionWorker)
 }
-export function* createWalletWorker(wallet:WalletsAction) {
+
+export function* createWalletWorker(wallet: WalletsAction) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/wallets/create"), {
         wallets: wallet?.payload
@@ -82,7 +83,6 @@ export function* createWalletWorker(wallet:WalletsAction) {
         },
       }
     )
-    console.log(wallet)
   } catch (e) {
     console.log(e)
   }
@@ -92,7 +92,7 @@ export function* createWalletWatcher() {
   yield takeEvery(WalletActionTypes.CREATE_NEW_WALLET, createWalletWorker)
 }
 
-export function* changeProfilePasswordWorker(user:ChangeProfilePasswordType) {
+export function* changeProfilePasswordWorker(user: ChangeProfilePasswordType) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/profile/changePassword"), {
       password: user.payload?.password,
@@ -110,7 +110,7 @@ export function* changeProfilePasswordWatcher() {
 
 }
 
-export function* changeProfileWorker(user:ChangeProfileType) {
+export function* changeProfileWorker(user: ChangeProfileType) {
   try {
     yield call(axios.patch, ("http://localhost:5000/api/profile"), {
         name: user.payload?.name,
@@ -153,7 +153,7 @@ export function* loginWatcher() {
   yield takeEvery(LoginActionType.LOGIN_USER_SUCCESS, loginWorker)
 }
 
-export function* registrationWorker(user:RegistrationAction ) {
+export function* registrationWorker(user: RegistrationAction) {
   try {
     yield call(axios.post, ("http://localhost:5000/api/auth/register-page"), {
       name: user.payload?.name,
