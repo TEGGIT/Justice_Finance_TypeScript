@@ -36,7 +36,7 @@ const RegisterPage = () => {
 
   const {error} = useTypedSelector((state) => state.registration);
 
-  const [test, setTest] = useState<boolean>(false)
+  const [isNavigate, setIsNavigate] = useState<boolean>(false)
 
   const [checked, setChecked] = React.useState<boolean>(false);
 
@@ -51,13 +51,13 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (error === false) {
-      setTest(true)
+      setIsNavigate(true)
     }
-
-    if (test) {
+    if (isNavigate) {
       navigate("/login-page", {replace: true});
     }
-  }, [error, test])
+  }, [error, isNavigate])
+
   return (
     <main className={classes.main}>
       <div className={classes.main__register}>
