@@ -1,14 +1,8 @@
 import React, {useEffect, useState} from "react";
 
-
 import {NavLink, useNavigate} from "react-router-dom";
 
 import {useActions} from "../../hooks/useAction";
-
-
-import Cookies from "js-cookie";
-
-import axios from "axios";
 
 import {Formik} from "formik";
 
@@ -18,13 +12,14 @@ import ButtonMui from "../MUI/Button/ButtonMui";
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
 
+import {validationSchemaLogin} from "../../patterns/patterns";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
+
 import classes from "./LoginPage.module.scss";
 
 import image from "../../assets/image/IllustrationOne.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import {validationSchemaLogin} from "../../patterns/patterns";
-import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 interface InitialValues {
   email: string,
@@ -39,7 +34,6 @@ const LoginPage = () => {
   const {loginUser, AuthUser} = useActions();
 
   const navigate = useNavigate();
-
 
   const checkUser = ({email, password}: { email: string, password: string }) => {
 
@@ -57,7 +51,6 @@ const LoginPage = () => {
       navigate("/exchange-rates-page", {replace: true})
     }
   }, [error, test])
-
 
   return (
     <main className={classes.main}>
