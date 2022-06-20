@@ -24,7 +24,6 @@ type Inputs = {
   cPassword: string;
 };
 
-
 const Profile = () => {
 
   const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<Inputs>({mode: "onChange"});
@@ -63,7 +62,6 @@ const Profile = () => {
 
   const repeatPassword = watch(`cPassword`)
 
-
   const isValidPassword =
     Boolean(repeatPassword !== watch(`password`)
       ||
@@ -85,7 +83,6 @@ const Profile = () => {
     !watch(`birthday`)
     &&
     !watch(`phoneNumber`)
-
 
   return (
     <main className={classes.main}>

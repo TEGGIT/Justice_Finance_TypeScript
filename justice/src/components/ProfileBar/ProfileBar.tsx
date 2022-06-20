@@ -8,6 +8,8 @@ import Wallet from "./WalletBar/Wallet";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {useActions} from "../../hooks/useAction";
 
+import {CurrencyType} from "../../types/currency";
+
 import classes from "./ProfileBar.module.scss";
 import avatar from "../../assets/image/Avatar.svg";
 import plus from "../../assets/image/Plus.svg";
@@ -15,7 +17,6 @@ import transactions from "../../assets/image/transaction.svg";
 import greenEllipse from "../../assets/image/GreenElipse.svg";
 import left from "../../assets/image/arrowProfileLeft.svg";
 import right from "../../assets/image/arrowProfileRight.svg";
-import {CurrencyType} from "../../types/currency";
 
 const ProfileBar = () => {
   const navigate = useNavigate();
@@ -42,7 +43,6 @@ const ProfileBar = () => {
     FetchUser();
 
   }, []);
-
 
   const transaction = users[0]?.transaction;
   return (

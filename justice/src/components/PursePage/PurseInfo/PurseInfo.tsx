@@ -8,18 +8,19 @@ import NavBar from "../../NavBar/NavBar";
 import ProfileBar from "../../ProfileBar/ProfileBar";
 import ButtonMui from "../../MUI/Button/ButtonMui";
 import Wallet from "../../ProfileBar/WalletBar/Wallet";
+import Modal from "../../UI/Modal/Modal";
 
+import {useActions} from "../../../hooks/useAction";
+import {useTypedSelector} from "../../../hooks/useTypesSelector";
+
+import {WalletsType} from "../../../store/reducers/WalletsReducer";
+import {patterns} from "../../../patterns/patterns";
 
 import classes from "./PurseInfo.module.scss";
 
 import arrowBack from "../../../assets/image/Back.svg";
 import banner from "../../../assets/image/Banner.png";
 import walletIconSum from "../../../assets/image/WalletsSum.svg";
-import {useTypedSelector} from "../../../hooks/useTypesSelector";
-import {WalletsType} from "../../../store/reducers/WalletsReducer";
-import Modal from "../../UI/Modal/Modal";
-import {patterns} from "../../../patterns/patterns";
-import {useActions} from "../../../hooks/useAction";
 
 type Inputs = {
   sum: number | '';
@@ -27,7 +28,6 @@ type Inputs = {
   date: string;
   cvc: number | '';
   cardOrder: string | '';
-
 
 };
 const PurseInfo = () => {
@@ -59,6 +59,7 @@ const PurseInfo = () => {
   };
 
   const sumWallet = Number(watch(`sum`))
+
   const addSumWallet = () => {
     const newWalletStorage = wallets?.map((wallet) => {
       if (wallet.currency === currentWallet?.currency)
@@ -69,6 +70,7 @@ const PurseInfo = () => {
     });
     updateWalletUser([...newWalletStorage])
   }
+
   const isValue = Boolean(errors.sum || errors.cvc || errors.date || errors.cardNumber || errors.cardOrder
     ||
     !watch(`sum`) || !watch(`cvc`) || !watch(`date`) || !watch(`cardNumber`) || !watch(`cardOrder`))

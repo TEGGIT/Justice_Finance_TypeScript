@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 
 import {NavLink} from "react-router-dom";
 
-
 import Charts from "./Chart/Chart";
 import SliderRate from "./SliderRate/SliderRate";
 import ButtonMui from "../MUI/Button/ButtonMui";
@@ -12,7 +11,6 @@ import ProfileBar from "../ProfileBar/ProfileBar";
 
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 import {useActions} from "../../hooks/useAction";
-
 
 import classes from "./ExchangeRatesPage.module.scss";
 import arrowUpMin from "../../assets/image/ArrowUpMin.svg";
@@ -25,7 +23,7 @@ const ExchangeRatesPage = () => {
   useEffect(() => {
     FetchExchangeRates()
   }, []);
-  console.log(exchangeRates)
+
   return (
     <>
       <div className={classes.wrapper}>
@@ -40,7 +38,7 @@ const ExchangeRatesPage = () => {
           </div>
           <div className={classes.main_wrapper__slider}>
 
-            {exchangeRates.map((slide, index: number ) => (
+            {exchangeRates.map((slide, index: number) => (
               <SliderRate
                 key={index}
                 currency={slide.currencyName}

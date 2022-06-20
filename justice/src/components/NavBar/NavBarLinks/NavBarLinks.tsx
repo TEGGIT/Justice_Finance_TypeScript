@@ -17,7 +17,6 @@ import suitcase from "../../../assets/image/Suitcase.svg";
 import checklist from "../../../assets/image/Checklist.svg";
 import logOut from "../../../assets/image/LogOut.svg";
 
-
 const NavBarLinks = () => {
   const {loginUser} = useActions();
 

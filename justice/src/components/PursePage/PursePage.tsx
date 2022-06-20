@@ -15,6 +15,8 @@ import {useActions} from "../../hooks/useAction";
 
 import {SelectChangeEvent} from "@mui/material";
 import {CurrencyType} from "../../types/currency";
+import {WalletsType} from "../../store/reducers/WalletsReducer";
+import {CreateWalletType} from "../../types/createWallet";
 
 import {countryIcon} from "../../mockdata/countryIcon";
 
@@ -24,8 +26,7 @@ import arrowRightSlide from '../../assets/image/ButtonRight.svg'
 import arrowLeftSlide from '../../assets/image/LeftButtonSlide.svg'
 import wallet from "../../assets/image/wallet.svg";
 import WalletsIcon from "../../assets/image/WalletIcon.svg";
-import {WalletsType} from "../../store/reducers/WalletsReducer";
-import {CreateWalletType} from "../../types/createWallet";
+
 
 const PursePage = () => {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
@@ -50,7 +51,6 @@ const PursePage = () => {
     if (xMobile === -250 * (wallets.length - 1)) setXMobile(0);
   };
 
-
   const moveBlockLeft = () => {
     setX(x + 250);
     if (x === 0) setX(0);
@@ -65,7 +65,6 @@ const PursePage = () => {
   const {wallets} = useTypedSelector((state) => state.wallets) ?? {};
 
   const {FetchWallets, createWalletUser} = useActions();
-
 
   const newArrayCountry = countryIcon.filter(country => !wallets.find(wal => wal.currency === country?.currency))
 

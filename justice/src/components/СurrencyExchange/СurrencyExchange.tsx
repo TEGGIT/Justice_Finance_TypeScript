@@ -12,13 +12,13 @@ import {useActions} from "../../hooks/useAction";
 import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 import {CurrencyType} from "../../types/currency";
+import {TransactionType} from "../../types/transaction";
+import {exchangeRates} from "../../types/exchangeRates";
 
 import classes from "./СurrencyExchange.module.scss";
 
 import exchange from "../../assets/image/exchange.svg";
 import exchangeRatesIcon from "../../assets/image/ExchangeIcon.svg";
-import {TransactionType} from "../../types/transaction";
-import {exchangeRates} from "../../types/exchangeRates";
 
 const CurrencyExchange = () => {
   const [give, setGive] = useState<CurrencyType>();
@@ -37,17 +37,14 @@ const CurrencyExchange = () => {
   const Hour = Data.getHours();
   const Minutes = Data.getMinutes();
 
-
   const giveWallets = wallets.filter(wallet => wallet.currency !== get)
 
   const getWallets = wallets.filter(wallet => wallet.currency !== give)
-
 
   useEffect(() => {
     giveWallets.length && getWallets.length ? setIsDisabledSelect(false) : setIsDisabledSelect(true)
 
   }, [])
-
 
   useEffect(() => {
     if (get === give && get?.length && give?.length) {
@@ -70,14 +67,15 @@ const CurrencyExchange = () => {
       }
       return item;
     });
-    setOpenModal(true);
 
+    setOpenModal(true);
     setIsDisabled(true);
     updateWalletUser([...refreshWalletSum])
     setTimeout(() => {
       FetchWallets()
     }, 100)
-    const newTransaction:  TransactionType[] = [
+
+    const newTransaction: TransactionType[] = [
       ...users[0].transaction,
       {
         get,
@@ -110,7 +108,7 @@ const CurrencyExchange = () => {
     Boolean(!giveValue)
       ? setIsDisabled(true)
       : setIsDisabled(false));
-    //TODO ПОФИКСИТЬ
+
     exchangeRates.map((input: { currencyName: CurrencyType; rubleRatio: string | null; }) => {
       walletGive.length &&
       walletGive[0].currency === input.currencyName &&

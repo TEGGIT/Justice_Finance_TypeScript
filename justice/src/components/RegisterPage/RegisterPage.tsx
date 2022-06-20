@@ -8,18 +8,18 @@ import {Formik} from "formik";
 
 import * as yup from "yup";
 
-
 import Input from "../UI/Input/Input";
 import CheckBox from "../UI/CheckBox/CheckBox";
 import ButtonMui from "../MUI/Button/ButtonMui";
 import {useActions} from "../../hooks/useAction";
+
 import {validationSchemaRegistration} from "../../patterns/patterns";
+import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 import classes from "./RegisterPage.module.scss";
 import image from "../../assets/image/IllustrationTwo.svg";
 import google from "../../assets/image/google.svg";
 import github from "../../assets/image/github.svg";
-import {useTypedSelector} from "../../hooks/useTypesSelector";
 
 interface InitialValues {
   name: string,
@@ -31,12 +31,15 @@ interface InitialValues {
 const RegisterPage = () => {
 
   const validationsSchema = yup.object().shape({...validationSchemaRegistration});
+
   const {CreateUser} = useActions()
+
   const {error} = useTypedSelector((state) => state.registration);
 
   const [test, setTest] = useState<boolean>(false)
 
   const [checked, setChecked] = React.useState<boolean>(false);
+
   const navigate = useNavigate();
 
   const registration = (name: string, email: string, password: string) => {
