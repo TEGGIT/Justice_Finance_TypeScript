@@ -1,0 +1,179 @@
+.main {
+  display: flex;
+  @media (max-width: 735px) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_wrapper {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #F3F3F3;
+    height: 100vh;
+    padding: 48px;
+
+
+    &__title {
+      display: flex;
+      align-items: center;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #F3F3F3;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+
+      &_purse_id {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+      }
+
+
+      &_text {
+        font-family: 'TT Firs Neue', sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 48px;
+        color: #363636;
+
+        &_number {
+          font-family: 'TT Firs Neue', sans-serif;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 32px;
+          line-height: 48px;
+          color: #848484;
+        }
+      }
+    }
+
+    &__purse {
+      padding-top: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding-bottom: 56px;
+      border-bottom: 1px solid #F3F3F3;
+      gap: 20px;
+
+    }
+
+    &__replenishment {
+      padding-top: 56px;
+      display: flex;
+      flex-direction: column;
+      @media (max-width: 600px) {
+        align-items: center;
+      }
+
+
+      &_text {
+        font-family: 'Inter', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: #848484;
+        padding-bottom: 40px;
+      }
+
+      &_wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+        align-items: center;
+        flex-wrap: wrap;
+        @media (max-width: 600px) {
+          justify-content: center;
+        }
+
+
+        &_input {
+          font-family: 'Inter', sans-serif;
+          font-style: normal;
+          display: flex;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+          border: 1px solid #ECECEC;
+          padding: 16px 307px 16px 16px;
+          color: #363636;
+          @media (max-width: 600px) {
+            padding: 16px 100px 16px 16px;
+          }
+
+        }
+
+        &_input_error {
+          display: flex;
+          font-family: 'Inter', sans-serif;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+          border: 1px solid #FF4D35;
+          padding: 16px 307px 16px 16px;
+          color: #363636;
+          @media (max-width: 600px) {
+            padding: 16px 100px 16px 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal_wrapper {
+  width: 284px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__content {
+    padding: 32px;
+
+    &_text_main {
+      padding-top: 32px;
+      padding-bottom: 16px;
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 22px;
+      color: #363636;
+
+    }
+
+    &_text_bottom {
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #848484;
+    }
+  }
+}
+
+.input_error_wrapper{
+  display: flex;
+  flex-direction: column;
+}
+.error_wrapper{
+  position: relative;
+  top: -20px;
+}
+.error{
+  position: absolute;
+  color:#FF4D35
+}
+
+.image{
+  display: flex;
+  @media (max-width: 600px) {
+    display: none;
+  }
+}

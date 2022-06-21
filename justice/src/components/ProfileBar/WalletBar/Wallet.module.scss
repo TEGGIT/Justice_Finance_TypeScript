@@ -1,0 +1,52 @@
+.wallet {
+  margin-top: 1rem;
+  border: 1px solid #ECECEC;
+  color: #363636;;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 14px;
+  padding: 24px;
+
+
+  &_top {
+
+    display: flex;
+    align-items: center;
+    gap: 111px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #363636;
+  }
+
+  &_bottom {
+    display: flex;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 32px;
+    color: #363636;
+    padding-right: 65px;
+    padding-top: 44px;
+    width: 190px;
+
+  }
+}
+
+.pointer {
+  cursor: pointer;
+  margin-top: 1rem;
+  border: 1px solid #ECECEC;
+  color: #363636;;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 14px;
+  padding: 24px;
+}

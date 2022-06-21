@@ -1,0 +1,149 @@
+
+.background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+
+}
+
+.title {
+  font-family: 'TT Firs Neue', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 4rem;
+  line-height: 4.5rem;
+  z-index: 2;
+  text-align: center;
+  width: 41.25rem;
+  color: #363636;
+
+
+}
+
+.main {
+  margin-top: 7.5rem;
+  display: flex;
+  justify-content: center;
+  flex: 1 0 auto;
+  @media (max-width: 450px) {
+    margin-top: 50%
+
+  }
+
+
+
+  &__section {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    &__title {
+      flex: 1 0 auto;
+
+
+    }
+
+    &__content {
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      margin-top: 6.188rem;
+      flex: 0 0 auto;
+
+
+    }
+  }
+}
+
+.image {
+  @media (max-width: 1000px) {
+    width: 100%;
+  }
+  @media (max-width: 450px) {
+    display: none;
+  }
+}
+
+.ellipseOne {
+  position: fixed;
+  left: 35.625rem;
+  top: 12.188rem;
+  z-index: 1;
+  width: 7.625rem;
+  height: 7.625rem;
+  background: rgba(132, 165, 0, 0.7);
+  filter: blur(60px);
+}
+
+.test {
+  box-sizing: border-box;
+  position: absolute;
+  width: 14rem;
+  height: 4rem;
+  left: 71%;
+  top: 87%;
+  @media (max-width: 1000px) {
+    display: none;
+  }
+
+  background: #FFFFFF;
+  border: 1px solid #F3F3F3;
+  box-shadow: 0 24px 17px -17px rgba(0, 0, 0, 0.25);
+}
+
+.ellipseTwo {
+  position: fixed;
+  z-index: 1;
+  width: 370px;
+  height: 370px;
+  left: 1150px;
+  top: 450px;
+  background: #84A500;
+  opacity: 0.7;
+  filter: blur(130px);
+}
+
+.starOne {
+  z-index: 1;
+  position: fixed;
+  left: 85.313rem;
+  top: 13.375rem;
+  width: 10.25rem;
+  height: 10.25rem;
+}
+
+.starTwo {
+  z-index: 1;
+  position: fixed;
+  width: 72px;
+  height: 72px;
+  left: 370px;
+  top: 312px;
+}
+
+
+.title {
+  font-family: 'TT Firs Neue', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 4rem;
+  line-height: 4.5rem;
+  z-index: 2;
+  text-align: center;
+  width: 41.25rem;
+  color: #363636;
+  @media (max-width: 700px) {
+    width: 100%;
+    font-size: 3.4rem;
+  }
+  @media (max-width: 450px) {
+    display: flex;
+    justify-content: center;
+    font-size: 3rem;
+
+  }
+
+}

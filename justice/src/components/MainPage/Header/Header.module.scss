@@ -1,0 +1,67 @@
+
+.header {
+  display: flex;
+  background: transparent;
+  width: 100%;
+  border: 1px solid #E0E0E0;
+  font-size: 1rem;
+  flex: 0 0 auto;
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 7rem 0 7rem;
+    width: 100%;
+    @media (max-width: 580px) {
+      padding: 0 2rem 0 2rem;
+    }
+
+    &__text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.125rem 0 1.125rem 0;
+      @media (max-width: 580px) {
+        border-left: none;
+      }
+    }
+
+    &__button {
+      padding: 1.25rem 0 1.25rem 5.75rem;
+      border-left: 1px solid #E0E0E0;
+      align-items: center;
+      display: flex;
+      @media (max-width: 580px) {
+        border-left: none;
+      }
+
+    }
+
+  }
+
+
+}
+
+.text_bold {
+  font-family: 'TT Firs Neue', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.375rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #363636;
+}
+
+.text_regular {
+  font-family: 'TT Firs Neue', sans-serif;
+  font-style: normal;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #363636;
+}
+
+
+
+

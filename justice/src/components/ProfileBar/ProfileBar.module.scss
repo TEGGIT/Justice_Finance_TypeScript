@@ -1,0 +1,140 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+
+  @media (max-width: 735px) {
+    display: none;
+  }
+
+  .slider {
+    display: flex;
+    flex-direction: row;
+    max-width: 240px;
+    overflow: hidden;
+    gap: 12px;
+  }
+
+  &_wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    border-left: 1px solid #F3F3F3;
+    align-items: center;
+
+
+    &__avatar {
+      background: #F1F1F1;;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 64px;
+      gap: 24px;
+      Font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #363636;
+
+
+      &_name {
+        width: 140px;
+      }
+    }
+
+    &__balance {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      Font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #363636;
+
+      &_arrows {
+        display: flex;
+        justify-content: space-between;
+
+
+        &_arrow {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+      }
+
+      &__purse {
+        margin-top: 1rem;
+        border: 1px dashed #ECECEC;
+        color: #848484;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+        font-size: 14px;
+        padding: 32px;
+
+
+      }
+    }
+
+    &__transactions {
+      margin-top: 48px;
+      Font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #363636;
+
+
+      &__history {
+        margin-top: 24px;
+        max-height: 257px;
+        overflow: hidden;
+        border: 1px solid #F1F1F1;
+        color: #848484;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 49px 48px 49px 49px;
+        gap: 1.25rem;
+        font-size: 14px;
+        max-width: 224px;
+
+
+        &_actual {
+          font-family: 'Inter', sans-serif;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          color: #484848;
+          max-height: 257px;
+          max-width: 224px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 16px 48px 49px 49px;
+          gap: 1.25rem;
+
+
+          &_content {
+            border-top: 1px solid #F1F1F1;
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            width: 210px;
+          }
+        }
+      }
+    }
+  }
+}
+

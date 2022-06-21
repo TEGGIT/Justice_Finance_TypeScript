@@ -2,11 +2,13 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
+      "es6",
       "dom",
       "dom.iterable",
       "esnext"
     ],
     "allowJs": true,
+    "outDir": "./dist",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -18,9 +20,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+
+    "strictNullChecks": true
   },
   "include": [
-    "src"
-  ]
+    ["src/**/*.ts", "tests/**/*.ts"],
+    "src", "declaration.d.ts"
+  ],
 }
