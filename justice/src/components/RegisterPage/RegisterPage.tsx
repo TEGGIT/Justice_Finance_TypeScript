@@ -38,7 +38,7 @@ const RegisterPage = () => {
 
   const [isNavigate, setIsNavigate] = useState<boolean>(false)
 
-  const [checked, setChecked] = React.useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
