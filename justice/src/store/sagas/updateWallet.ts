@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 export function* updateWalletWorker(updateWallet: UpdateWalletType) {
   try {
-    yield call(axios.patch, ("http://localhost:5000/api/wallets/update"), {
+    yield call(axios.patch, ("http://localhost:5001/api/wallets/update"), {
         wallets: updateWallet?.payload,
       },
       {

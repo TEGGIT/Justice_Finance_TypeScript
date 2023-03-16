@@ -6,7 +6,7 @@ import {WalletActionTypes} from "../../types/createWallet";
 
 export function* createWalletWorker(wallet: WalletsAction) {
   try {
-    yield call(axios.patch, ("http://localhost:5000/api/wallets/create"), {
+    yield call(axios.patch, ("http://localhost:5001/api/wallets/create"), {
         wallets: wallet?.payload
       },
       {

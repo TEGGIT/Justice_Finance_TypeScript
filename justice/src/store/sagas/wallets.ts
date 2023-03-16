@@ -6,7 +6,7 @@ import {WalletsActionTypes} from "../../types/wallets";
 
 export function* walletsDataWorker() {
   try {
-    const {data} = yield call(axios.get, "http://localhost:5000/api/wallets", {
+    const {data} = yield call(axios.get, "http://localhost:5001/api/wallets", {
       headers: {
         Authorization: `${Cookies.get("TOKEN")}`,
       }

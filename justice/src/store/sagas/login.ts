@@ -6,7 +6,7 @@ import {AuthUserError} from "../action-creators/login";
 
 export function* loginWorker(user: LoginAction) {
   try {
-    const {data} = yield call(axios.post, ("http://localhost:5000/api/auth/login-page"), {
+    const {data} = yield call(axios.post, ("http://localhost:5001/api/auth/login-page"), {
       email: user.payload?.email,
       password: user.payload?.password
     })

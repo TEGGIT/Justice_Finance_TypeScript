@@ -6,7 +6,7 @@ import {UsersActionTypes} from "../../types/user";
 
 export function* userDataWorker() {
   try {
-    const {data} = yield call(axios.get, "http://localhost:5000/api/wallets", {
+    const {data} = yield call(axios.get, "http://localhost:5001/api/wallets", {
       headers: {
         Authorization: `${Cookies.get("TOKEN")}`,
       }

@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 export function* changeProfilePasswordWorker(user: ChangeProfilePasswordType) {
   try {
-    yield call(axios.patch, ("http://localhost:5000/api/profile/changePassword"), {
+    yield call(axios.patch, ("http://localhost:5001/api/profile/changePassword"), {
       password: user.payload?.password,
       newPassword: user.payload?.newPassword
     }, {

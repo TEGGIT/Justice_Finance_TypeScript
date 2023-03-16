@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 export function* removeWalletWorker(removeWallet: RemoveWalletType) {
   try {
-    yield call(axios.patch, ("http://localhost:5000/api/wallets/remove"), {
+    yield call(axios.patch, ("http://localhost:5001/api/wallets/remove"), {
         wallets: removeWallet?.payload,
       },
       {

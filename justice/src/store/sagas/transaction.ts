@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 export function* transactionWorker(transaction: TransactionAction) {
   try {
-    yield call(axios.patch, ("http://localhost:5000/api/transaction"), {
+    yield call(axios.patch, ("http://localhost:5001/api/transaction"), {
         transaction: transaction?.payload
       },
       {headers: {Authorization: `${Cookies.get("TOKEN")}`}}

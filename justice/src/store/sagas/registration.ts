@@ -5,7 +5,7 @@ import {CreateUserError} from "../action-creators/registration";
 
 export function* registrationWorker(user: RegistrationAction) {
   try {
-    yield call(axios.post, ("http://localhost:5000/api/auth/register-page"), {
+    yield call(axios.post, ("http://localhost:5001/api/auth/register-page"), {
       name: user.payload?.name,
       email: user.payload?.email,
       password: user.payload?.password,

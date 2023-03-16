@@ -5,7 +5,7 @@ import {ExchangeRatesTypes} from "../../types/exchangeRates";
 
 export function* exchangeRatesWorker() {
   try {
-    const {data} = yield call(axios.get, "http://localhost:5000/api/exchangeRates")
+    const {data} = yield call(axios.get, "http://localhost:5001/api/exchangeRates")
     yield put(SetExchangeRates(data[0].exchangeRates))
 
   } catch (e) {

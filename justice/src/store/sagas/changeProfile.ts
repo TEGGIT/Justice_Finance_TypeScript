@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 export function* changeProfileWorker(user: ChangeProfileType) {
   try {
-    yield call(axios.patch, ("http://localhost:5000/api/profile"), {
+    yield call(axios.patch, ("http://localhost:5001/api/profile"), {
         name: user.payload?.name,
         email: user.payload?.email,
         city: user.payload?.city,
